@@ -1,8 +1,8 @@
 <script setup>
 import { getStyle } from '@coreui/utils'
 import { CChart } from '@coreui/vue-chartjs'
-import WidgetsStatsA from './WidgetsStatsTypeA.vue'
-import WidgetsStatsD from './WidgetsStatsTypeD.vue'
+import WidgetsStatsA from './GraphsStatsTypeA.vue'
+import WidgetsStatsD from './GraphsStatsType.vue'
 
 const widgetStatsE = {
   labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S', 'M', 'T', 'W', 'T', 'F', 'S', 'S', 'M'],

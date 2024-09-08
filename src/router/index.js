@@ -18,138 +18,9 @@ const routes = [
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
         component: () =>
-          import(
-            /* webpackChunkName: "dashboard" */ '@/views/dashboard/Dashboard.vue'
-          ),
-      },
-      {
-        path: '/theme',
-        name: () => i18next.t('theme'),
-        redirect: '/theme/typography',
-      },
-      {
-        path: '/theme/colors',
-        name: () => i18next.t('colors'),
-        component: () => import('@/views/theme/Colors.vue'),
-      },
-      {
-        path: '/theme/typography',
-        name: () => i18next.t('typography'),
-        component: () => import('@/views/theme/Typography.vue'),
-      },
-      {
-        path: '/base',
-        name: () => i18next.t('base'),
-        component: {
-          render() {
-            return h(resolveComponent('router-view'))
-          },
-        },
-        redirect: '/base/breadcrumbs',
-        children: [
-          {
-            path: '/base/accordion',
-            name: 'Accordion',
-            component: () => import('@/views/base/Accordion.vue'),
-          },
-          {
-            path: '/base/breadcrumbs',
-            name: 'Breadcrumbs',
-            component: () => import('@/views/base/Breadcrumbs.vue'),
-          },
-          {
-            path: '/base/cards',
-            name: 'Cards',
-            component: () => import('@/views/base/Cards.vue'),
-          },
-          {
-            path: '/base/carousels',
-            name: 'Carousels',
-            component: () => import('@/views/base/Carousels.vue'),
-          },
-          {
-            path: '/base/collapses',
-            name: 'Collapses',
-            component: () => import('@/views/base/Collapses.vue'),
-          },
-          {
-            path: '/base/list-groups',
-            name: 'List Groups',
-            component: () => import('@/views/base/ListGroups.vue'),
-          },
-          {
-            path: '/base/navs',
-            name: 'Navs',
-            component: () => import('@/views/base/Navs.vue'),
-          },
-          {
-            path: '/base/paginations',
-            name: 'Paginations',
-            component: () => import('@/views/base/Paginations.vue'),
-          },
-          {
-            path: '/base/placeholders',
-            name: 'Placeholders',
-            component: () => import('@/views/base/Placeholders.vue'),
-          },
-          {
-            path: '/base/popovers',
-            name: 'Popovers',
-            component: () => import('@/views/base/Popovers.vue'),
-          },
-          {
-            path: '/base/progress',
-            name: 'Progress',
-            component: () => import('@/views/base/Progress.vue'),
-          },
-          {
-            path: '/base/spinners',
-            name: 'Spinners',
-            component: () => import('@/views/base/Spinners.vue'),
-          },
-          {
-            path: '/base/tables',
-            name: 'Tables',
-            component: () => import('@/views/base/Tables.vue'),
-          },
-          {
-            path: '/base/tabs',
-            name: 'Tabs',
-            component: () => import('@/views/base/Tabs.vue'),
-          },
-          {
-            path: '/base/tooltips',
-            name: 'Tooltips',
-            component: () => import('@/views/base/Tooltips.vue'),
-          },
-        ],
-      },
-      {
-        path: '/buttons',
-        name: () => i18next.t('buttons'),
-        component: {
-          render() {
-            return h(resolveComponent('router-view'))
-          },
-        },
-        redirect: '/buttons/standard-buttons',
-        children: [
-          {
-            path: '/buttons/standard-buttons',
-            name: 'Buttons',
-            component: () => import('@/views/buttons/Buttons.vue'),
-          },
-          {
-            path: '/buttons/dropdowns',
-            name: 'Dropdowns',
-            component: () => import('@/views/buttons/Dropdowns.vue'),
-          },
-          {
-            path: '/buttons/button-groups',
-            name: 'Button Groups',
-            component: () => import('@/views/buttons/ButtonGroups.vue'),
-          },
-        ],
+            import(
+                /* webpackChunkName: "dashboard" */ '@/views/dashboard/Dashboard.vue'
+                ),
       },
       {
         path: '/forms',
@@ -228,33 +99,7 @@ const routes = [
         name: () => i18next.t('charts'),
         component: () => import('@/views/charts/Charts.vue'),
       },
-      {
-        path: '/icons',
-        name: () => i18next.t('icons'),
-        component: {
-          render() {
-            return h(resolveComponent('router-view'))
-          },
-        },
-        redirect: '/icons/coreui-icons',
-        children: [
-          {
-            path: '/icons/coreui-icons',
-            name: 'CoreUI Icons',
-            component: () => import('@/views/icons/CoreUIIcons.vue'),
-          },
-          {
-            path: '/icons/brands',
-            name: 'Brands',
-            component: () => import('@/views/icons/Brands.vue'),
-          },
-          {
-            path: '/icons/flags',
-            name: 'Flags',
-            component: () => import('@/views/icons/Flags.vue'),
-          },
-        ],
-      },
+
       {
         path: '/notifications',
         name: () => i18next.t('notifications'),
@@ -288,9 +133,9 @@ const routes = [
         ],
       },
       {
-        path: '/widgets',
+        path: '/graphs',
         name: () => i18next.t('widgets'),
-        component: () => import('@/views/widgets/Widgets.vue'),
+        component: () => import('@/views/graph/Graphs.vue'),
       },
       {
         path: '/smart-table',
@@ -365,29 +210,7 @@ const routes = [
       },
     ],
   },
-  {
-    path: '/apps/email',
-    redirect: '/apps/email/inbox',
-    name: 'Email',
-    component: () => import('@/views/apps/email/EmailApp.vue'),
-    children: [
-      {
-        path: 'compose',
-        name: 'Compose',
-        component: () => import('@/views/apps/email/Compose.vue'),
-      },
-      {
-        path: 'inbox',
-        name: 'Inbox',
-        component: () => import('@/views/apps/email/Inbox.vue'),
-      },
-      {
-        path: 'message',
-        name: 'Message',
-        component: () => import('@/views/apps/email/Message.vue'),
-      },
-    ],
-  },
+
 ]
 
 const router = createRouter({

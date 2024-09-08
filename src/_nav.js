@@ -2,8 +2,12 @@ import i18next from '@/i18n';
 
 export default [
   {
+    component: 'CNavTitle',
+    name: () => i18next.t('Main'),
+  },
+  {
     component: 'CNavItem',
-    name: () => i18next.t('dashboard'),
+    name: () => i18next.t('메인 정보 패널'),
     to: '/dashboard',
     icon: 'cil-speedometer',
     badge: {
@@ -11,135 +15,20 @@ export default [
       text: 'NEW',
     },
   },
-  {
-    component: 'CNavTitle',
-    name: () => i18next.t('theme'),
-  },
-  {
-    component: 'CNavItem',
-    name: () => i18next.t('colors'),
-    to: '/theme/colors',
-    icon: 'cil-drop',
-  },
-  {
-    component: 'CNavItem',
-    name: () => i18next.t('typography'),
-    to: '/theme/typography',
-    icon: 'cil-pencil',
-  },
+
   {
     component: 'CNavTitle',
     name: () => i18next.t('components'),
   },
   {
-    component: 'CNavGroup',
-    name: () => i18next.t('base'),
-    to: '/base',
-    icon: 'cil-puzzle',
-    items: [
-      {
-        component: 'CNavItem',
-        name: 'Accordion',
-        to: '/base/accordion',
-      },
-      {
-        component: 'CNavItem',
-        name: 'Breadcrumbs',
-        to: '/base/breadcrumbs',
-      },
-      {
-        component: 'CNavItem',
-        name: 'Cards',
-        to: '/base/cards',
-      },
-      {
-        component: 'CNavItem',
-        name: 'Carousels',
-        to: '/base/carousels',
-      },
-      {
-        component: 'CNavItem',
-        name: 'Collapses',
-        to: '/base/collapses',
-      },
-      {
-        component: 'CNavItem',
-        name: 'List Groups',
-        to: '/base/list-groups',
-      },
-      {
-        component: 'CNavItem',
-        name: 'Navs & Tabs',
-        to: '/base/navs',
-      },
-      {
-        component: 'CNavItem',
-        name: 'Paginations',
-        to: '/base/paginations',
-      },
-      {
-        component: 'CNavItem',
-        name: 'Placeholders',
-        to: '/base/placeholders',
-      },
-      {
-        component: 'CNavItem',
-        name: 'Popovers',
-        to: '/base/popovers',
-      },
-      {
-        component: 'CNavItem',
-        name: 'Progress',
-        to: '/base/progress',
-      },
-      {
-        component: 'CNavItem',
-        name: 'Spinners',
-        to: '/base/spinners',
-      },
-      {
-        component: 'CNavItem',
-        name: 'Tables',
-        to: '/base/tables',
-      },
-      {
-        component: 'CNavItem',
-        name: 'Tabs',
-        to: '/base/tabs',
-      },
-      {
-        component: 'CNavItem',
-        name: 'Tooltips',
-        to: '/base/tooltips',
-      },
-    ],
+    component: 'CNavItem',
+    name: () => i18next.t('현황 차트'),
+    to: '/charts',
+    icon: 'cil-chart-pie',
   },
   {
     component: 'CNavGroup',
-    name: () => i18next.t('buttons'),
-    to: '/buttons',
-    icon: 'cil-cursor',
-    items: [
-      {
-        component: 'CNavItem',
-        name: 'Buttons',
-        to: '/buttons/standard-buttons',
-      },
-      {
-        component: 'CNavItem',
-        name: 'Button Groups',
-        to: '/buttons/button-groups',
-      },
-      {
-        component: 'CNavItem',
-        name: 'Dropdowns',
-        to: '/buttons/dropdowns',
-      },
-    ],
-  },
-  {
-    component: 'CNavGroup',
-    name: () => i18next.t('forms'),
+    name: () => i18next.t('문서 및 자산 관리'),
     to: '/forms',
     icon: 'cil-notes',
     items: [
@@ -221,36 +110,10 @@ export default [
       },
     ],
   },
+
   {
     component: 'CNavGroup',
-    name: 'Icons',
-    to: '/icons',
-    icon: 'cil-star',
-    items: [
-      {
-        component: 'CNavItem',
-        name: 'CoreUI Icons',
-        to: '/icons/coreui-icons',
-        badge: {
-          color: 'info',
-          text: 'NEW',
-        },
-      },
-      {
-        component: 'CNavItem',
-        name: 'Brands',
-        to: '/icons/brands',
-      },
-      {
-        component: 'CNavItem',
-        name: 'Flags',
-        to: '/icons/flags',
-      },
-    ],
-  },
-  {
-    component: 'CNavGroup',
-    name: () => i18next.t('notifications'),
+    name: () => i18next.t('리얼타임 알림 및 메시지'),
     to: '/notifications',
     icon: 'cil-bell',
     items: [
@@ -278,8 +141,8 @@ export default [
   },
   {
     component: 'CNavItem',
-    name: () => i18next.t('widgets'),
-    to: '/widgets',
+    name: () => i18next.t('그래프'),
+    to: '/graphs',
     icon: 'cil-calculator',
     badge: {
       color: 'info',
@@ -288,7 +151,7 @@ export default [
   },
   {
     component: 'CNavItem',
-    name: 'Smart Table',
+    name: '운영명세서',
     to: '/smart-table',
     icon: 'cil-grid',
     badge: {
@@ -297,12 +160,8 @@ export default [
     },
   },
   {
-    component: 'CNavTitle',
-    name: () => i18next.t('plugins'),
-  },
-  {
     component: 'CNavItem',
-    name: () => i18next.t('calendar'),
+    name: () => i18next.t('일정'),
     to: '/calendar',
     icon: 'cil-calendar',
     badge: {
@@ -310,27 +169,24 @@ export default [
       text: 'PRO',
     },
   },
-  {
-    component: 'CNavItem',
-    name: () => i18next.t('charts'),
-    to: '/charts',
-    icon: 'cil-chart-pie',
-  },
+
   {
     component: 'CNavTitle',
-    name: 'Extras',
+    name: '사용자 설정 및 개인화',
+  },
+  {
+    component: 'CNavItem',
+    name: () => i18next.t('login'),
+    to: '/pages/login',
+    icon: 'cil-star',
   },
   {
     component: 'CNavGroup',
     name: () => i18next.t('pages'),
     to: '/pages',
-    icon: 'cil-star',
+    icon: 'cil-layers',
+
     items: [
-      {
-        component: 'CNavItem',
-        name: () => i18next.t('login'),
-        to: '/pages/login',
-      },
       {
         component: 'CNavItem',
         name: () => i18next.t('register'),
@@ -350,9 +206,9 @@ export default [
   },
   {
     component: 'CNavGroup',
-    name: () => i18next.t('apps'),
+    name: () => i18next.t('라이브 챗 지원'),
     to: '/apps',
-    icon: 'cil-layers',
+    icon: 'cil-envelope-open',
     items: [
       {
         component: 'CNavGroup',
@@ -371,44 +227,12 @@ export default [
           },
         ],
       },
-      {
-        component: 'CNavGroup',
-        name: 'Email',
-        to: '/apps/email',
-        icon: 'cil-envelope-closed',
-        items: [
-          {
-            component: 'CNavItem',
-            name: 'Inbox',
-            to: '/apps/email/inbox',
-            icon: 'cil-envelope-closed',
-            badge: {
-              color: 'danger',
-              text: 'PRO',
-            },
-          },
-          {
-            component: 'CNavItem',
-            name: 'Message',
-            to: '/apps/email/message',
-            icon: 'cil-envelope-open',
-            badge: {
-              color: 'danger',
-              text: 'PRO',
-            },
-          },
-          {
-            component: 'CNavItem',
-            name: 'Compose',
-            to: '/apps/email/compose',
-            icon: 'cil-envelope-letter',
-            badge: {
-              color: 'danger',
-              text: 'PRO',
-            },
-          },
-        ],
-      },
     ],
+  },
+  {
+    component: 'CNavItem',
+    name: () => i18next.t('라이브 챗 지원'),
+    to: '/pages/login',
+    icon: 'cil-envelope-open',
   },
 ]
