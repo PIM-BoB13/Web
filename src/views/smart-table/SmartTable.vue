@@ -1,6 +1,7 @@
 <script setup>
 import SmartTableBasixExample from './SmartTableBasixExample.vue'
-
+import SmartTableDownloadableExample from './SmartTableDownloadableExample.vue'
+import SmartTableSelectableExample from './SmartTableSelectableExample.vue'
 </script>
 
 <template>
@@ -10,7 +11,7 @@ import SmartTableBasixExample from './SmartTableBasixExample.vue'
         <CCardBody>
           <div class="mb-3">
             <CFormSelect aria-label="Default select example">
-              <option>Open this select menu</option>
+              <option>파일 선택</option>
               <option v-for="option in options" :key="option.value" :value="option.value">
                 {{ option.text }}
               </option>
