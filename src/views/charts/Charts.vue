@@ -1,4 +1,5 @@
 <script setup>
+import { ref } from 'vue'
 import { useTranslation } from 'i18next-vue'
 const { t, i18next } = useTranslation()
 
@@ -7,6 +8,28 @@ import {
   CChartDoughnutExample,
   CChartRadarExample,
 } from './index.js'
+
+const isPopupVisible = ref(false)
+const defectSummary = ref('')
+const defectDetail = ref('')
+
+function openPopup() {
+  isPopupVisible.value = true
+}
+
+function closePopup() {
+  isPopupVisible.value = false
+}
+
+function submitDefect() {
+  console.log("Defect Summary:", defectSummary.value)
+  console.log("Defect Detail:", defectDetail.value)
+  // 1초 후에 확인창을 띄우고 팝업을 닫음
+  setTimeout(() => {
+    alert("제출되었습니다.");
+    closePopup();
+  }, 1000)
+}
 </script>
 
 <template>
@@ -18,11 +41,11 @@ import {
             <CIcon icon="cil-search" size="lg" class="my-1 mx-2 text-body-secondary" />
           </CInputGroupText>
           <CFormInput
-            v-model="searchQuery"
-            :placeholder="t('search')"
-            ariaLabel="Search"
-            ariaDescribedby="search-addon"
-            class="bg-body-secondary border-0"
+              v-model="searchQuery"
+              :placeholder="t('search')"
+              ariaLabel="Search"
+              ariaDescribedby="search-addon"
+              class="bg-body-secondary border-0"
           />
         </CInputGroup>
       </CForm>
@@ -32,15 +55,40 @@ import {
       <div class="search-results-2">
         <ul v-for="(result, index) in filteredResults" :key="result.id" @click="selectResult(result)">
           {{ index + 1 }}. {{ result.name }}
-        </ul>      
+        </ul>
       </div>
       <div class="button-container">
         <CButton color="info" class="me-2 flex-grow-1">이행</CButton>
-        <CButton color="danger" class="flex-grow-1">결함</CButton>
+        <CButton color="danger" class="flex-grow-1" @click="openPopup">결함</CButton>
       </div>
     </div>
     <div class="right-content">
       <div v-if="selectedResult" v-html="selectedResult.content"></div>
+    </div>
+
+    <!-- 팝업창 -->
+    <div v-if="isPopupVisible" class="popup-overlay">
+      <div class="popup-content">
+        <h3>결함 입력</h3>
+        <CForm>
+          <!-- 결함 내역 요약 제목 -->
+          <label for="defectSummary" class="form-label">결함 내역 요약</label>
+          <CFormInput id="defectSummary" v-model="defectSummary" placeholder="결함 내역을 요약해 주세요" />
+
+          <!-- 입력칸 사이 거리 -->
+          <div class="input-gap"></div>
+
+          <!-- 결함 상세 내역 제목 -->
+          <label for="defectDetail" class="form-label">결함 상세 내역</label>
+          <CFormTextarea id="defectDetail" v-model="defectDetail" placeholder="결함 상세 내역을 작성해 주세요" rows="5" />
+
+          <!-- 제출 및 취소 버튼 -->
+          <div class="popup-buttons">
+            <CButton color="danger" @click="submitDefect">제출</CButton>
+            <CButton color="secondary" @click="closePopup">취소</CButton>
+          </div>
+        </CForm>
+      </div>
     </div>
   </div>
 </template>
@@ -66,7 +114,7 @@ const incidentResponse = `
         보고 대상: 정보보안팀, IT팀, 법무팀, 경영진
     </li>
     <li><strong>경영진 및 최고 정보보호 책임자(CISO)</strong><br>
-        <p style="color: blue;">심각한 사고의 경우 최고 정보보호 책임자(CISO)에게 보고되며, 경영진은 사고에 대한 의사 결정을 내리고 외부 기관에 대한 신고 여부를 판단합니다. 필요 시, 법적 대응팀과 협력하여 사고 처리 방안을 마련합니다.</p>
+        심각한 사고의 경우 최고 정보보호 책임자(CISO)에게 보고되며, 경영진은 사고에 대한 의사 결정을 내리고 외부 기관에 대한 신고 여부를 판단합니다. 필요 시, 법적 대응팀과 협력하여 사고 처리 방안을 마련합니다.
     </li>
     <li><strong>외부 기관 보고 (필요 시)</strong><br>
         개인정보 유출이나 중대한 보안 사고의 경우, 법령에 따라 일정 기간 내에 관련 규제 기관(방통위, KISA 등)에 보고합니다.<br>
@@ -146,7 +194,7 @@ const securityPlan = `
 
 <h4>4. 정보보호계획</h4>
 <h5>4.1 정보보호 거버넌스</h5>
-<ul style="color: blue;">
+<ul>
     <li>정보보호 책임자(CISO): 정보보호 총괄 책임자는 정보보호 정책 수립 및 이행을 관리하며, 조직 내 정보보호 활동을 총괄합니다.</li>
     <li>정보보호위원회: 위원회를 구성하여 정보보호 전략 및 정책을 검토하고, 주요 보안 사안을 의논합니다.</li>
 </ul>
@@ -183,7 +231,7 @@ const securityPlan = `
 
 <h4>5. 개인정보보호 내부 관리계획</h4>
 <h5>5.1 개인정보 보호 책임자(DPO)</h5>
-<p style="color: blue;">개인정보 보호 책임자는 회사의 개인정보 처리 활동에 대한 전반적인 관리를 담당하며, 관련 법규 준수를 보장합니다.</b></p>
+<p>개인정보 보호 책임자는 회사의 개인정보 처리 활동에 대한 전반적인 관리를 담당하며, 관련 법규 준수를 보장합니다.</p>
 
 <h5>5.2 개인정보의 수집 및 처리</h5>
 <ul>
@@ -238,8 +286,7 @@ export default {
   data() {
     return {
       searchQuery: '1.1.1.1',
-      results: [
-      ],
+      results: [],
       selectedResult: null,
     };
   },
@@ -252,7 +299,7 @@ export default {
         ];
       }
       return this.results.filter(result =>
-        result.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+          result.name.toLowerCase().includes(this.searchQuery.toLowerCase())
       );
     },
     specificOutput() {
@@ -271,6 +318,24 @@ export default {
 </script>
 
 <style scoped>
+
+/* 팝업 크기 조정 */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* 입력칸 사이 간격 */
+.input-gap {
+  margin-bottom: 20px;
+}
+
 .container {
   display: flex;
 }
@@ -287,8 +352,8 @@ export default {
   background-color: white;
 
   max-height: 760px;
-  overflow-y: auto; 
-  overflow-x: hidden; 
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .search-results-1 {
@@ -307,15 +372,6 @@ export default {
   background-color: white;
 }
 
-.search-results ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.search-results li {
-  padding: 5px 0;
-}
-
 .button-container {
   display: flex;
   padding: 20px 0;
@@ -324,5 +380,31 @@ export default {
 
 .flex-grow-1 {
   flex-grow: 1;
+}
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.popup-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.popup-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
 }
 </style>
