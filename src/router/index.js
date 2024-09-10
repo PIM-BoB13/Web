@@ -30,7 +30,7 @@ const routes = [
 
       {
         path: '/smart-table',
-        name: 'Smart Table',
+        name: '증적 문서 업로드',
         component: () => import('@/views/smart-table/SmartTable.vue'),
       },
 
