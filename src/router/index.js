@@ -46,14 +46,14 @@ const routes = [
         children: [
 
           {
-            path: 'login',
-            name: 'Login',
-            component: () => import('@/views/pages/Login'),
+            path: 'createdocx',
+            name: 'CreateDocx',
+            component: () => import('@/views/pages/CreateDocx'),
           },
           {
-            path: 'register',
-            name: 'Register',
-            component: () => import('@/views/pages/Register'),
+            path: 'interview',
+            name: 'Interview',
+            component: () => import('@/views/interview/Interview'),
           },
         ],
       },

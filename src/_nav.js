@@ -66,7 +66,7 @@ export default [
   {
     component: 'CNavItem',
     name: () => i18next.t('문서 생성'),
-    to: '/pages/login',
+    to: '/pages/createdocx',
     icon: 'cil-star',
     badge: {
       color: 'info',
@@ -76,7 +76,7 @@ export default [
   {
     component: 'CNavItem',
     name: () => i18next.t('인터뷰 질문 생성'),
-    to: '/pages/login',
+    to: '/pages/interview',
     icon: 'cil-envelope-open',
     badge: {
       color: 'info',

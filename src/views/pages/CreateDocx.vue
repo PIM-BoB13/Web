@@ -1,5 +1,5 @@
 <script setup>
-import SmartTableBasixExample from './SmartTableBasixExample.vue'
+import SmartTableBasixExample from '../smart-table/SmartTableBasixExample.vue'
 </script>
 
 <template>

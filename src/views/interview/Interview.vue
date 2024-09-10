@@ -1,6 +1,4 @@
-<script setup>
-import SmartTableBasixExample from './SmartTableBasixExample.vue'
-</script>
+
 
 <template>
   <CRow>
@@ -19,9 +17,7 @@ import SmartTableBasixExample from './SmartTableBasixExample.vue'
             <CFormInput id="inputGroupFile02" type="file" />
             <CButton color="primary" type="submit">Upload</CButton>
           </CInputGroup>
-          <DocsExample href="">
-            <SmartTableBasixExample />
-          </DocsExample>
+
         </CCardBody>
       </CCard>
     </CCol>
