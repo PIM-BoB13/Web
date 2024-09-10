@@ -10,10 +10,7 @@ export default [
     name: () => i18next.t('메인 정보 패널'),
     to: '/dashboard',
     icon: 'cil-speedometer',
-    badge: {
-      color: 'info',
-      text: 'PRO',
-    },
+
   },
 
   {
@@ -70,7 +67,7 @@ export default [
     icon: 'cil-star',
     badge: {
       color: 'info',
-      text: 'PRO',
+      text: 'AI',
     },
   },
   {
@@ -80,7 +77,7 @@ export default [
     icon: 'cil-envelope-open',
     badge: {
       color: 'info',
-      text: 'PRO',
+      text: 'AI',
     },
   },
 ]
