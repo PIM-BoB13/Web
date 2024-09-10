@@ -2,11 +2,11 @@
 import { CChartDoughnut } from '@coreui/vue-chartjs'
 
 const data = {
-  labels: ['VueJs', 'EmberJs', 'VueJs', 'AngularJs'],
+  labels: ['이행', '미이행'],
   datasets: [
     {
-      backgroundColor: ['#41B883', '#E46651', '#00D8FF', '#DD1B16'],
-      data: [40, 20, 80, 10],
+      backgroundColor: ['#41B883', '#DD1B16'],
+      data: [83, 17],
     },
   ],
 }

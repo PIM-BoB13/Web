@@ -3,24 +3,21 @@ import { CChartBar } from '@coreui/vue-chartjs'
 
 const data = {
   labels: [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
+    '1.1.1',
+    '1.1.2',
+    '1.1.3',
+    '1.1.4',
+    '1.1.5',
+      '1.2.1',
+      '1.3.1',
+      '1.4.1'
+
   ],
   datasets: [
     {
-      label: 'GitHub Commits',
+      label: '검토 필요 Count',
       backgroundColor: '#f87979',
-      data: [40, 20, 12, 39, 10, 40, 39, 80, 40, 20, 12, 12],
+      data: [2, 4, 3, 5, 10, 4, 8, 5],
     },
   ],
 }

@@ -6,10 +6,10 @@
 import { CChartRadar } from '@coreui/vue-chartjs'
 
 const data = {
-  labels: ['Eating', 'Drinking', 'Sleeping', 'Designing', 'Coding', 'Cycling', 'Running'],
+  labels: ['1.1', '1.2', '1.3', '1.4', '1.5', '1.2.1', '1.3.1'],
   datasets: [
     {
-      label: '2020',
+      label: '현황',
       backgroundColor: 'rgba(179,181,198,0.2)',
       borderColor: 'rgba(179,181,198,1)',
       pointBackgroundColor: 'rgba(179,181,198,1)',
@@ -17,10 +17,10 @@ const data = {
       pointHoverBackgroundColor: '#fff',
       pointHoverBorderColor: 'rgba(179,181,198,1)',
       tooltipLabelColor: 'rgba(179,181,198,1)',
-      data: [65, 59, 90, 81, 56, 55, 40],
+      data: [15, 23, 37, 33, 24, 13, 33],
     },
     {
-      label: '2021',
+      label: '향후',
       backgroundColor: 'rgba(255,99,132,0.2)',
       borderColor: 'rgba(255,99,132,1)',
       pointBackgroundColor: 'rgba(255,99,132,1)',
@@ -28,7 +28,7 @@ const data = {
       pointHoverBackgroundColor: '#fff',
       pointHoverBorderColor: 'rgba(255,99,132,1)',
       tooltipLabelColor: 'rgba(255,99,132,1)',
-      data: [28, 48, 40, 19, 96, 27, 100],
+      data: [43, 66, 67, 50, 49, 46, 77],
     },
   ],
   options: {
