@@ -95,7 +95,8 @@ const toggleItem = (index) => {
             </CTableHeaderCell>
             <CTableHeaderCell>항목</CTableHeaderCell>
             <CTableHeaderCell>상세 내용</CTableHeaderCell>
-            <CTableHeaderCell class="text-center">Quantity</CTableHeaderCell>
+            <CTableHeaderCell class="text-center">주요 확인사항</CTableHeaderCell>
+            <CTableHeaderCell class="text-center">근거 자료</CTableHeaderCell>
             <CTableHeaderCell class="text-end">Total</CTableHeaderCell>
           </CTableRow>
         </CTableHead>
@@ -108,6 +109,9 @@ const toggleItem = (index) => {
             <CTableDataCell class="text-start">최고경영자는 정보보호 및 개인정보보호 관리체계의 수립과 운영활동 전반에 경영진의 참여가 이루어질 수 있도록 보고 및 의사결정 체계를 수립하여 운영하여야 한다.</CTableDataCell>
             <CTableDataCell class="text-center">1.1.1.1
               정보보호 및 개인정보보호 관리체계의 수립 및 운영활동 전반에 경영진의 참여가 이루어질 수 있도록 보고 및 의사결정 등의 책임과 역할을 문서화하고 있는가?</CTableDataCell>
+            <CTableDataCell class="text-center" style="vertical-align: middle;">
+              정보처리방침
+              </CTableDataCell>
             <CTableDataCell class="text-end" style="vertical-align: middle;">O</CTableDataCell>
 
           </CTableRow>
@@ -119,6 +123,9 @@ const toggleItem = (index) => {
             <CTableDataCell class="text-start"></CTableDataCell>
             <CTableDataCell class="text-center">1.1.1.2
               정보보호 및 개인정보보호 관리체계의 수립 및 운영활동 전반에 경영진의 참여가 이루어질 수 있도록 보고 및 의사결정 등의 책임과 역할을 문서화하고 있는가?</CTableDataCell>
+            <CTableDataCell class="text-center" style="vertical-align: middle;">
+              조직도
+            </CTableDataCell>
             <CTableDataCell class="text-end" style="vertical-align: middle;">X</CTableDataCell>
 
           </CTableRow>
@@ -130,6 +137,9 @@ const toggleItem = (index) => {
             <CTableDataCell class="text-start">최고경영자는 정보보호 업무를 총괄하는 정보보호 최고책임자와 개인정보보호 업무를 총괄하는 개인정보보호 책임자를 예산, 인력 등 자원을 할당할 수 있는 임원급으로 지정하여야 한다.</CTableDataCell>
             <CTableDataCell class="text-center">1.1.2.1
               최고경영자는 정보보호 및 개인정보보호 처리에 관한 업무를 총괄하여 책임질 최고책임자를 공식적으로 지정하고 있는가?</CTableDataCell>
+            <CTableDataCell class="text-center" style="vertical-align: middle;">
+              내부정보처리방침
+            </CTableDataCell>
             <CTableDataCell class="text-end" style="vertical-align: middle;">O</CTableDataCell>
           </CTableRow>
 
@@ -142,6 +152,9 @@ const toggleItem = (index) => {
             <CTableDataCell class="text-start"></CTableDataCell>
             <CTableDataCell class="text-center">1.1.2.2
               정보보호 및 개인정보보호 관리체계의 수립 및 운영활동 전반에 경영진의 참여가 이루어질 수 있도록 보고 및 의사결정 등의 책임과 역할을 문서화하고 있는가?</CTableDataCell>
+            <CTableDataCell class="text-center" style="vertical-align: middle;">
+              정보처리방침
+            </CTableDataCell>
             <CTableDataCell class="text-end" style="vertical-align: middle;">O</CTableDataCell>
           </CTableRow>
 
@@ -155,6 +168,9 @@ const toggleItem = (index) => {
             <CTableDataCell class="text-start">최고경영자는 정보보호의 효과적 구현을 위한 실무조직을 구성하여 운영하여야 한다.</CTableDataCell>
             <CTableDataCell class="text-center">1.1.3.1
               조직의 정보보호 활동을 체계적으로 이행하기 위해 전문성을 갖춘 실무조직을 구성하여 운영하고 있는가?</CTableDataCell>
+            <CTableDataCell class="text-center" style="vertical-align: middle;">
+              정보처리방침
+            </CTableDataCell>
             <CTableDataCell class="text-end" style="vertical-align: middle;">O</CTableDataCell>
           </CTableRow>
 
@@ -168,6 +184,9 @@ const toggleItem = (index) => {
             <CTableDataCell class="text-start">조직의 핵심 서비스를 고려하여 관리체계 범위를 설정하고, 관련된 서비스를 비롯하여 조직, 자산, 물리적 위치 등을 문서화하여야 한다.</CTableDataCell>
             <CTableDataCell class="text-center">1.1.4.1
               조직의 핵심 서비스에 영향을 줄 수 있는 핵심자산을 포함하도록 관리체꼐 범위를 설정하고 있는가?</CTableDataCell>
+            <CTableDataCell class="text-center" style="vertical-align: middle;">
+              정보처리방침
+            </CTableDataCell>
             <CTableDataCell class="text-end" style="vertical-align: middle;">O</CTableDataCell>
           </CTableRow>
 
