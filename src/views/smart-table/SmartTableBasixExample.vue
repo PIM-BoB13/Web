@@ -9,7 +9,7 @@ const columns = [
     _style: { width: '40%' },
   },
   '확장자',
-  { key: '시간', _style: { width: '20%' } },
+  { key: '최종변경일자', _style: { width: '20%' } },
   { key: '크기', _style: { width: '20%' } },
 ]
 

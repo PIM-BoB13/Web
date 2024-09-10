@@ -96,8 +96,8 @@ const toggleItem = (index) => {
             <CTableHeaderCell>항목</CTableHeaderCell>
             <CTableHeaderCell>상세 내용</CTableHeaderCell>
             <CTableHeaderCell class="text-center">주요 확인사항</CTableHeaderCell>
-            <CTableHeaderCell class="text-center">근거 자료</CTableHeaderCell>
-            <CTableHeaderCell class="text-end">Total</CTableHeaderCell>
+            <CTableHeaderCell class="text-center" style="font-size: 14.2px;">근거 자료</CTableHeaderCell>
+            <CTableHeaderCell class="text-end" style="font-size: 12px;">이행 여부</CTableHeaderCell>
           </CTableRow>
         </CTableHead>
         <CTableBody>
@@ -124,9 +124,9 @@ const toggleItem = (index) => {
             <CTableDataCell class="text-center">1.1.1.2
               정보보호 및 개인정보보호 관리체계의 수립 및 운영활동 전반에 경영진의 참여가 이루어질 수 있도록 보고 및 의사결정 등의 책임과 역할을 문서화하고 있는가?</CTableDataCell>
             <CTableDataCell class="text-center" style="vertical-align: middle;">
-              조직도
+
             </CTableDataCell>
-            <CTableDataCell class="text-end" style="vertical-align: middle;">X</CTableDataCell>
+            <CTableDataCell class="text-end" style="vertical-align: middle;"></CTableDataCell>
 
           </CTableRow>
           <CTableRow>
