@@ -14,8 +14,8 @@
                       <CIcon icon="cil-user" />
                     </CInputGroupText>
                     <CFormInput
-                      placeholder="Username"
-                      autocomplete="username"
+                        placeholder="Username"
+                        autocomplete="username"
                     />
                   </CInputGroup>
                   <CInputGroup class="mb-4">
@@ -23,9 +23,9 @@
                       <CIcon icon="cil-lock-locked" />
                     </CInputGroupText>
                     <CFormInput
-                      type="password"
-                      placeholder="Password"
-                      autocomplete="current-password"
+                        type="password"
+                        placeholder="Password"
+                        autocomplete="current-password"
                     />
                   </CInputGroup>
                   <CRow>

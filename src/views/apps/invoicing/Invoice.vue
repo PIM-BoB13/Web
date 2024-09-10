@@ -108,28 +108,28 @@ const print = () => {
             <CTableBody>
               <CTableRow>
                 <CTableDataCell class="text-start">
-                  <strong>Subtotal</strong>
+                  <strong>전체 항목</strong>
                 </CTableDataCell>
-                <CTableDataCell class="text-end">$8.497,00</CTableDataCell>
+                <CTableDataCell class="text-end">44개</CTableDataCell>
               </CTableRow>
               <CTableRow>
                 <CTableDataCell class="text-start">
-                  <strong>Discount (20%)</strong>
+                  <strong>이행 항목</strong>
                 </CTableDataCell>
-                <CTableDataCell class="text-end">$1,699,40</CTableDataCell>
+                <CTableDataCell class="text-end">35개</CTableDataCell>
               </CTableRow>
               <CTableRow>
                 <CTableDataCell class="text-start">
-                  <strong>VAT (10%)</strong>
+                  <strong>미이행 항목</strong>
                 </CTableDataCell>
                 <CTableDataCell class="text-end">$679,76</CTableDataCell>
               </CTableRow>
               <CTableRow>
                 <CTableDataCell class="text-start">
-                  <strong>Total</strong>
+                  <strong>총 이행률</strong>
                 </CTableDataCell>
                 <CTableDataCell class="text-end">
-                  <strong>$7.477,36</strong>
+                  <strong>74%</strong>
                 </CTableDataCell>
               </CTableRow>
             </CTableBody>
