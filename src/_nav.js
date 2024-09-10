@@ -22,6 +22,22 @@ export default [
   },
   {
     component: 'CNavItem',
+    name: '증적 문서 업로드',
+    to: '/smart-table',
+    icon: 'cil-grid',
+  },
+  {
+    component: 'CNavItem',
+    name: 'ISMS 이행 현황',
+    to: '/apps/invoicing/invoice',
+    icon: 'cil-spreadsheet',
+    badge: {
+      color: 'danger',
+      text: 'PRO',
+    },
+  },
+  {
+    component: 'CNavItem',
     name: () => i18next.t('현황 차트'),
     to: '/charts',
     icon: 'cil-chart-pie',
@@ -149,16 +165,7 @@ export default [
       text: 'NEW',
     },
   },
-  {
-    component: 'CNavItem',
-    name: '운영명세서',
-    to: '/smart-table',
-    icon: 'cil-grid',
-    badge: {
-      color: 'danger',
-      text: 'PRO',
-    },
-  },
+
   {
     component: 'CNavItem',
     name: () => i18next.t('일정'),
