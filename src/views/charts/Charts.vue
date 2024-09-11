@@ -91,7 +91,7 @@ function submitDefect() {
             <option value="">선택하세요</option>
             <option value="증적 부족">증적 부족</option>
             <option value="문서(정책 또는 지침) 부족">문서(정책 또는 지침) 부족</option>
-          </CFormSelect>과
+          </CFormSelect>
           <!-- 입력칸 사이 거리 -->
           <div class="input-gap"></div>
           <!-- 결함 내역 요약 제목 -->
@@ -104,7 +104,7 @@ function submitDefect() {
           <CFormTextarea id="defectDetail" v-model="defectDetail" placeholder="결함 상세 내역을 작성해 주세요" rows="5" />
           <!-- 제출 및 취소 버튼 -->
           <div class="popup-buttons">
-            <CButton color="danger" @click="submitDefect">제출</CButton>
+            <CButton color="danger" @click="submitDefect" style="color: white;">제출</CButton>
             <CButton color="secondary" @click="closePopup">취소</CButton>
           </div>
         </CForm>
@@ -353,6 +353,13 @@ export default {
   border-bottom: 1px solid #e6e6e6; /* 회색 구분선 추가 */
   padding-bottom: 10px; /* 구분선 아래 패딩 추가 */
   margin-bottom: 20px; /* 내용과의 간격 추가 */
+}
+
+.popup-buttons {
+  display: flex;
+  gap: 10px; /* 제출과 취소 버튼 사이 간격 추가 */
+  padding-top: 10px; /* 버튼 상단 패딩 추가 */
+  justify-content: flex-end; /* 버튼들을 오른쪽으로 정렬 */
 }
 
 
