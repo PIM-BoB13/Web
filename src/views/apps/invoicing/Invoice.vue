@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import {CChartBarExample, CChartDoughnutExample, CChartRadarExample} from "../../charts";
+import router from "../../../router";
 
 const print = () => {
   window.print();
@@ -25,26 +26,26 @@ const toggleItem = (index) => {
 
 <template>
   <CRow>
-  <CCol :md="3" class="mb-5">
-    <CCard style="min-height: 367px;">
-      <CCardHeader>ISMS 이행 현황 통계</CCardHeader>
-      <CCardBody><CChartDoughnutExample /></CCardBody>
-    </CCard>
-  </CCol>
+    <CCol :md="3" class="mb-5">
+      <CCard style="min-height: 367px;">
+        <CCardHeader>ISMS 이행 현황 통계</CCardHeader>
+        <CCardBody><CChartDoughnutExample /></CCardBody>
+      </CCard>
+    </CCol>
 
-  <CCol :md="3" class="mb-4">
-    <CCard style="min-height: 367px;">
-      <CCardHeader>중분류 검토 필요 보고서</CCardHeader>
-      <CCardBody><CChartRadarExample /></CCardBody>
-    </CCard>
-  </CCol>
+    <CCol :md="3" class="mb-4">
+      <CCard style="min-height: 367px;">
+        <CCardHeader>중분류 검토 필요 보고서</CCardHeader>
+        <CCardBody><CChartRadarExample /></CCardBody>
+      </CCard>
+    </CCol>
 
-  <CCol :md="6" class="mb-5">
-    <CCard style="min-height: 300px;">
-      <CCardHeader>검토 필요 Count</CCardHeader>
-      <CCardBody><CChartBarExample /></CCardBody>
-    </CCard>
-  </CCol>
+    <CCol :md="6" class="mb-5">
+      <CCard style="min-height: 300px;">
+        <CCardHeader>검토 필요 Count</CCardHeader>
+        <CCardBody><CChartBarExample /></CCardBody>
+      </CCard>
+    </CCol>
   </CRow>
 
   <CCard class="mb-5">
@@ -120,7 +121,7 @@ const toggleItem = (index) => {
         </CCol>
       </CRow>
     </CCBody>
-  </CCard> 
+  </CCard>
 
   <CCard>
     <CCardHeader>
@@ -136,9 +137,6 @@ const toggleItem = (index) => {
       <CTable striped style="display: flex; justify-content: space-between;">
         <CTableHead>
           <CTableRow>
-            <!-- <CTableHeaderCell class="text-center">
-              <input type="checkbox" v-model="selectAll" @change="toggleSelectAll" />
-            </CTableHeaderCell> -->
             <CTableHeaderCell style="width: 200px;">항목</CTableHeaderCell>
             <CTableHeaderCell class="text-center">주요 확인사항</CTableHeaderCell>
             <CTableHeaderCell class="text-center" style="width: 300px">근거 자료</CTableHeaderCell>
@@ -147,9 +145,6 @@ const toggleItem = (index) => {
         </CTableHead>
         <CTableBody>
           <CTableRow>
-            <!-- <CTableDataCell class="text-center" style="vertical-align: middle;">
-              <input type="checkbox" v-model="selectedItems[0]" @change="toggleItem(0)" />
-            </CTableDataCell> -->
             <CTableDataCell class="text-start" ><b>1.1.1</b><br>경영진의 참여</CTableDataCell>
             <CTableDataCell class="text-start" ><b>1.1.1.1</b><br>
               정보보호 및 개인정보보호 관리체계의 수립 및 운영활동 전반에 경영진의 참여가 이루어질 수 있도록 보고 및 의사결정 등의 책임과 역할을 문서화하고 있는가?</CTableDataCell>
@@ -162,21 +157,22 @@ const toggleItem = (index) => {
                 <CButton color="primary" @click="goToCharts" style="color: white;">확인</CButton>
               </div>
             </CTableDataCell>
-          </CTableRow>       
+          </CTableRow>
           <CTableRow>
-            <!-- <CTableDataCell class="text-center" style="vertical-align: middle;">
-              <input type="checkbox" v-model="selectedItems[1]" @change="toggleItem(1)" />
-            </CTableDataCell> -->
             <CTableDataCell class="text-start"></CTableDataCell>
             <CTableDataCell class="text-start"><b>1.1.1.2</b><br>
               정보보호 및 개인정보보호 관리체계의 수립 및 운영활동 전반에 경영진의 참여가 이루어질 수 있도록 보고 및 의사결정 등의 책임과 역할을 문서화하고 있는가?</CTableDataCell>
             <CTableDataCell class="text-center" style="vertical-align: middle;"></CTableDataCell>
-            <CTableDataCell class="text-center" style="vertical-align: middle;">X</CTableDataCell>
+            <CTableDataCell
+                class="text-center"
+                style="vertical-align: middle; cursor: pointer; position: relative;"
+                @click="() => router.push('/pages/Interview')"
+            >
+              X
+              <span class="tooltip-text">결함 항목입니다.<br />클릭하여 인터뷰를 대비하세요</span>
+            </CTableDataCell>
           </CTableRow>
           <CTableRow>
-            <!-- <CTableDataCell class="text-center" style="vertical-align: middle;">
-              <input type="checkbox" v-model="selectedItems[2]" @change="toggleItem(2)" />
-            </CTableDataCell> -->
             <CTableDataCell class="text-start"><b>1.1.2</b><br>최고 책임자의 경영</CTableDataCell>
             <CTableDataCell class="text-start"><b>1.1.2.1</b><br>
               최고경영자는 정보보호 및 개인정보보호 처리에 관한 업무를 총괄하여 책임질 최고책임자를 공식적으로 지정하고 있는가?</CTableDataCell>
@@ -226,6 +222,35 @@ const toggleItem = (index) => {
     </CCardBody>
   </CCard>
 </template>
+
+<style scoped>
+/* 말풍선 스타일 */
+.tooltip-text {
+  visibility: hidden;
+  width: 220px; /* 가로 길이를 조금 줄였습니다 */
+  background-color: pink;
+  color: black;
+  text-align: center;
+  padding: 5px;
+  border-radius: 5px;
+
+  /* 말풍선 위치 */
+  position: absolute;
+  z-index: 1;
+  top: -5px;
+  left: 110%;
+
+  /* 트랜지션 효과 */
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+/* X에 커서가 오면 말풍선 보이게 */
+.text-center:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+</style>
 
 <script>
 export default {

@@ -398,6 +398,7 @@ export default {
   display: flex;
   padding: 20px 0;
   width: 100%;
+
 }
 
 .flex-grow-1 {

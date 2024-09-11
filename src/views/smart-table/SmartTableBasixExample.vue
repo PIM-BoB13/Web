@@ -11,6 +11,7 @@ const columns = [
   '확장자',
   { key: '최종변경일자', _style: { width: '20%' } },
   { key: '크기', _style: { width: '20%' } },
+  { key: '미리보기', _style: { width: '8%' } },
   {
     key: 'show_details',
     label: '',
