@@ -62,6 +62,7 @@ function submitDefect() {
         <p>{{ specificOutput }}</p>
       </div>
       <div class="search-results-2">
+        <h5 class="document-title">관련 문서 목록</h5> 
         <div v-for="(result, index) in filteredResults" :key="result.id" @click="selectResult(result)" class="result-item">
           {{ index + 1 }}. {{ result.name }}
         </div>
@@ -85,7 +86,7 @@ function submitDefect() {
             <option value="">선택하세요</option>
             <option value="증적 부족">증적 부족</option>
             <option value="문서(정책 또는 지침) 부족">문서(정책 또는 지침) 부족</option>
-          </CFormSelect>
+          </CFormSelect>과
           <!-- 입력칸 사이 거리 -->
           <div class="input-gap"></div>
           <!-- 결함 내역 요약 제목 -->
@@ -345,11 +346,19 @@ export default {
   flex-direction: column;
   align-items: flex-start; /* 항목들을 왼쪽 정렬 */
 }
+.document-title {
+  text-align: center;
+  padding-bottom: 20px;
+  width: 100%;
+  border-bottom: 1px solid #e6e6e6; /* 회색 구분선 추가 */
+  padding-bottom: 10px; /* 구분선과 텍스트 사이의 간격을 조정 */
+}
 
 /* 결과 항목 스타일 */
 .result-item {
   border: 1px solid #ccc;
   padding: 5px 10px;
+  margin-top: 5px;
   margin-bottom: 5px;
   background-color: #fff;
   border-radius: 10px;  /* 둥근 모서리 */
