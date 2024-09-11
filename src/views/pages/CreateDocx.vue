@@ -38,11 +38,12 @@
               <CCard class="mb-3">
                 <CCardBody>
                   <!-- 글씨 크기 키움 -->
-                  <p class="defect-content"><strong>결함 내역: </strong>암호화 대상과 암호 정책 수립 과정에서 법적 요구사항을 충분히 반영하지 않아 개인정보 및 주요정보 보호에 미흡함이 발견되었습니다.
-
-                  </p>
+                  <p class="defect-content"><strong>결함 내역:</strong> 증적 자료 부족</p>
                   <p class="defect-content"><strong>결함 세부 내역:</strong>
-                    현 기업의 개인정보 및 주요정보 보호를 위한 암호화 정책이 법적 요구사항에 맞춰 적절히 수립되지 않은 것으로 확인되었습니다. 구체적으로는, 암호화 대상이 불명확하거나 누락된 부분이 있었으며, 암호 강도나 암호 사용 정책이 현행 법적 기준에 미달했습니다. 특히, 개인정보 및 주요정보를 저장하거나 전송할 때 일관된 암호화 절차가 적용되지 않았고, 데이터 전달 시에도 보호되지 않은 채 전송되는 사례가 발견되었습니다. 이는 기업이 요구되는 법적 기준에 따라 보호 대상을 명확하게 정의하지 않았으며, 암호화 기술 적용이 일관성 있게 이루어지지 않았음을 의미합니다.
+                    이 항목에 대해서는 실제로 이행된 증적 자료가 확인되지 않았습니다. 관련 작업이 수행되었는지 여부를 명확히 입증할 수 있는 자료가 제출되지 않았으며, 내부적으로도 증적 자료를 수집하고 관리하는 체계가 미흡한 상태입니다.
+
+                    또한, 증적 자료를 준비하거나 유지하기 위한 문서화된 절차와 형식이 불명확하여, 이 항목이 규정된 요구사항을 적절하게 충족시키고 있는지 평가할 수 없는 상태입니다.
+
                   </p>
                 </CCardBody>
               </CCard>
@@ -68,9 +69,9 @@
 
       <!-- 오른쪽 화면 (PDF 뷰어) -->
       <CCol :xs="8">
-        <CCard class="mb-4 right-box">
+        <CCard class="mb-4">
           <CCardBody>
-            <h5>생성된 문서</h5>
+            <h5 class="pdf-viewer-title" v-show="showPdf">AI를 사용해 생성된 문서</h5>
             <!-- PDF를 보여줄 박스 -->
             <div class="pdf-viewer">
               <iframe :src="pdfUrl" width="100%" height="600px"></iframe>
@@ -86,7 +87,7 @@
 export default {
   data() {
     return {
-      selectedOption: "2.6.1.1", // 기본값으로 1.1.1.2를 선택
+      selectedOption: "1.1.1.2", // 기본값으로 1.1.1.2를 선택
       isLoading: false,   // 로딩 상태
       showPdf: false,     // PDF 뷰어를 보여줄지 여부
       pdfUrl: "",         // PDF 파일 경로
@@ -95,11 +96,6 @@ export default {
         { value: '1.1.1.2', text: '1.1.1.2' },
         { value: '1.1.2.1', text: '1.1.2.1' },
         { value: '1.1.2.2', text: '1.1.2.2' },
-        { value: '1.1.3.1', text: '1.1.3.1' },
-        { value: '1.1.3.2', text: '1.1.3.2' },
-        { value: '1.1.4.1', text: '1.1.4.1' },
-        { value: '1.1.4.2', text: '1.1.4.2' },
-        { value: '2.6.1.1', text: '2.6.1.1' },
       ],
     };
   },
@@ -115,7 +111,7 @@ export default {
       setTimeout(() => {
         this.isLoading = false;
         this.showPdf = true;
-        this.pdfUrl = '/pdf/Gpt-make-file.pdf';
+        this.pdfUrl = '/pdf/gptfile.pdf';
       }, 2000);
     },
   }
@@ -158,7 +154,13 @@ export default {
 /* PDF 뷰어 스타일 */
 .pdf-viewer {
   padding: 15px;
-  margin-top: 10px;
+  margin-top: 20px;
+}
+
+.pdf-viewer-title {
+  text-align: center; /* 중앙 정렬 */
+  margin-top: 20px; /* 상단 여백 */
+  color: #333; /* 글자 색상 설정 */
 }
 
 /* 로딩 중일 때 버튼 스타일 */
@@ -193,7 +195,5 @@ export default {
 .left-box {
   height: 97%;
 }
-.right-box{
-  height: 97%;
-}
+
 </style>
