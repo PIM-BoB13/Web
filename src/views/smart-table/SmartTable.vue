@@ -19,7 +19,7 @@ import SmartTableSelectableExample from './SmartTableSelectableExample.vue'
           </div>
           <CInputGroup class="mb-3">
             <CFormInput id="inputGroupFile02" type="file" />
-            <CButton color="primary" type="submit">Upload</CButton>
+            <CButton color="primary" type="submit" style="color:white;">Upload</CButton>
           </CInputGroup>
           <DocsExample href="">
             <SmartTableBasixExample />

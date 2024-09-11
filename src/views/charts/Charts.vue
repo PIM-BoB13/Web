@@ -73,8 +73,8 @@ function submitDefect() {
         </div>
       </div>
       <div class="button-container">
-        <CButton color="info" class="me-2 flex-grow-1">이행</CButton>
-        <CButton color="danger" class="flex-grow-1" @click="openPopup">결함</CButton>
+        <CButton color="info" class="me-2 flex-grow-1" style="color: white;">이행</CButton>
+        <CButton color="danger" class="flex-grow-1" style="color: white;" @click="openPopup">결함</CButton>
       </div>
     </div>
     <div class="right-content">

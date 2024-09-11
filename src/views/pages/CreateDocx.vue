@@ -53,6 +53,8 @@
                   @click="handleCreate"
                   :disabled="isLoading"
                   color="success"
+                  style="color: white; width:100%;"
+
               >
                 <span v-if="isLoading">
                   <span class="spinner"></span> 로딩중...

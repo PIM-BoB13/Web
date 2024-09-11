@@ -129,7 +129,7 @@ const toggleItem = (index) => {
       <CButton class="me-1 float-end" color="secondary" size="sm" @click.prevent="print">
         <CIcon icon="cil-print" /> Print
       </CButton>
-      <CButton class="me-1 float-end" color="info" size="sm">
+      <CButton class="me-1 float-end" color="success" size="sm" style="color:white;">
         <CIcon icon="cil-save" /> Save
       </CButton>
     </CCardHeader>
