@@ -62,9 +62,9 @@ function submitDefect() {
         <p>{{ specificOutput }}</p>
       </div>
       <div class="search-results-2">
-        <ul v-for="(result, index) in filteredResults" :key="result.id" @click="selectResult(result)">
+        <div v-for="(result, index) in filteredResults" :key="result.id" @click="selectResult(result)" class="result-item">
           {{ index + 1 }}. {{ result.name }}
-        </ul>
+        </div>
       </div>
       <div class="button-container">
         <CButton color="info" class="me-2 flex-grow-1">이행</CButton>
@@ -74,13 +74,11 @@ function submitDefect() {
     <div class="right-content">
       <div v-if="selectedResult" v-html="selectedResult.content"></div>
     </div>
-
     <!-- 팝업창 -->
     <div v-if="isPopupVisible" class="popup-overlay">
       <div class="popup-content">
         <h3>결함 입력</h3>
         <CForm>
-
           <!-- 미이행 사유 선택 -->
           <label for="reasonForFailure" class="form-label">미이행 사유</label>
           <CFormSelect id="reasonForFailure" v-model="reasonForFailure">
@@ -88,22 +86,16 @@ function submitDefect() {
             <option value="증적 부족">증적 부족</option>
             <option value="문서(정책 또는 지침) 부족">문서(정책 또는 지침) 부족</option>
           </CFormSelect>
-
           <!-- 입력칸 사이 거리 -->
           <div class="input-gap"></div>
-
-
           <!-- 결함 내역 요약 제목 -->
           <label for="defectSummary" class="form-label">결함 내역 요약</label>
           <CFormInput id="defectSummary" v-model="defectSummary" placeholder="결함 내역을 요약해 주세요" />
-
           <!-- 입력칸 사이 거리 -->
           <div class="input-gap"></div>
-
           <!-- 결함 상세 내역 제목 -->
           <label for="defectDetail" class="form-label">결함 상세 내역</label>
           <CFormTextarea id="defectDetail" v-model="defectDetail" placeholder="결함 상세 내역을 작성해 주세요" rows="5" />
-
           <!-- 제출 및 취소 버튼 -->
           <div class="popup-buttons">
             <CButton color="danger" @click="submitDefect">제출</CButton>
@@ -114,6 +106,8 @@ function submitDefect() {
     </div>
   </div>
 </template>
+
+
 
 <script>
 const incidentResponse = `
@@ -340,71 +334,32 @@ export default {
 </script>
 
 <style scoped>
-
-/* 팝업 크기 조정 */
-.popup-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 200vw;
-  height: 200vh;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-/* 입력칸 사이 간격 */
-.input-gap {
-  margin-bottom: 20px;
-}
-
-.container {
-  display: flex;
-}
-
-.search-section {
-  flex: 0.5;
-  margin-right: 20px;
-}
-
-.right-content {
-  flex: 1;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  background-color: white;
-
-  max-height: 760px;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-
-.search-results-1 {
-  margin-top: 10px;
-  height: 200px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  background-color: white;
-}
-
+/* 결과 항목 컨테이너 스타일 */
 .search-results-2 {
   margin-top: 10px;
   height: 430px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
   background-color: white;
-}
-
-.button-container {
   display: flex;
-  padding: 20px 0;
-  width: 100%;
-
+  flex-direction: column;
+  align-items: flex-start; /* 항목들을 왼쪽 정렬 */
 }
 
-.flex-grow-1 {
-  flex-grow: 1;
+/* 결과 항목 스타일 */
+.result-item {
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  margin-bottom: 5px;
+  background-color: #fff;
+  border-radius: 10px;  /* 둥근 모서리 */
+  cursor: pointer;
+  display: block; /* 각 항목을 블록 요소로 변경 */
+  width: fit-content; /* 내용에 맞춰 너비 조정 */
+  font-size: 0.9rem; /* 글씨 크기 감소 */
 }
 
+/* 기존 스타일 */
 .popup-overlay {
   position: fixed;
   top: 0;
@@ -425,9 +380,48 @@ export default {
   width: 100%;
 }
 
-.popup-buttons {
+.input-gap {
+  margin-bottom: 20px;
+}
+
+.container {
   display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
+}
+
+.search-section {
+  flex: 0.5;
+  margin-right: 20px;
+}
+
+.right-content {
+  flex: 1;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  background-color: white;
+  max-height: 760px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.search-results-1 {
+  margin-top: 10px;
+  height: 200px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: left;
+}
+
+.button-container {
+  display: flex;
+  padding: 20px 0;
+  width: 100%;
+}
+
+.flex-grow-1 {
+  flex-grow: 1;
 }
 </style>
