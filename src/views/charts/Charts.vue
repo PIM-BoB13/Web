@@ -63,12 +63,14 @@ function submitDefect() {
       </div>
       <div class="search-results-2">
         <ul v-for="(result, index) in filteredResults" :key="result.id" @click="selectResult(result)">
-          {{ index + 1 }}. {{ result.name }}
+          <li>
+            <strong>{{ index + 1 }}. {{ result.name }}</strong>
+          </li>
         </ul>
       </div>
       <div class="button-container">
-        <CButton color="info" class="me-2 flex-grow-1">이행</CButton>
-        <CButton color="danger" class="flex-grow-1" @click="openPopup">결함</CButton>
+        <CButton color="info" class="me-2 flex-grow-1" style="font-weight: bold;">이행</CButton>
+        <CButton color="danger" class="flex-grow-1" @click="openPopup" style="font-weight: bold;">결함</CButton>
       </div>
     </div>
     <div class="right-content">
@@ -78,11 +80,11 @@ function submitDefect() {
     <!-- 팝업창 -->
     <div v-if="isPopupVisible" class="popup-overlay">
       <div class="popup-content">
-        <h3>결함 입력</h3>
+        <h3 style="font-weight: bold; margin-bottom: 20px;">결함 입력</h3>
         <CForm>
 
           <!-- 미이행 사유 선택 -->
-          <label for="reasonForFailure" class="form-label">미이행 사유</label>
+          <label for="reasonForFailure" class="form-label" style="font-weight: bold;">미이행 사유</label>
           <CFormSelect id="reasonForFailure" v-model="reasonForFailure">
             <option value="">선택하세요</option>
             <option value="증적 부족">증적 부족</option>
@@ -92,22 +94,21 @@ function submitDefect() {
           <!-- 입력칸 사이 거리 -->
           <div class="input-gap"></div>
 
-
           <!-- 결함 내역 요약 제목 -->
-          <label for="defectSummary" class="form-label">결함 내역 요약</label>
+          <label for="defectSummary" class="form-label" style="font-weight: bold;">결함 내역 요약</label>
           <CFormInput id="defectSummary" v-model="defectSummary" placeholder="결함 내역을 요약해 주세요" />
 
           <!-- 입력칸 사이 거리 -->
           <div class="input-gap"></div>
 
           <!-- 결함 상세 내역 제목 -->
-          <label for="defectDetail" class="form-label">결함 상세 내역</label>
+          <label for="defectDetail" class="form-label" style="font-weight: bold;">결함 상세 내역</label>
           <CFormTextarea id="defectDetail" v-model="defectDetail" placeholder="결함 상세 내역을 작성해 주세요" rows="5" />
 
           <!-- 제출 및 취소 버튼 -->
           <div class="popup-buttons">
-            <CButton color="danger" @click="submitDefect">제출</CButton>
-            <CButton color="secondary" @click="closePopup">취소</CButton>
+            <CButton color="danger" @click="submitDefect" style="font-weight: bold;">제출</CButton>
+            <CButton color="secondary" @click="closePopup" style="font-weight: bold;">취소</CButton>
           </div>
         </CForm>
       </div>
@@ -346,20 +347,26 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  width: 200vw;
-  height: 200vh;
+  width: 100vw;
+  height: 100vh;
   background: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
 }
-/* 입력칸 사이 간격 */
-.input-gap {
-  margin-bottom: 20px;
+
+.popup-content {
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  max-width: 600px;
+  width: 100%;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
 }
 
 .container {
   display: flex;
+  padding: 20px;
 }
 
 .search-section {
@@ -372,7 +379,7 @@ export default {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
   background-color: white;
-
+  border-radius: 8px;
   max-height: 760px;
   overflow-y: auto;
   overflow-x: hidden;
@@ -384,6 +391,7 @@ export default {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
   background-color: white;
+  border-radius: 8px;
 }
 
 .search-results-2 {
@@ -392,37 +400,17 @@ export default {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
   background-color: white;
+  border-radius: 8px;
 }
 
 .button-container {
   display: flex;
   padding: 20px 0;
   width: 100%;
-
 }
 
 .flex-grow-1 {
   flex-grow: 1;
-}
-
-.popup-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.popup-content {
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  max-width: 500px;
-  width: 100%;
 }
 
 .popup-buttons {
@@ -430,4 +418,10 @@ export default {
   justify-content: space-between;
   margin-top: 20px;
 }
+
+/* 입력칸 사이 간격 */
+.input-gap {
+  margin-bottom: 20px;
+}
+
 </style>
