@@ -31,7 +31,7 @@ export default [
     component: 'CNavItem',
     name: 'ISMS 이행 현황',
     to: '/apps/invoicing/invoice',
-    icon: 'cil-spreadsheet',
+    icon: 'cil-chart-pie',
     badge: {
       color: 'danger',
       text: 'STEP2',
@@ -45,7 +45,7 @@ export default [
     component: 'CNavItem',
     name: () => i18next.t('이행 여부 판단'),
     to: '/charts',
-    icon: 'cil-chart-pie',
+    icon: 'cil-spreadsheet',
     badge: {
       color: 'danger',
       text: 'STEP3',
