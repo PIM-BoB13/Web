@@ -8,10 +8,12 @@ import {
   CChartDoughnutExample,
   CChartRadarExample,
 } from './index.js'
+import router from "../../router";
 
 const isPopupVisible = ref(false)
 const defectSummary = ref('')
 const defectDetail = ref('')
+const reasonForFailure = ref('') // 선택된 미이행 사유
 
 function openPopup() {
   isPopupVisible.value = true
@@ -24,9 +26,16 @@ function closePopup() {
 function submitDefect() {
   console.log("Defect Summary:", defectSummary.value)
   console.log("Defect Detail:", defectDetail.value)
-  // 1초 후에 확인창을 띄우고 팝업을 닫음
+  console.log("Reason for Failure:", reasonForFailure.value)
+
+  // 선택된 미이행 사유에 따라 메시지 및 동작 처리
   setTimeout(() => {
-    alert("제출되었습니다.");
+    if (reasonForFailure.value === '문서(정책 또는 지침) 부족') {
+      alert("제출되었습니다.\n'문서(정책 또는 지침) 부족'을 선택하셨으므로 <문서 생성>으로 이동합니다.");
+      router.push('/pages/CreateDocx'); // '/pages/createdocx'로 페이지 이동
+    } else {
+      alert("제출되었습니다.");
+    }
     closePopup();
   }, 1000)
 }
@@ -71,6 +80,19 @@ function submitDefect() {
       <div class="popup-content">
         <h3>결함 입력</h3>
         <CForm>
+
+          <!-- 미이행 사유 선택 -->
+          <label for="reasonForFailure" class="form-label">미이행 사유</label>
+          <CFormSelect id="reasonForFailure" v-model="reasonForFailure">
+            <option value="">선택하세요</option>
+            <option value="증적 부족">증적 부족</option>
+            <option value="문서(정책 또는 지침) 부족">문서(정책 또는 지침) 부족</option>
+          </CFormSelect>
+
+          <!-- 입력칸 사이 거리 -->
+          <div class="input-gap"></div>
+
+
           <!-- 결함 내역 요약 제목 -->
           <label for="defectSummary" class="form-label">결함 내역 요약</label>
           <CFormInput id="defectSummary" v-model="defectSummary" placeholder="결함 내역을 요약해 주세요" />
@@ -324,8 +346,8 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 200vw;
+  height: 200vh;
   background: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
