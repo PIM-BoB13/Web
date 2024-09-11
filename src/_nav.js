@@ -15,7 +15,7 @@ export default [
 
   {
     component: 'CNavTitle',
-    name: () => i18next.t('components'),
+    name: () => i18next.t('ISMS - 프로세스'),
   },
   {
     component: 'CNavItem',
@@ -53,12 +53,9 @@ export default [
   },
 
 
-
-
-
   {
     component: 'CNavTitle',
-    name: '사용자 설정 및 개인화',
+    name: 'AI Service',
   },
   {
     component: 'CNavItem',
