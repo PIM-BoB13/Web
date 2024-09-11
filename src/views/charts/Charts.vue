@@ -59,9 +59,15 @@ function submitDefect() {
         </CInputGroup>
       </CForm>
       <div class="search-results-1">
-        <p>{{ specificOutput }}</p>
+        <div class="title-section">
+          <h5>1.1.1.1 세부 점검 항목</h5>
+        </div>
+        <div class="content-section">
+          <p>{{ specificOutput }}</p>
+        </div>
       </div>
       <div class="search-results-2">
+        <h5 class="document-title">관련 문서 목록</h5>
         <div v-for="(result, index) in filteredResults" :key="result.id" @click="selectResult(result)" class="result-item">
           {{ index + 1 }}. {{ result.name }}
         </div>
@@ -85,7 +91,7 @@ function submitDefect() {
             <option value="">선택하세요</option>
             <option value="증적 부족">증적 부족</option>
             <option value="문서(정책 또는 지침) 부족">문서(정책 또는 지침) 부족</option>
-          </CFormSelect>
+          </CFormSelect>과
           <!-- 입력칸 사이 거리 -->
           <div class="input-gap"></div>
           <!-- 결함 내역 요약 제목 -->
@@ -301,17 +307,17 @@ const securityPlan = `
 export default {
   data() {
     return {
-      searchQuery: '2.6.1.1',
+      searchQuery: '1.1.1.1',
       results: [],
       selectedResult: null,
     };
   },
   computed: {
     filteredResults() {
-      if (this.searchQuery === '2.6.1.1') {
+      if (this.searchQuery === '1.1.1.1') {
         return [
-          { id: 1, name: '정보보호 및 개인정보보호 보고 체계', content: incidentResponse },
-          { id: 2, name: '정보보호계획 및 내부 관리계획', content: securityPlan }
+          { id: 1, name: '정보보호 및 개인정보보호 보고 체계', content: incidentResponse, percentage: 94 },
+          { id: 2, name: '정보보호계획 및 내부 관리계획', content: securityPlan, percentage: 85 },
         ];
       }
       return this.results.filter(result =>
@@ -320,7 +326,7 @@ export default {
     },
     specificOutput() {
       const outputMap = {
-        '2.6.1.1': '정보보호 및 개인정보보호 관리체계의 수립 및 운영활동 전반에 경영진의 참여가 이루어질 수 있도록 보고 및 의사결정 등의 책임과 역할을 문서화하고 있는가?'
+        '1.1.1.1': '정보보호 및 개인정보보호 관리체계의 수립 및 운영활동 전반에 경영진의 참여가 이루어질 수 있도록 보고 및 의사결정 등의 책임과 역할을 문서화하고 있는가?'
       };
       return outputMap[this.searchQuery] || 'No specific output';
     },
@@ -345,11 +351,19 @@ export default {
   flex-direction: column;
   align-items: flex-start; /* 항목들을 왼쪽 정렬 */
 }
+.document-title {
+  text-align: center;
+  padding-bottom: 20px;
+  width: 100%;
+  border-bottom: 1px solid #e6e6e6; /* 회색 구분선 추가 */
+  padding-bottom: 10px; /* 구분선과 텍스트 사이의 간격을 조정 */
+}
 
 /* 결과 항목 스타일 */
 .result-item {
   border: 1px solid #ccc;
   padding: 5px 10px;
+  margin-top: 5px;
   margin-bottom: 5px;
   background-color: #fff;
   border-radius: 10px;  /* 둥근 모서리 */
@@ -404,16 +418,25 @@ export default {
 }
 
 .search-results-1 {
+  display: flex;
+  flex-direction: column; /* 항목들을 세로로 나열 */
+  align-items: center; /* 항목들을 가운데 정렬 */
+  justify-content: center; /* 컨텐츠를 중앙 정렬 */
   margin-top: 10px;
-  height: 200px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
   background-color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: left;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  height: auto; /* 높이 자동 조절로 변경 */
 }
+
+.title-section {
+  width: 100%; /* 전체 너비를 차지하도록 설정 */
+  text-align: center; /* 텍스트 가운데 정렬 */
+  border-bottom: 1px solid #e6e6e6; /* 회색 구분선 추가 */
+  padding-bottom: 10px; /* 구분선 아래 패딩 추가 */
+  margin-bottom: 20px; /* 내용과의 간격 추가 */
+}
+
 
 .button-container {
   display: flex;
