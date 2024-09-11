@@ -301,14 +301,14 @@ const securityPlan = `
 export default {
   data() {
     return {
-      searchQuery: '1.1.1.1',
+      searchQuery: '2.6.1.1',
       results: [],
       selectedResult: null,
     };
   },
   computed: {
     filteredResults() {
-      if (this.searchQuery === '1.1.1.1') {
+      if (this.searchQuery === '2.6.1.1') {
         return [
           { id: 1, name: '정보보호 및 개인정보보호 보고 체계', content: incidentResponse },
           { id: 2, name: '정보보호계획 및 내부 관리계획', content: securityPlan }
@@ -320,7 +320,7 @@ export default {
     },
     specificOutput() {
       const outputMap = {
-        '1.1.1.1': '정보보호 및 개인정보보호 관리체계의 수립 및 운영활동 전반에 경영진의 참여가 이루어질 수 있도록 보고 및 의사결정 등의 책임과 역할을 문서화하고 있는가?'
+        '2.6.1.1': '정보보호 및 개인정보보호 관리체계의 수립 및 운영활동 전반에 경영진의 참여가 이루어질 수 있도록 보고 및 의사결정 등의 책임과 역할을 문서화하고 있는가?'
       };
       return outputMap[this.searchQuery] || 'No specific output';
     },

@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-import {CChartBarExample, CChartDoughnutExample, CChartRadarExample} from "../../charts";
+import { CChartBarExample, CChartDoughnutExample, CChartRadarExample } from "../../charts";
 import router from "../../../router";
 
 const print = () => {
@@ -94,26 +94,26 @@ const toggleItem = (index) => {
                 <CTableDataCell class="text-start">
                   <strong>전체 항목</strong>
                 </CTableDataCell>
-                <CTableDataCell class="text-end">6개</CTableDataCell>
+                <CTableDataCell class="text-end">22개</CTableDataCell>
               </CTableRow>
               <CTableRow>
                 <CTableDataCell class="text-start">
                   <strong>이행 항목</strong>
                 </CTableDataCell>
-                <CTableDataCell class="text-end">5개</CTableDataCell>
+                <CTableDataCell class="text-end">20개</CTableDataCell>
               </CTableRow>
               <CTableRow>
                 <CTableDataCell class="text-start">
                   <strong>미이행 항목</strong>
                 </CTableDataCell>
-                <CTableDataCell class="text-end">1개</CTableDataCell>
+                <CTableDataCell class="text-end">2개</CTableDataCell>
               </CTableRow>
               <CTableRow>
                 <CTableDataCell class="text-start">
                   <strong>총 이행률</strong>
                 </CTableDataCell>
                 <CTableDataCell class="text-end">
-                  <strong>83%</strong>
+                  <strong>88%</strong>
                 </CTableDataCell>
               </CTableRow>
             </CTableBody>
@@ -144,24 +144,23 @@ const toggleItem = (index) => {
           </CTableRow>
         </CTableHead>
         <CTableBody>
-          <CTableRow>
-            <CTableDataCell class="text-start" ><b>1.1.1</b><br>경영진의 참여</CTableDataCell>
-            <CTableDataCell class="text-start" ><b>1.1.1.1</b><br>
-              정보보호 및 개인정보보호 관리체계의 수립 및 운영활동 전반에 경영진의 참여가 이루어질 수 있도록 보고 및 의사결정 등의 책임과 역할을 문서화하고 있는가?</CTableDataCell>
-            <CTableDataCell class="text-center" style="vertical-align: middle;">
-              정보보호 및 개인정보보호 보고 체계<br>
-              정보보호계획 및 내부 관리계획
+          <CTableRow style="border: 2px solid #ff0000;">
+            <CTableDataCell class="text-start"><b>2.6.1</b><br>암호정책 적용</CTableDataCell>
+            <CTableDataCell class="text-start"><b>2.6.1.1</b><br>
+              개인정보 및 주요정보의 보호를 위하여 법적 요구사항을 반영한 암호화 대상, 암호강도, 암호사용 등이 포함된 암호정책을 수립하고 있는가?
             </CTableDataCell>
+            <CTableDataCell class="text-center" style="vertical-align: middle;"></CTableDataCell>
             <CTableDataCell class="text-center" style="vertical-align: middle;">
               <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
                 <CButton color="primary" @click="goToCharts" style="color: white;">확인</CButton>
               </div>
             </CTableDataCell>
           </CTableRow>
-          <CTableRow>
+          <CTableRow style="border: 2px solid #ff0000;">
             <CTableDataCell class="text-start"></CTableDataCell>
-            <CTableDataCell class="text-start"><b>1.1.1.2</b><br>
-              정보보호 및 개인정보보호 관리체계의 수립 및 운영활동 전반에 경영진의 참여가 이루어질 수 있도록 보고 및 의사결정 등의 책임과 역할을 문서화하고 있는가?</CTableDataCell>
+            <CTableDataCell class="text-start"><b>2.6.1.2</b><br>
+              암호정책에 따라 개인정보 및 주요정보의 저장, 전송, 전달 시 암호화를 수행하고 있는가?
+            </CTableDataCell>
             <CTableDataCell class="text-center" style="vertical-align: middle;"></CTableDataCell>
             <CTableDataCell
                 class="text-center"
@@ -172,6 +171,33 @@ const toggleItem = (index) => {
               <span class="tooltip-text">결함 항목입니다.<br />클릭하여 인터뷰를 대비하세요</span>
             </CTableDataCell>
           </CTableRow>
+
+          <CTableRow>
+            <CTableDataCell class="text-start"><b>1.1.1</b><br>경영진의 참여</CTableDataCell>
+            <CTableDataCell class="text-start"><b>1.1.1.1</b><br>
+              정보보호 및 개인정보보호 관리체계의 수립 및 운영활동 전반에 경영진의 참여가 이루어질 수 있도록 보고 및 의사결정 등의 책임과 역할을 문서화하고 있는가?
+            </CTableDataCell>
+            <CTableDataCell class="text-center" style="vertical-align: middle;">
+              정보보호 및 개인정보보호 보고 체계<br>정보보호계획 및 내부 관리계획
+            </CTableDataCell>
+            <CTableDataCell class="text-center" style="vertical-align: middle;">
+              <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
+                <CTableDataCell class="text-center" style="vertical-align: middle;">O</CTableDataCell>
+              </div>
+            </CTableDataCell>
+          </CTableRow>
+          <CTableRow>
+            <CTableDataCell class="text-start"></CTableDataCell>
+            <CTableDataCell class="text-start"><b>1.1.1.2</b><br>
+              정보보호 및 개인정보보호 관리체계의 수립 및 운영활동 전반에 경영진의 참여가 이루어질 수 있도록 보고 및 의사결정 등의 책임과 역할을 문서화하고 있는가?
+            </CTableDataCell>
+            <CTableDataCell class="text-center" style="vertical-align: middle;">정보보호관리지침</CTableDataCell>
+            <CTableDataCell class="text-center" style="vertical-align: middle;">O</CTableDataCell>
+          </CTableRow>
+
+
+
+
           <CTableRow>
             <CTableDataCell class="text-start"><b>1.1.2</b><br>최고 책임자의 경영</CTableDataCell>
             <CTableDataCell class="text-start"><b>1.1.2.1</b><br>
@@ -201,7 +227,7 @@ const toggleItem = (index) => {
             <CTableDataCell class="text-start"><b>1.1.3.1</b><br>
               조직의 정보보호 활동을 체계적으로 이행하기 위해 전문성을 갖춘 실무조직을 구성하여 운영하고 있는가?</CTableDataCell>
             <CTableDataCell class="text-center" style="vertical-align: middle;">
-              정보처리방침
+              내부 보안 감사
             </CTableDataCell>
             <CTableDataCell class="text-center" style="vertical-align: middle;">O</CTableDataCell>
           </CTableRow>
@@ -211,12 +237,89 @@ const toggleItem = (index) => {
             </CTableDataCell> -->
             <CTableDataCell class="text-start"><b>1.1.4</b><br>범위 설정</CTableDataCell>
             <CTableDataCell class="text-start"><b>1.1.4.1</b><br>
-              조직의 핵심 서비스에 영향을 줄 수 있는 핵심자산을 포함하도록 관리체꼐 범위를 설정하고 있는가?</CTableDataCell>
+              조직의 핵심 서비스에 영향을 줄 수 있는 핵심자산을 포함하도록 관리체계 범위를 설정하고 있는가?</CTableDataCell>
             <CTableDataCell class="text-center" style="vertical-align: middle;">
-              정보처리방침
+              관리자 역할 분담
             </CTableDataCell>
             <CTableDataCell class="text-center" style="vertical-align: middle;">O</CTableDataCell>
           </CTableRow>
+          <CTableRow>
+            <!-- <CTableDataCell class="text-center" style="vertical-align: middle;">
+              <input type="checkbox" v-model="selectedItems[3]" @change="toggleItem(3)" />
+            </CTableDataCell> -->
+            <CTableDataCell class="text-start"><b>1.2.1</b><br>위험 관리</CTableDataCell>
+            <CTableDataCell class="text-start"><b>1.2.1.1</b><br>
+              정보자산의 분류기준을 수립하고 정보보호 및 개인정보보호 관리체계 범위 내의 모든 자산을 식별하여 목록으로 관리하고 있는가?</CTableDataCell>
+            <CTableDataCell class="text-center" style="vertical-align: middle;">
+              자산 리스트
+            </CTableDataCell>
+            <CTableDataCell class="text-center" style="vertical-align: middle;">O</CTableDataCell>
+          </CTableRow>
+          <CTableRow>
+            <!-- <CTableDataCell class="text-center" style="vertical-align: middle;">
+              <input type="checkbox" v-model="selectedItems[3]" @change="toggleItem(3)" />
+            </CTableDataCell> -->
+            <CTableDataCell class="text-start"><b></b><br></CTableDataCell>
+            <CTableDataCell class="text-start"><b>1.2.1.2</b><br>
+              식별된 정보자산에 대해 법적 요구사항 및 업무에 미치는 영향 등을 고려하여 중요도를 결정하고 보안등급을 부여하고 있는가? </CTableDataCell>
+            <CTableDataCell class="text-center" style="vertical-align: middle;">
+              자산중요도산정지침
+            </CTableDataCell>
+            <CTableDataCell class="text-center" style="vertical-align: middle;">O</CTableDataCell>
+          </CTableRow>
+          <CTableRow>
+            <!-- <CTableDataCell class="text-center" style="vertical-align: middle;">
+              <input type="checkbox" v-model="selectedItems[3]" @change="toggleItem(3)" />
+            </CTableDataCell> -->
+            <CTableDataCell class="text-start"><b>1.3.1</b><br>운영현황 관리</CTableDataCell>
+            <CTableDataCell class="text-start"><b>1.3.1.1</b><br>
+              관리체계 운영을 위해 주기적 또는 상시적으로 수행해야 하는 정보보호 및 개인정보보호 활동을 문서화하여 관리하고 있는가? </CTableDataCell>
+            <CTableDataCell class="text-center" style="vertical-align: middle;">
+              사내 인트라넷 지침
+            </CTableDataCell>
+            <CTableDataCell class="text-center" style="vertical-align: middle;">O</CTableDataCell>
+          </CTableRow>
+
+
+          <CTableRow>
+            <!-- <CTableDataCell class="text-center" style="vertical-align: middle;">
+              <input type="checkbox" v-model="selectedItems[3]" @change="toggleItem(3)" />
+            </CTableDataCell> -->
+            <CTableDataCell class="text-start"><b>1.4.1</b><br>위험 관리</CTableDataCell>
+            <CTableDataCell class="text-start"><b>1.4.1.1</b><br>
+              정보자산의 분류기준을 수립하고 정보보호 및 개인정보보호 관리체계 범위 내의 모든 자산을 식별하여 목록으로 관리하고 있는가?</CTableDataCell>
+            <CTableDataCell class="text-center" style="vertical-align: middle;">
+              자산관리목록대장
+            </CTableDataCell>
+            <CTableDataCell class="text-center" style="vertical-align: middle;">O</CTableDataCell>
+          </CTableRow>
+          <CTableRow>
+            <!-- <CTableDataCell class="text-center" style="vertical-align: middle;">
+              <input type="checkbox" v-model="selectedItems[3]" @change="toggleItem(3)" />
+            </CTableDataCell> -->
+            <CTableDataCell class="text-start"><b></b><br></CTableDataCell>
+            <CTableDataCell class="text-start"><b>1.4.1.2</b><br>
+              식별된 정보자산에 대해 법적 요구사항 및 업무에 미치는 영향 등을 고려하여 중요도를 결정하고 보안등급을 부여하고 있는가? </CTableDataCell>
+            <CTableDataCell class="text-center" style="vertical-align: middle;">
+              업무 연속성 계획
+            </CTableDataCell>
+            <CTableDataCell class="text-center" style="vertical-align: middle;">O</CTableDataCell>
+          </CTableRow>
+          <CTableRow>
+            <!-- <CTableDataCell class="text-center" style="vertical-align: middle;">
+              <input type="checkbox" v-model="selectedItems[3]" @change="toggleItem(3)" />
+            </CTableDataCell> -->
+            <CTableDataCell class="text-start"><b>1.5.1</b><br>운영현황 관리</CTableDataCell>
+            <CTableDataCell class="text-start"><b>1.5.1.1</b><br>
+              관리체계 운영을 위해 주기적 또는 상시적으로 수행해야 하는 정보보호 및 개인정보보호 활동을 문서화하여 관리하고 있는가? </CTableDataCell>
+            <CTableDataCell class="text-center" style="vertical-align: middle;">
+              사용자 접근 권한 정책
+            </CTableDataCell>
+            <CTableDataCell class="text-center" style="vertical-align: middle;">O</CTableDataCell>
+          </CTableRow>
+
+
+
         </CTableBody>
       </CTable>
     </CCardBody>
