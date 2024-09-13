@@ -3,7 +3,7 @@ import { RouterLink } from 'vue-router'
 
 
 
-import gasan1 from '@/assets/brand/gasan1.png'
+import pimlogo from '@/assets/brand/pimlogo.png'
 
 import { AppSidebarNav } from '@/components/AppSidebarNav.js'
 import { useSidebarStore } from '@/stores/sidebar.js'
@@ -24,14 +24,12 @@ const sidebar = useSidebarStore()
       <RouterLink custom to="/" v-slot="{ href, navigate }">
         <CSidebarBrand v-bind="$attrs" as="a" :href="href" @click="navigate">
 
-
-
-          <img :src="gasan1" alt="Gasan Logo" style="width: 130px; height: auto;" />
+          <img :src="pimlogo" alt="pim Logo" style="width: 89px; height: auto;" />
 
         </CSidebarBrand>
       </RouterLink>
-      <CCloseButton class="d-lg-none" dark @click="sidebar.toggleVisible()" />
-      <CSidebarToggler @click="sidebar.toggleUnfoldable()" />
+<!--      <CCloseButton class="d-lg-none" dark @click="sidebar.toggleVisible()" />-->
+<!--      <CSidebarToggler @click="sidebar.toggleUnfoldable()" />-->
     </CSidebarHeader>
     <AppSidebarNav />
   </CSidebar>

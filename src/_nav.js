@@ -13,6 +13,20 @@ export default [
 
   },
 
+
+  {
+    component: 'CNavTitle',
+    name: () => i18next.t('프로젝트'),
+  },
+  {
+    component: 'CNavItem',
+    name: () => i18next.t('프로젝트 관리'),
+    to: '/project',
+    icon: 'cil-speedometer',
+
+  },
+
+
   {
     component: 'CNavTitle',
     name: () => i18next.t('ISMS - 프로세스'),
