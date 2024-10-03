@@ -1,8 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import SmartTableBasixExample from './SmartTableBasixExample.vue'
-import SmartTableDownloadableExample from './SmartTableDownloadableExample.vue'
-import SmartTableSelectableExample from './SmartTableSelectableExample.vue'
+
 
 // 상태 관리
 const selectedFile = ref(null) // 선택한 파일
@@ -15,26 +14,14 @@ const handleFileChange = (event) => {
   uploadMessage.value = '' // 메시지 초기화
 }
 
-// 파일 업로드 처리 함수
-const uploadFile = () => {
-  if (!selectedFile.value) {
-    uploadMessage.value = '업로드할 파일을 선택해주세요.'
-    return
-  }
-
-  // 업로드 진행 시 로딩 스피너 활성화
-  isLoading.value = true
-  uploadMessage.value = ''
-
-  // 업로드 시뮬레이션 (2초 후 완료)
-  setTimeout(() => {
-    isLoading.value = false
-    uploadMessage.value = '업로드가 완료되었습니다!'
-  }, 2000)
-}
 </script>
 
 <template>
+
+  <div class="menu-name">
+    <h4>기업 문서 업로드</h4>
+  </div>
+
   <CRow>
     <CCol :xs="12">
       <CCard class="mb-4">

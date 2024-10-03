@@ -22,6 +22,7 @@ const routes = [
                 /* webpackChunkName: "dashboard" */ '@/views/dashboard/Dashboard.vue'
                 ),
       },
+
       {
         path: '/project',
         name: () => i18next.t('project'),
@@ -33,16 +34,24 @@ const routes = [
                 /* webpackChunkName: "dashboard" */ '@/views/project/Project.vue'
                 ),
       },
+
+      {
+        path: '/uploadtest',
+        name: () => i18next.t('uploadtest'),
+        component: () => import('@/views/documents/UploadTest.vue'),
+      },
+
       {
         path: '/charts',
         name: () => i18next.t('charts'),
         component: () => import('@/views/charts/Charts.vue'),
       },
 
+
       {
-        path: '/smart-table',
+        path: '/fileupload',
         name: '증적 문서 업로드',
-        component: () => import('@/views/smart-table/SmartTable.vue'),
+        component: () => import('@/views/documents/FileUpload.vue'),
       },
 
       {
@@ -72,7 +81,7 @@ const routes = [
       {
         path: 'apps',
         name: () => i18next.t('apps'),
-        redirect: '/apps/invoicing/invoice',
+        redirect: '/apps/invoice',
         component: {
           render() {
             return h(resolveComponent('router-view'))
@@ -81,7 +90,7 @@ const routes = [
         children: [
           {
             path: 'invoicing',
-            redirect: '/apps/invoicing/invoice',
+            redirect: '/apps/invoice',
             name: 'Invoicing',
             component: {
               render() {
@@ -92,7 +101,7 @@ const routes = [
               {
                 path: 'invoice',
                 name: 'Invoice',
-                component: () => import('@/views/apps/invoicing/Invoice.vue'),
+                component: () => import('@/views/apps/Invoice.vue'),
               },
             ],
           },

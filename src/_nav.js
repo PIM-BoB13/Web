@@ -24,26 +24,59 @@ export default [
     to: '/project',
     icon: 'cil-speedometer',
 
+    items:[
+      {
+        component: 'CNavItem',
+        name: () => i18next.t('사용자 계정 생성'),
+        to: '/project',
+      },
+      {
+        component: 'CNavItem',
+        name: () => i18next.t('사용자 계정 권한 설정'),
+        to: '/project',
+      },
+    ]
   },
 
 
   {
     component: 'CNavTitle',
-    name: () => i18next.t('ISMS - 프로세스'),
+    name: () => i18next.t('DOCUMENTS'),
   },
   {
     component: 'CNavItem',
-    name: '증적 문서 업로드',
-    to: '/smart-table',
+    name: '기업 문서 업로드',
+    to: '/documents',
     icon: 'cil-grid',
     badge: {
       color: 'danger',
       text: 'STEP1',
     },
+    items:[
+      {
+        component: 'CNavItem',
+        name: () => i18next.t('정책 지침 test'),
+        to: '/uploadtest'
+      },
+      {
+        component: 'CNavItem',
+        name: () => i18next.t('기업 문서 업로드'),
+        to: '/fileupload',
+      },
+      {
+        component: 'CNavItem',
+        name: () => i18next.t('사내 클라우드 연동'),
+        to: '/fileupload',
+      },
+    ]
+  },
+  {
+    component: 'CNavTitle',
+    name: () => i18next.t('COMPLIANCE ANALYSIS'),
   },
   {
     component: 'CNavItem',
-    name: 'ISMS 이행 현황',
+    name: '컴플라이언스 분석',
     to: '/apps/invoicing/invoice',
     icon: 'cil-chart-pie',
     badge: {
@@ -54,7 +87,10 @@ export default [
 
 
 
-
+  {
+    component: 'CNavTitle',
+    name: () => i18next.t('ISMS 이행여부 판단'),
+  },
   {
     component: 'CNavItem',
     name: () => i18next.t('이행 여부 판단'),
@@ -69,11 +105,11 @@ export default [
 
   {
     component: 'CNavTitle',
-    name: 'AI Service',
+    name: 'ISMS 운영명세서',
   },
   {
     component: 'CNavItem',
-    name: () => i18next.t('문서 생성'),
+    name: () => i18next.t('ISMS 운영명세서 확인'),
     to: '/pages/createdocx',
     icon: 'cil-star',
     badge: {
@@ -81,14 +117,5 @@ export default [
       text: 'AI',
     },
   },
-  {
-    component: 'CNavItem',
-    name: () => i18next.t('인터뷰 질문 생성'),
-    to: '/pages/interview',
-    icon: 'cil-envelope-open',
-    badge: {
-      color: 'info',
-      text: 'AI',
-    },
-  },
+
 ]

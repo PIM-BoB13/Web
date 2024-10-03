@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
-import { CChartBarExample, CChartDoughnutExample, CChartRadarExample } from "../../charts";
-import router from "../../../router";
+import { CChartBarExample, CChartDoughnutExample, CChartRadarExample } from "../charts";
+import router from "../../router";
 
 const print = () => {
   window.print();
@@ -144,18 +144,6 @@ const toggleItem = (index) => {
           </CTableRow>
         </CTableHead>
         <CTableBody>
-          <CTableRow style="border: 2px solid #ff0000;">
-            <CTableDataCell class="text-start"><b>2.6.1</b><br>암호정책 적용</CTableDataCell>
-            <CTableDataCell class="text-start"><b>2.6.1.1</b><br>
-              개인정보 및 주요정보의 보호를 위하여 법적 요구사항을 반영한 암호화 대상, 암호강도, 암호사용 등이 포함된 암호정책을 수립하고 있는가?
-            </CTableDataCell>
-            <CTableDataCell class="text-center" style="vertical-align: middle;"></CTableDataCell>
-            <CTableDataCell class="text-center" style="vertical-align: middle;">
-              <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
-                <CButton color="primary" @click="goToCharts" style="color: white;">확인</CButton>
-              </div>
-            </CTableDataCell>
-          </CTableRow>
           <CTableRow style="border: 2px solid #ff0000;">
             <CTableDataCell class="text-start"></CTableDataCell>
             <CTableDataCell class="text-start"><b>2.6.1.2</b><br>
