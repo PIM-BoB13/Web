@@ -1,23 +1,21 @@
 <template>
   <div>
     <!-- 메뉴바에서의 이름 표시 (정책 지침 test) -->
-    <div class="menu-name">
-      <h4>정책 지침 test</h4>
-    </div>
+
 
     <CRow class="align-items-stretch">
-      <!-- 왼쪽: 라디오 버튼으로 카테고리 선택 -->
+      <!-- 왼쪽: 체크박스 (주석 처리됨) -->
+      <!--
       <CCol :xs="3">
         <CCard class="mb-4">
           <CCardBody>
             <h5 class="info-title text-center mb-4">문서 종류 선택</h5>
-            <!-- 라디오 버튼 형식의 리스트 -->
             <div class="mb-4">
               <CFormCheck
                 v-for="option in options"
                 :key="option.value"
-                type="radio"
-                v-model="selectedOption"
+                type="checkbox"
+                v-model="selectedOptions"
                 :value="option.value"
                 :label="option.text"
                 name="policy-options"
@@ -26,9 +24,10 @@
           </CCardBody>
         </CCard>
       </CCol>
+      -->
 
       <!-- 오른쪽: 문서 내용 입력 상자 -->
-      <CCol :xs="9">
+      <CCol :xs="12">
         <CCard class="mb-4">
           <CCardBody>
             <h3 class="info-title text-center mb-4">문서 내용 입력</h3>
@@ -88,36 +87,30 @@ export default {
   data() {
     return {
       form: {
-        '제1조': '',
-        '제2조': '',
-        '제3조': '',
-        '제4조': '',
-        '제6조': '',
+        '제1조(목적)': '',
+        '제2조(적용범위)': '',
+        '제3조(용어정의)': '',
+        '제4조(보호구역 지정)': '',
+        '제6조(보호설비 운영)': '',
         '기타': ''
       },
-      selectedOption: "", // 사용자가 선택한 정책 항목
-      options: [
-        { value: '정보처리 정책', text: '정보처리 정책' },
-        { value: '정보처리 지침', text: '정보처리 지침' },
-        { value: '정보보호 정책', text: '정보보호 정책' },
-      ],
+      // 체크박스 항목은 주석 처리됨
+      // selectedOptions: [],
+      // options: [
+      //   { value: '정보처리 정책', text: '정보처리 정책' },
+      //   { value: '정보처리 지침', text: '정보처리 지침' },
+      //   { value: '정보보호 정책', text: '정보보호 정책' },
+      // ],
     };
   },
 
   methods: {
     async submitForm() {
-      if (!this.selectedOption) {
-        alert('정책 항목을 선택해주세요.');
-        return;
-      }
-
-      const payload = {
-        category: this.selectedOption,
-        content: { ...this.form },
-      };
+      // 폼 내용만 백엔드로 전송 (category 제거)
+      const payload = { ...this.form };
 
       try {
-        const response = await axios.post('http://15.164.28.184:3000/', payload, {
+        const response = await axios.post('http://15.164.28.184:3000/doc-input', payload, {
           headers: {
             'Content-Type': 'application/json',
           },
