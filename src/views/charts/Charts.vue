@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useTranslation } from 'i18next-vue'
+// eslint-disable-next-line no-unused-vars
 const { t, i18next } = useTranslation()
 
 import {

@@ -843,6 +843,83 @@ onMounted(() => {
                   </div>
                 </div>
               </CCol>
+
+
+
+                <CCard class="mb-5">
+                    <CCardHeader>
+                        ISMS 이행현황 <strong>(간편인증 기준)</strong>
+                    </CCardHeader>
+                    <CCBody>
+                        <CTable>
+                            <CTableHead>
+                                <CTableRow>
+                                    <CTableHeaderCell>회사 정보</CTableHeaderCell>
+                                    <CTableHeaderCell>ISMS 인증 현황</CTableHeaderCell>
+                                    <CTableHeaderCell>담당자 정보</CTableHeaderCell>
+                                </CTableRow>
+                            </CTableHead>
+                            <CTableBody>
+                                <CTableRow>
+                                    <CTableDataCell>
+                                        <div><strong>Gasan Company Inc.</strong></div>
+                                        <div>대표이사: 진현준</div>
+                                        <div>Seoul, Gasandong 95014</div>
+                                        <div>Email: hjj@gasancompany.com</div>
+                                        <div>Phone: 02-465-7980</div>
+                                    </CTableDataCell>
+                                    <CTableDataCell>
+                                        <div><strong>최초심사 완료</strong></div>
+                                        <div>최초심사 완료일: 2023.12.10</div>
+                                        <div>사후심사 예정일: 2024.12.10</div>
+                                        <div>갱신심사 예정일: 2026.12.10</div>
+                                        <div>ISMS-P 인증 유형: 정보보호관리체계 인증(ISMS)</div>
+                                    </CTableDataCell>
+                                    <CTableDataCell>
+                                        <div>이동수 <strong>정보보호최고책임자(CISO)</strong></div>
+                                        <div>지정일자: 2022.02.05</div>
+                                        <div>Email: lds@gasancompany.com</div>
+                                        <div>Phone: 02-543-1293</div>
+                                    </CTableDataCell>
+                                </CTableRow>
+                            </CTableBody>
+                        </CTable>
+                        <CRow>
+                            <CCol lg="{4}" sm="{5}" class="ms-auto">
+                                <CTable>
+                                    <CTableBody>
+                                        <CTableRow>
+                                            <CTableDataCell class="text-start">
+                                                <strong>전체 항목</strong>
+                                            </CTableDataCell>
+                                            <CTableDataCell class="text-end">22개</CTableDataCell>
+                                        </CTableRow>
+                                        <CTableRow>
+                                            <CTableDataCell class="text-start">
+                                                <strong>이행 항목</strong>
+                                            </CTableDataCell>
+                                            <CTableDataCell class="text-end">20개</CTableDataCell>
+                                        </CTableRow>
+                                        <CTableRow>
+                                            <CTableDataCell class="text-start">
+                                                <strong>미이행 항목</strong>
+                                            </CTableDataCell>
+                                            <CTableDataCell class="text-end">2개</CTableDataCell>
+                                        </CTableRow>
+                                        <CTableRow>
+                                            <CTableDataCell class="text-start">
+                                                <strong>총 이행률</strong>
+                                            </CTableDataCell>
+                                            <CTableDataCell class="text-end">
+                                                <strong>88%</strong>
+                                            </CTableDataCell>
+                                        </CTableRow>
+                                    </CTableBody>
+                                </CTable>
+                            </CCol>
+                        </CRow>
+                    </CCBody>
+                </CCard>
             </CRow>
           </CCardBody>
         </CCard>

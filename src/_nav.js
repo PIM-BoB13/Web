@@ -22,13 +22,14 @@ export default [
     component: 'CNavItem',
     name: () => i18next.t('프로젝트 관리'),
     to: '/project',
-    icon: 'cil-speedometer',
+    icon: 'cil-spreadsheet',
 
     items:[
       {
         component: 'CNavItem',
         name: () => i18next.t('사용자 계정 생성'),
-        to: '/project',
+        to: '/charts',
+
       },
       {
         component: 'CNavItem',
@@ -81,27 +82,9 @@ export default [
     icon: 'cil-chart-pie',
     badge: {
       color: 'danger',
-      text: 'STEP2',
+      text: 'MAIN',
     },
   },
-
-
-
-  {
-    component: 'CNavTitle',
-    name: () => i18next.t('ISMS 이행여부 판단'),
-  },
-  {
-    component: 'CNavItem',
-    name: () => i18next.t('이행 여부 판단'),
-    to: '/charts',
-    icon: 'cil-spreadsheet',
-    badge: {
-      color: 'danger',
-      text: 'STEP3',
-    },
-  },
-
 
   {
     component: 'CNavTitle',

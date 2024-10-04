@@ -35,31 +35,31 @@
               <!-- Input 1: 제1조(목적) -->
               <CCol :xs="12" class="mb-4">
                 <p class="defect-content"><strong>제1조(목적):</strong></p>
-                <textarea v-model="form['제1조(목적)']" class="form-control textarea" placeholder="문서 내용을 입력해주세요."></textarea>
+                <textarea v-model="form['제1조']" class="form-control textarea" placeholder="문서 내용을 입력해주세요."></textarea>
               </CCol>
 
               <!-- Input 2: 제2조(적용범위) -->
               <CCol :xs="12" class="mb-4">
                 <p class="defect-content"><strong>제2조(적용범위):</strong></p>
-                <textarea v-model="form['제2조(적용범위)']" class="form-control textarea" placeholder="문서 내용을 입력해주세요."></textarea>
+                <textarea v-model="form['제2조']" class="form-control textarea" placeholder="문서 내용을 입력해주세요."></textarea>
               </CCol>
 
               <!-- Input 3: 제3조(용어정의) -->
               <CCol :xs="12" class="mb-4">
                 <p class="defect-content"><strong>제3조(용어정의):</strong></p>
-                <textarea v-model="form['제3조(용어정의)']" class="form-control textarea" placeholder="문서 내용을 입력해주세요."></textarea>
+                <textarea v-model="form['제3조']" class="form-control textarea" placeholder="문서 내용을 입력해주세요."></textarea>
               </CCol>
 
               <!-- Input 4: 제4조(보호구역 지정) -->
               <CCol :xs="12" class="mb-4">
                 <p class="defect-content"><strong>제4조(보호구역 지정):</strong></p>
-                <textarea v-model="form['제4조(보호구역 지정)']" class="form-control textarea" placeholder="문서 내용을 입력해주세요."></textarea>
+                <textarea v-model="form['제4조']" class="form-control textarea" placeholder="문서 내용을 입력해주세요."></textarea>
               </CCol>
 
               <!-- Input 5: 제6조(보호설비 운영) -->
               <CCol :xs="12" class="mb-4">
-                <p class="defect-content"><strong>제6조(보호설비 운영):</strong></p>
-                <textarea v-model="form['제6조(보호설비 운영)']" class="form-control textarea" placeholder="문서 내용을 입력해주세요."></textarea>
+                <p class="defect-content"><strong>제5조(보호설비 운영):</strong></p>
+                <textarea v-model="form['제5조']" class="form-control textarea" placeholder="문서 내용을 입력해주세요."></textarea>
               </CCol>
 
               <!-- Input 6: 기타 -->
@@ -87,11 +87,11 @@ export default {
   data() {
     return {
       form: {
-        '제1조(목적)': '',
-        '제2조(적용범위)': '',
-        '제3조(용어정의)': '',
-        '제4조(보호구역 지정)': '',
-        '제6조(보호설비 운영)': '',
+        '제1조': '',
+        '제2조': '',
+        '제3조': '',
+        '제4조': '',
+        '제5조': '',
         '기타': ''
       },
       // 체크박스 항목은 주석 처리됨
@@ -110,7 +110,7 @@ export default {
       const payload = { ...this.form };
 
       try {
-        const response = await axios.post('http://15.164.28.184:3000/doc-input', payload, {
+        const response = await axios.post('http://43.202.210.72:3001/doc-input', payload, {
           headers: {
             'Content-Type': 'application/json',
           },
