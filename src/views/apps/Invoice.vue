@@ -6,7 +6,7 @@
         <CCard class="mb-4 left-box" style="height: 80vh;">
           <CCardBody class="d-flex flex-column" style="height: 100%;">
             <div>
-              <h4>문서 목록</h4>
+              <h5>문서 목록</h5>
               <CCard class="mb-3" style="height: auto; max-height: 72vh; overflow-y: auto;">
                 <CCardBody>
                   <ul>
@@ -33,7 +33,7 @@
             <CRow>
               <CCol md="6">
                 <CCard>
-                  <CCardBody class="chart-container" style="height: 300px; position: relative;">
+                  <CCardBody class="chart-container" style="height: 250px; position: relative;">
                     <h5 style="position: absolute; top: 10px; left: 10px; margin-bottom: 20px;">컴플라이언스 준수 현황</h5>
                     <div class="d-flex justify-content-center align-items-center" style="height: 100%;">
                       <canvas id="doughnutChart" class="chart-canvas" width="400" height="400"></canvas>
@@ -43,7 +43,7 @@
               </CCol>
               <CCol md="6">
                 <CCard>
-                  <CCardBody class="chart-container" style="height: 300px;">
+                  <CCardBody class="chart-container" style="height: 250px;">
                     <h5 style="position: absolute; top: 10px; left: 10px; margin-bottom: 20px;">우선 검토 조항 보고서</h5>
                     <div class="d-flex justify-content-center align-items-center" style="height: 100%;">
                       <canvas id="radarChart" class="chart-canvas1" width="500" height="500"></canvas>
@@ -62,18 +62,21 @@
             <CTable striped hover>
               <CTableHead>
                 <CTableRow>
-                  <CTableHeaderCell>구분</CTableHeaderCell>
-                  <CTableHeaderCell>관련 법률</CTableHeaderCell>
-                  <CTableHeaderCell>반영 여부</CTableHeaderCell>
-                  <CTableHeaderCell>상세보기</CTableHeaderCell>
+                  <CTableHeaderCell style="width: 20%; text-align: left;">구분</CTableHeaderCell>
+                  <CTableHeaderCell style="width: 50%; text-align: left;">관련 법률</CTableHeaderCell>
+                  <CTableHeaderCell style="width: 20%; text-align: center; vertical-align: middle;"> 여부</CTableHeaderCell>
+                  <CTableHeaderCell style="width: 10%; text-align: center; vertical-align: middle;">상세보기</CTableHeaderCell>
                 </CTableRow>
               </CTableHead>
               <CTableBody>
                 <CTableRow v-for="(item, index) in selectedDocument.toc" :key="index">
-                  <CTableDataCell>{{ item.category }}</CTableDataCell>
-                  <CTableDataCell>{{ item.law }}</CTableDataCell>
-                  <CTableDataCell>{{ item.compliance }}</CTableDataCell>
-                  <CTableDataCell>
+                  <!-- 좌측 정렬 -->
+                  <CTableDataCell style="width: 20%; text-align: left;">{{ item.category }}</CTableDataCell>
+                  <CTableDataCell style="width: 50%; text-align: left;">{{ item.law }}</CTableDataCell>
+
+                  <!-- 가로 및 세로 중앙 정렬 -->
+                  <CTableDataCell style="width: 20%; text-align: center; vertical-align: middle;">{{ item.compliance }}</CTableDataCell>
+                  <CTableDataCell style="width: 10%; text-align: center; vertical-align: middle;">
                     <CButton class="btn-details" color="primary" @click="viewDetails(item)">상세보기</CButton>
                   </CTableDataCell>
                 </CTableRow>
@@ -104,15 +107,15 @@ export default {
     const documents = ref([
       {
         id: 1,
-        title: "문서 A",
+        title: "정보보호지침",
         toc: [
-          { category: "제1조(목적)", law: "법률 A", compliance: "O" },
+          { category: "제1조(목적)", law: "개인정보 보호법 제29조(안전조치의무), 제 31조(개인정보 보호책임자의 지정), 정보통신망법 제45조의3(정보보호 최고책임자의 지정 등), 개인정보의 안전성 확보조치 기준 제4조(내부 관리계획의 수립 및 시행 및 점검), ", compliance: "O" },
           { category: "제2조(적용범위)", law: "법률 B", compliance: "X" },
         ],
       },
       {
         id: 2,
-        title: "문서 B",
+        title: "개인정보보호 정책",
         toc: [
           { category: "2.1.1", law: "법률 C", compliance: "O" },
           { category: "2.1.2", law: "법률 D", compliance: "X" },
@@ -186,7 +189,7 @@ export default {
       doughnutChartInstance = new Chart(doughnutCanvas, {
         type: "doughnut",
         data: {
-          labels: ["완료", "미완료"],
+          labels: ["준수", "미준수"],
           datasets: [
             {
               data: [70, 30],
@@ -275,7 +278,7 @@ export default {
               align: 'center',
               font: {
                 weight: 'bold',
-                size: 18,
+                size: 16,
               },
             },
           },
@@ -298,6 +301,11 @@ export default {
 </script>
 
 <style scoped>
+/* 테이블 관련 스타일 추가 */
+table th, table td {
+  word-break: keep-all; /* 줄바꿈 방지 */
+}
+
 .container {
   display: flex;
   height: 100vh;
@@ -336,15 +344,15 @@ export default {
 .chart-canvas {
   display: block;
   padding-top: 40px;
-  width: 84% !important;
-  height: 100% !important;
+  width: 74% !important;
+  height: 90% !important;
 }
 
 .chart-canvas1 {
   display: block;
   padding-top: 40px;
-  width: 90% !important;
-  height: 110% !important;
+  width: 80% !important;
+  height: 100% !important;
 }
 
 .d-flex {
@@ -360,7 +368,10 @@ export default {
 .styled-table th,
 .styled-table td {
   padding: 10px;
-  text-align: center;
+}
+
+.styled-table th {
+  text-align: center; /* 테이블 헤더는 중앙 정렬 */
 }
 
 .btn-details {
