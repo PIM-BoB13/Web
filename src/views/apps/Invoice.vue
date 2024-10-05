@@ -58,13 +58,13 @@
         <!-- 오른쪽 화면 아래 리스트 테이블 -->
         <CCard class="document-details" v-if="selectedDocument">
           <CCardBody>
-            <h5>{{ selectedDocument.title }}의 상세 조항 구분</h5>
+            <h5>{{ selectedDocument.title }}의 조항 별 컴플라이언스 준수 여부</h5>
             <CTable striped hover>
               <CTableHead>
                 <CTableRow>
                   <CTableHeaderCell style="width: 20%; text-align: left;">구분</CTableHeaderCell>
                   <CTableHeaderCell style="width: 50%; text-align: left;">관련 법률</CTableHeaderCell>
-                  <CTableHeaderCell style="width: 20%; text-align: center; vertical-align: middle;"> 여부</CTableHeaderCell>
+                  <CTableHeaderCell style="width: 20%; text-align: center; vertical-align: middle;">준수 여부</CTableHeaderCell>
                   <CTableHeaderCell style="width: 10%; text-align: center; vertical-align: middle;">상세보기</CTableHeaderCell>
                 </CTableRow>
               </CTableHead>
@@ -116,8 +116,14 @@ export default {
         id: 1,
         title: "정보보호지침",
         toc: [
-          { category: "제1조(목적)", law: "개인정보 보호법 제29조(안전조치의무), 제 31조(개인정보 보호책임자의 지정), 정보통신망법 제45조의3(정보보호 최고책임자의 지정 등), 개인정보의 안전성 확보조치 기준 제4조(내부 관리계획의 수립 및 시행 및 점검), ", compliance: "O" },
-          { category: "제2조(적용범위)", law: "법률 B", compliance: "X" },
+          { category: "제1조(목적)", law: "개인정보 보호법 제29조(안전조치의무), 제 31조(개인정보 보호책임자의 지정), 정보통신망법 제45조의3(정보보호 최고책임자의 지정 등), 개인정보의 안전성 확보조치 기준 제4조(내부 관리계획의 수립 및 시행 및 점검) ", compliance: "O" },
+          { category: "제2조(적용 범위)", law: "정보통신망법 제45조의3(정보보호 최고책임자의 지정 등), 개인정보의 안전성 확보조치 기준 제4조(내부 관리계획의 수립 및 시행 및 점검)", compliance: "X" },
+            { category: "제3조(용어 정의)", law: "개인정보 보호법 제29조(안전조치의무), 제 31조(개인정보 보호책임자의 지정) ", compliance: "O" },
+            { category: "제4조(수립 및 공표)", law: "정보통신망법 제45조의3(정보보호 최고책임자의 지정 등), 개인정보의 안전성 확보조치 기준 제4조(내부 관리계획의 수립 및 시행 및 점검)", compliance: "X" },
+            { category: "제5조(역할 및 책임)", law: "개인정보 보호법 제29조(안전조치의무)", compliance: "O" },
+            { category: "제6조(접근 권한)", law: "정보통신망법 제45조의3(정보보호 최고책임자의 지정 등), 개인정보의 안전성 확보조치 기준 제4조(내부 관리계획의 수립 및 시행 및 점검)", compliance: "O" },
+            { category: "제7조(암호화)", law: "개인정보 보호법 제29조(안전조치의무)", compliance: "O" },
+            { category: "제8조(개인정보)", law: "정보통신망법 제45조의3(정보보호 최고책임자의 지정 등), 개인정보의 안전성 확보조치 기준 제4조(내부 관리계획의 수립 및 시행 및 점검)", compliance: "X" },
         ],
       },
       {
@@ -130,7 +136,7 @@ export default {
       },
       {
         id: 3,
-        title: "문서 D",
+        title: "내부 관리계획",
         toc: [
           { category: "1.1.1", law: "법률 A", compliance: "O" },
           { category: "1.1.2", law: "법률 B", compliance: "X" },
@@ -138,7 +144,7 @@ export default {
       },
       {
         id: 4,
-        title: "문서 C",
+        title: "개인정보 내부 관리계획",
         toc: [
           { category: "2.1.1", law: "법률 C", compliance: "O" },
           { category: "2.1.2", law: "법률 D", compliance: "X" },
@@ -146,7 +152,7 @@ export default {
       },
       {
         id: 5,
-        title: "문서 E",
+        title: "위험관리 지침",
         toc: [
           { category: "1.1.1", law: "법률 A", compliance: "O" },
           { category: "1.1.2", law: "법률 B", compliance: "X" },
@@ -154,7 +160,7 @@ export default {
       },
       {
         id: 6,
-        title: "문서 F",
+        title: "직무 분리 관련 지침",
         toc: [
           { category: "2.1.1", law: "법률 C", compliance: "O" },
           { category: "2.1.2", law: "법률 D", compliance: "X" },
@@ -162,7 +168,7 @@ export default {
       },
       {
         id: 7,
-        title: "문서 G",
+        title: "인적 보안 지침",
         toc: [
           { category: "1.1.1", law: "법률 A", compliance: "O" },
           { category: "1.1.2", law: "법률 B", compliance: "X" },
@@ -170,12 +176,52 @@ export default {
       },
       {
         id: 8,
-        title: "문서 H",
+        title: "위탁보안 관리 지침",
         toc: [
           { category: "2.1.1", law: "법률 C", compliance: "O" },
           { category: "2.1.2", law: "법률 D", compliance: "X" },
         ],
       },
+        {
+            id: 9,
+            title: "위탁 내부관리 지침",
+            toc: [
+                { category: "2.1.1", law: "법률 C", compliance: "O" },
+                { category: "2.1.2", law: "법률 D", compliance: "X" },
+            ],
+        },
+        {
+            id: 10,
+            title: "외부자 계약 종료와 관련된 내부 정책",
+            toc: [
+                { category: "2.1.1", law: "법률 C", compliance: "O" },
+                { category: "2.1.2", law: "법률 D", compliance: "X" },
+            ],
+        },
+        {
+            id: 11,
+            title: "물리적 보안 지침",
+            toc: [
+                { category: "2.1.1", law: "법률 C", compliance: "O" },
+                { category: "2.1.2", law: "법률 D", compliance: "X" },
+            ],
+        },
+        {
+            id: 12,
+            title: "비밀번호 관리 정책 및 절차",
+            toc: [
+                { category: "2.1.1", law: "법률 C", compliance: "O" },
+                { category: "2.1.2", law: "법률 D", compliance: "X" },
+            ],
+        },
+        {
+            id: 13,
+            title: "특수권한 관련 지침",
+            toc: [
+                { category: "2.1.1", law: "법률 C", compliance: "O" },
+                { category: "2.1.2", law: "법률 D", compliance: "X" },
+            ],
+        },
     ]);
 
     const selectedDocument = ref(null);
