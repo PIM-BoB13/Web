@@ -203,9 +203,9 @@ onMounted(() => {
             <CCardBody class="p-4">
               <CRow>
                 <CCol>
-                  <CCardTitle class="fs-4 fw-semibold">{{ t('sale') }}</CCardTitle>
+                  <CCardTitle class="fs-5 fw-semibold">{{ t('컴플라이언스 준수율') }}</CCardTitle>
                 </CCol>
-                <CCol class="text-end text-primary fs-4 fw-semibold">$613.200</CCol>
+                <CCol class="text-end text-primary fs-4 fw-semibold">현재 42%</CCol>
               </CRow>
               <CCardSubtitle class="fw-normal text-body-secondary">
                 {{
@@ -294,13 +294,13 @@ onMounted(() => {
             <CCardBody>
               <div class="d-flex justify-content-between">
                 <CCardTitle component="h6" class="text-body-secondary text-truncate">{{
-                  t('customers')
+                  t('운영명세서')
                 }}</CCardTitle>
                 <div class="bg-primary bg-opacity-25 text-primary rounded p-2 ms-2">
                   <CIcon icon="cil-people" size="xl" />
                 </div>
               </div>
-              <div class="fs-4 fw-semibold pb-3">44.725</div>
+              <div class="fs-4 fw-semibold pb-3">44</div>
               <small class="text-danger"> (-12.4% <CIcon icon="cil-arrow-bottom" />) </small>
             </CCardBody>
           </CCard>
@@ -310,13 +310,13 @@ onMounted(() => {
             <CCardBody>
               <div class="d-flex justify-content-between">
                 <CCardTitle component="h6" class="text-body-secondary text-truncate">{{
-                  t('orders')
+                  t('문서 수')
                 }}</CCardTitle>
                 <div class="bg-primary bg-opacity-25 text-primary rounded p-2 ms-2">
                   <CIcon icon="cil-cart" size="xl" />
                 </div>
               </div>
-              <div class="fs-4 fw-semibold pb-3">385</div>
+              <div class="fs-4 fw-semibold pb-3">78</div>
               <small class="text-success"> (17.2% <CIcon icon="cil-arrow-top" />) </small>
             </CCardBody>
           </CCard>
@@ -326,7 +326,7 @@ onMounted(() => {
     <CCol :xl="8">
       <CCard class="mb-4">
         <CCardBody class="p-4">
-          <CCardTitle class="fs-4 fw-semibold">{{ t('traffic') }}</CCardTitle>
+          <CCardTitle class="fs-4 fw-semibold">{{ t('월별 컴플라이언스 준수율') }}</CCardTitle>
           <CCardSubtitle class="fw-normal text-body-secondary">
             {{
               t('date', {
@@ -443,11 +443,11 @@ onMounted(() => {
         <CCardBody class="p-4">
           <CRow>
             <CCol>
-              <CCardTitle class="fs-4 fw-semibold">{{ t('users') }}</CCardTitle>
+              <CCardTitle class="fs-4 fw-semibold">{{ t('담당자 리스트') }}</CCardTitle>
               <CCardSubtitle class="fw-normal text-body-secondary mb-4">
                 {{
                   t('registeredUsersCounter', {
-                    counter: '1.232.15',
+                    counter: '6명',
                   })
                 }}
               </CCardSubtitle>
@@ -513,10 +513,10 @@ onMounted(() => {
         <CCol :md="4" :xl="12">
           <CWidgetStatsA class="mb-4" color="primary-gradient">
             <template #value
-              >26K
-              <span class="fs-6 fw-normal"> (-12.4% <CIcon icon="cil-arrow-bottom" />) </span>
+              >업무 진행율
+              <span class="fs-6 fw-normal"> (14% <CIcon icon="cil-arrow-bottom" />) </span>
             </template>
-            <template #title>{{ t('users') }}</template>
+            <template #title>{{ t('총 41개') }}</template>
             <template #action>
               <CDropdown placement="bottom-end">
                 <CDropdownToggle color="transparent" class="p-0 text-white" :caret="false">
@@ -597,10 +597,10 @@ onMounted(() => {
         <CCol :md="4" :xl="12">
           <CWidgetStatsA class="mb-4" color="warning-gradient">
             <template #value
-              >2.49%
-              <span class="fs-6 fw-normal"> (84.7% <CIcon icon="cil-arrow-top" />) </span>
+              >ISMS 진단 현황
+              <span class="fs-6 fw-normal"> (21% <CIcon icon="cil-arrow-top" />) </span>
             </template>
-            <template #title>{{ t('conversionRate') }}</template>
+            <template #title>{{ t('총 38개 항목') }}</template>
             <template #action>
               <CDropdown placement="bottom-end">
                 <CDropdownToggle color="transparent" class="p-0 text-white" :caret="false">

@@ -1,10 +1,12 @@
 <template>
-  <div class="popup-overlay" @click.self="close">
-    <div class="popup">
-      <button class="close-btn" @click="close">X</button>
-      <h3>{{ item.category }}의 상세보기</h3>
-      <p>{{ item.law }}</p>
-      <p>반영 여부: {{ item.compliance }}</p>
+  <div class="popup-overlay" @click.self="closePopup">
+    <div class="popup-content">
+      <button class="close-btn" @click="closePopup">X</button>
+      <div class="popup-body">
+        <h3>{{ item.category }} 상세 내용</h3>
+        <p>{{ item.law }}</p>
+        <p>{{ item.compliance }}</p>
+      </div>
     </div>
   </div>
 </template>
@@ -17,9 +19,8 @@ export default {
       required: true,
     },
   },
-  emits: ['close'],
   methods: {
-    close() {
+    closePopup() {
       this.$emit('close');
     },
   },
@@ -33,22 +34,38 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5); /* 어두운 배경 */
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: flex-end;
-  align-items: center;
-  transition: opacity 0.3s ease;
+  align-items: flex-end;
+  z-index: 1000;
 }
 
-.popup {
+.popup-content {
   width: 50%;
-  height: 100%;
+  height: 90%;
   background-color: white;
-  padding: 20px;
+  border-radius: 10px 0 0 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
   position: relative;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transform: translateX(100%);
-  animation: slide-in 0.3s forwards;
+  animation: slideIn 0.3s ease-in-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.popup-body {
+  padding: 20px;
+  overflow-y: auto;
+  flex-grow: 1;
 }
 
 .close-btn {
@@ -57,25 +74,12 @@ export default {
   right: 10px;
   background: none;
   border: none;
-  font-size: 20px;
+  font-size: 24px;
   cursor: pointer;
+  color: #333;
 }
 
-@keyframes slide-in {
-  from {
-    transform: translateX(100%);
-  }
-  to {
-    transform: translateX(0);
-  }
-}
-
-@keyframes slide-out {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(100%);
-  }
+.close-btn:hover {
+  color: red;
 }
 </style>

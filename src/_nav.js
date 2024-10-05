@@ -67,7 +67,7 @@ export default [
       {
         component: 'CNavItem',
         name: () => i18next.t('사내 클라우드 연동'),
-        to: '/fileupload',
+        to: '/cloud',
       },
     ]
   },

@@ -55,6 +55,12 @@ const routes = [
       },
 
       {
+        path: '/cloud',
+        name: '사내 클라우드 연동',
+        component: () => import('@/views/documents/Cloud.vue'),
+      },
+
+      {
         path: '/pages',
         redirect: '/pages/404',
         name: 'Pages',

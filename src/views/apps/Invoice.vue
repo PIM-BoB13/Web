@@ -92,6 +92,9 @@
         </CCard>
       </CCol>
     </CRow>
+
+    <!-- SlidePopup Component -->
+    <SlidePopup v-if="isPopupVisible" :item="selectedItem" @close="closePopup" />
   </div>
 </template>
 
@@ -99,10 +102,14 @@
 import { ref } from "vue";
 import Chart from "chart.js/auto";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import SlidePopup from "./SlidePopup.vue"; // SlidePopup 컴포넌트 임포트
 
 Chart.register(ChartDataLabels);
 
 export default {
+  components: {
+    SlidePopup, // 컴포넌트 등록
+  },
   setup() {
     const documents = ref([
       {
@@ -174,6 +181,8 @@ export default {
     const selectedDocument = ref(null);
     let doughnutChartInstance = null;
     let radarChartInstance = null;
+    const selectedItem = ref(null); // 선택된 항목 데이터
+    const isPopupVisible = ref(false); // 팝업 표시 여부
 
     const selectDocument = (doc) => {
       selectedDocument.value = doc;
@@ -287,7 +296,12 @@ export default {
     };
 
     const viewDetails = (item) => {
-      alert(`${item.category}의 상세 내용`);
+      selectedItem.value = item;
+      isPopupVisible.value = true; // 팝업 열기
+    };
+
+    const closePopup = () => {
+      isPopupVisible.value = false; // 팝업 닫기
     };
 
     return {
@@ -295,6 +309,9 @@ export default {
       selectedDocument,
       selectDocument,
       viewDetails,
+      isPopupVisible,
+      selectedItem,
+      closePopup,
     };
   },
 };
