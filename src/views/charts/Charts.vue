@@ -33,7 +33,7 @@ function submitDefect() {
   setTimeout(() => {
     if (reasonForFailure.value === '문서(정책 또는 지침) 부족') {
       alert("제출되었습니다.\n'문서(정책 또는 지침) 부족'을 선택하셨으므로 <문서 생성>으로 이동합니다.");
-      router.push('/pages/CreateDocx'); // '/pages/createdocx'로 페이지 이동
+      router.push('/pages/ISMS'); // '/pages/createdocx'로 페이지 이동
     } else {
       alert("제출되었습니다.");
     }

@@ -44,7 +44,7 @@
               <CCol md="6">
                 <CCard>
                   <CCardBody class="chart-container" style="height: 250px;">
-                    <h5 style="position: absolute; top: 10px; left: 10px; margin-bottom: 20px;">우선 검토 조항 보고서</h5>
+                    <h5 style="position: absolute; top: 10px; left: 10px; margin-bottom: 20px;">우선 검토 조항 제안</h5>
                     <div class="d-flex justify-content-center align-items-center" style="height: 100%;">
                       <canvas id="radarChart" class="chart-canvas1" width="500" height="500"></canvas>
                     </div>
@@ -116,112 +116,118 @@ export default {
         id: 1,
         title: "정보보호지침",
         toc: [
-          { category: "제1조(목적)", law: "개인정보 보호법 제29조(안전조치의무), 제 31조(개인정보 보호책임자의 지정), 정보통신망법 제45조의3(정보보호 최고책임자의 지정 등), 개인정보의 안전성 확보조치 기준 제4조(내부 관리계획의 수립 및 시행 및 점검) ", compliance: "O" },
-          { category: "제2조(적용 범위)", law: "정보통신망법 제45조의3(정보보호 최고책임자의 지정 등), 개인정보의 안전성 확보조치 기준 제4조(내부 관리계획의 수립 및 시행 및 점검)", compliance: "X" },
-            { category: "제3조(용어 정의)", law: "개인정보 보호법 제29조(안전조치의무), 제 31조(개인정보 보호책임자의 지정) ", compliance: "O" },
-            { category: "제4조(수립 및 공표)", law: "정보통신망법 제45조의3(정보보호 최고책임자의 지정 등), 개인정보의 안전성 확보조치 기준 제4조(내부 관리계획의 수립 및 시행 및 점검)", compliance: "X" },
-            { category: "제5조(역할 및 책임)", law: "개인정보 보호법 제29조(안전조치의무)", compliance: "O" },
-            { category: "제6조(접근 권한)", law: "정보통신망법 제45조의3(정보보호 최고책임자의 지정 등), 개인정보의 안전성 확보조치 기준 제4조(내부 관리계획의 수립 및 시행 및 점검)", compliance: "O" },
-            { category: "제7조(암호화)", law: "개인정보 보호법 제29조(안전조치의무)", compliance: "O" },
-            { category: "제8조(개인정보)", law: "정보통신망법 제45조의3(정보보호 최고책임자의 지정 등), 개인정보의 안전성 확보조치 기준 제4조(내부 관리계획의 수립 및 시행 및 점검)", compliance: "X" },
+          {
+            category: "제1조(목적)",
+            law: "개인정보 보호법 제29조(안전조치의무), 제 31조(개인정보 보호책임자의 지정), 정보통신망법 제45조의3(정보보호 최고책임자의 지정 등), 개인정보의 안전성 확보조치 기준 제4조(내부 관리계획의 수립 및 시행 및 점검)",
+            compliance: "X",
+            feedback: "최고책임자(CISO) 지정의 누락: 정보보호 지침 문서에서 개인정보 보호와 관련된 총괄 책임자가 명시되지 않았습니다.\n이는 개인정보 보호 체계를 일관되게 유지하고 위험이 발생했을 때 신속하게 대응하기 위한 필수적인 요소입니다.\n법적 요구 미준수: 개인정보 보호법 제29조에 따른 안전조치 의무를 다하지 않는 것은 향후 법적 제재의 대상이 될 수 있습니다.\n개인정보 보호책임자의 지정이 필요합니다.\n최고책임자를 지정해야 합니다.\n내부 관리계획을 수립해야 합니다."
+          }
+          ,
+          { category: "제2조(적용 범위)", law: "정보통신망법 제45조의3(정보보호 최고책임자의 지정 등), 개인정보의 안전성 확보조치 기준 제4조(내부 관리계획의 수립 및 시행 및 점검)", compliance: "O", feedback: "정보통신망법 제45조의3에 따라 최고책임자를 지정해야 합니다." },
+          { category: "제3조(용어 정의)", law: "개인정보 보호법 제29조(안전조치의무), 제 31조(개인정보 보호책임자의 지정)", compliance: "O", feedback: "개인정보 보호법 제29조에 따라 용어 정의가 필요합니다." },
+          { category: "제4조(수립 및 공표)", law: "정보통신망법 제45조의3(정보보호 최고책임자의 지정 등), 개인정보의 안전성 확보조치 기준 제4조(내부 관리계획의 수립 및 시행 및 점검)", compliance: "O", feedback: "정보통신망법 제45조의3에 따라 내부 관리계획을 수립해야 합니다." },
+          { category: "제5조(역할 및 책임)", law: "개인정보 보호법 제29조(안전조치의무)", compliance: "O", feedback: "개인정보 보호법 제29조에 따라 역할과 책임을 명확히 해야 합니다." },
+          { category: "제6조(접근 권한)", law: "정보통신망법 제45조의3(정보보호 최고책임자의 지정 등), 개인정보의 안전성 확보조치 기준 제4조(내부 관리계획의 수립 및 시행 및 점검)", compliance: "X", feedback: "정보통신망법 제45조의3에 따라 접근 권한을 관리해야 합니다." },
+          { category: "제7조(암호화)", law: "개인정보 보호법 제29조(안전조치의무)", compliance: "O", feedback: "개인정보 보호법 제29조에 따라 암호화가 필요합니다." },
+          { category: "제8조(개인정보)", law: "정보통신망법 제45조의3(정보보호 최고책임자의 지정 등), 개인정보의 안전성 확보조치 기준 제4조(내부 관리계획의 수립 및 시행 및 점검)", compliance: "X", feedback: "정보통신망법 제45조의3에 따라 개인정보를 보호해야 합니다." },
         ],
       },
       {
         id: 2,
         title: "개인정보보호 정책",
         toc: [
-          { category: "2.1.1", law: "법률 C", compliance: "O" },
-          { category: "2.1.2", law: "법률 D", compliance: "X" },
+          { category: "2.1.1", law: "법률 C", compliance: "O", feedback: "법률 C에 따라 개인정보 보호가 필요합니다." },
+          { category: "2.1.2", law: "법률 D", compliance: "X", feedback: "법률 D에 따라 개인정보 보호가 필요합니다." },
         ],
       },
       {
         id: 3,
         title: "내부 관리계획",
         toc: [
-          { category: "1.1.1", law: "법률 A", compliance: "O" },
-          { category: "1.1.2", law: "법률 B", compliance: "X" },
+          { category: "1.1.1", law: "법률 A", compliance: "O", feedback: "법률 A에 따라 내부 관리계획이 필요합니다." },
+          { category: "1.1.2", law: "법률 B", compliance: "X", feedback: "법률 B에 따라 내부 관리계획이 필요합니다." },
         ],
       },
       {
         id: 4,
         title: "개인정보 내부 관리계획",
         toc: [
-          { category: "2.1.1", law: "법률 C", compliance: "O" },
-          { category: "2.1.2", law: "법률 D", compliance: "X" },
+          { category: "2.1.1", law: "법률 C", compliance: "O", feedback: "법률 C에 따라 내부 관리계획이 필요합니다." },
+          { category: "2.1.2", law: "법률 D", compliance: "X", feedback: "법률 D에 따라 내부 관리계획이 필요합니다." },
         ],
       },
       {
         id: 5,
         title: "위험관리 지침",
         toc: [
-          { category: "1.1.1", law: "법률 A", compliance: "O" },
-          { category: "1.1.2", law: "법률 B", compliance: "X" },
+          { category: "1.1.1", law: "법률 A", compliance: "O", feedback: "법률 A에 따라 위험관리가 필요합니다." },
+          { category: "1.1.2", law: "법률 B", compliance: "X", feedback: "법률 B에 따라 위험관리가 필요합니다." },
         ],
       },
       {
         id: 6,
         title: "직무 분리 관련 지침",
         toc: [
-          { category: "2.1.1", law: "법률 C", compliance: "O" },
-          { category: "2.1.2", law: "법률 D", compliance: "X" },
+          { category: "2.1.1", law: "법률 C", compliance: "O", feedback: "법률 C에 따라 직무 분리가 필요합니다." },
+          { category: "2.1.2", law: "법률 D", compliance: "X", feedback: "법률 D에 따라 직무 분리가 필요합니다." },
         ],
       },
       {
         id: 7,
         title: "인적 보안 지침",
         toc: [
-          { category: "1.1.1", law: "법률 A", compliance: "O" },
-          { category: "1.1.2", law: "법률 B", compliance: "X" },
+          { category: "1.1.1", law: "법률 A", compliance: "O", feedback: "법률 A에 따라 인적 보안이 필요합니다." },
+          { category: "1.1.2", law: "법률 B", compliance: "X", feedback: "법률 B에 따라 인적 보안이 필요합니다." },
         ],
       },
       {
         id: 8,
         title: "위탁보안 관리 지침",
         toc: [
-          { category: "2.1.1", law: "법률 C", compliance: "O" },
-          { category: "2.1.2", law: "법률 D", compliance: "X" },
+          { category: "2.1.1", law: "법률 C", compliance: "O", feedback: "법률 C에 따라 위탁보안 관리가 필요합니다." },
+          { category: "2.1.2", law: "법률 D", compliance: "X", feedback: "법률 D에 따라 위탁보안 관리가 필요합니다." },
         ],
       },
-        {
-            id: 9,
-            title: "위탁 내부관리 지침",
-            toc: [
-                { category: "2.1.1", law: "법률 C", compliance: "O" },
-                { category: "2.1.2", law: "법률 D", compliance: "X" },
-            ],
-        },
-        {
-            id: 10,
-            title: "외부자 계약 종료와 관련된 내부 정책",
-            toc: [
-                { category: "2.1.1", law: "법률 C", compliance: "O" },
-                { category: "2.1.2", law: "법률 D", compliance: "X" },
-            ],
-        },
-        {
-            id: 11,
-            title: "물리적 보안 지침",
-            toc: [
-                { category: "2.1.1", law: "법률 C", compliance: "O" },
-                { category: "2.1.2", law: "법률 D", compliance: "X" },
-            ],
-        },
-        {
-            id: 12,
-            title: "비밀번호 관리 정책 및 절차",
-            toc: [
-                { category: "2.1.1", law: "법률 C", compliance: "O" },
-                { category: "2.1.2", law: "법률 D", compliance: "X" },
-            ],
-        },
-        {
-            id: 13,
-            title: "특수권한 관련 지침",
-            toc: [
-                { category: "2.1.1", law: "법률 C", compliance: "O" },
-                { category: "2.1.2", law: "법률 D", compliance: "X" },
-            ],
-        },
+      {
+        id: 9,
+        title: "위탁 내부관리 지침",
+        toc: [
+          { category: "2.1.1", law: "법률 C", compliance: "O", feedback: "법률 C에 따라 위탁 내부관리가 필요합니다." },
+          { category: "2.1.2", law: "법률 D", compliance: "X", feedback: "법률 D에 따라 위탁 내부관리가 필요합니다." },
+        ],
+      },
+      {
+        id: 10,
+        title: "외부자 계약 종료와 관련된 내부 정책",
+        toc: [
+          { category: "2.1.1", law: "법률 C", compliance: "O", feedback: "법률 C에 따라 외부자 계약 종료가 필요합니다." },
+          { category: "2.1.2", law: "법률 D", compliance: "X", feedback: "법률 D에 따라 외부자 계약 종료가 필요합니다." },
+        ],
+      },
+      {
+        id: 11,
+        title: "물리적 보안 지침",
+        toc: [
+          { category: "2.1.1", law: "법률 C", compliance: "O", feedback: "법률 C에 따라 물리적 보안이 필요합니다." },
+          { category: "2.1.2", law: "법률 D", compliance: "X", feedback: "법률 D에 따라 물리적 보안이 필요합니다." },
+        ],
+      },
+      {
+        id: 12,
+        title: "비밀번호 관리 정책 및 절차",
+        toc: [
+          { category: "2.1.1", law: "법률 C", compliance: "O", feedback: "법률 C에 따라 비밀번호 관리가 필요합니다." },
+          { category: "2.1.2", law: "법률 D", compliance: "X", feedback: "법률 D에 따라 비밀번호 관리가 필요합니다." },
+        ],
+      },
+      {
+        id: 13,
+        title: "특수권한 관련 지침",
+        toc: [
+          { category: "2.1.1", law: "법률 C", compliance: "O", feedback: "법률 C에 따라 특수권한 관리가 필요합니다." },
+          { category: "2.1.2", law: "법률 D", compliance: "X", feedback: "법률 D에 따라 특수권한 관리가 필요합니다." },
+        ],
+      },
     ]);
 
     const selectedDocument = ref(null);
@@ -247,7 +253,7 @@ export default {
           labels: ["준수", "미준수"],
           datasets: [
             {
-              data: [70, 30],
+              data: [63, 37],
               backgroundColor: ["#36A2EB", "#FF6384"],
             },
           ],
@@ -294,11 +300,11 @@ export default {
       radarChartInstance = new Chart(radarCanvas, {
         type: "radar",
         data: {
-          labels: ["제3조", "제2조", "제1조", "기타"],
+          labels: ["제6조", "제8조", "7조", "제9조"],
           datasets: [
             {
               label: "검토 필요 보고서",
-              data: [65, 59, 90, 81],
+              data: [88, 81, 76, 69],
               backgroundColor: "rgba(179,181,198,0.2)",
               borderColor: "rgba(179,181,198,1)",
             },
@@ -362,6 +368,8 @@ export default {
   },
 };
 </script>
+```
+
 
 <style scoped>
 /* 테이블 관련 스타일 추가 */

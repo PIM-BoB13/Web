@@ -72,9 +72,9 @@ const routes = [
         children: [
 
           {
-            path: 'createdocx',
-            name: 'CreateDocx',
-            component: () => import('@/views/pages/CreateDocx'),
+            path: 'isms',
+            name: 'ISMS',
+            component: () => import('@/views/pages/ISMS'),
           },
           {
             path: 'interview',

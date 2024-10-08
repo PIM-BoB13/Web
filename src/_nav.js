@@ -81,8 +81,8 @@ export default [
     to: '/apps/invoicing/invoice',
     icon: 'cil-chart-pie',
     badge: {
-      color: 'danger',
-      text: 'MAIN',
+      color: 'info',
+      text: 'AI',
     },
   },
 
@@ -93,12 +93,12 @@ export default [
   {
     component: 'CNavItem',
     name: () => i18next.t('ISMS 운영명세서 확인'),
-    to: '/pages/createdocx',
+    to: '/pages/ISMS',
     icon: 'cil-star',
-    badge: {
-      color: 'info',
-      text: 'AI',
-    },
+    // badge: {
+    //   color: 'danger',
+    //   text: 'AI',
+    // },
   },
 
 ]
