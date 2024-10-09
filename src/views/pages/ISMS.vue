@@ -11,44 +11,43 @@
               <CCard class="mb-3" style="height: auto; max-height: 72vh; overflow-y: auto;">
                 <CCardBody>
                   <!-- 테이블에서 모든 항목과 하위 항목이 표시됨 -->
-                  <CTable striped hover class="small-table">
+                  <table class="small-table">
                     <!-- 테이블 헤더 추가 -->
-                    <CTableHead>
-                      <CTableRow>
-                        <CTableHeaderCell>항목</CTableHeaderCell>
-                        <CTableHeaderCell class="center-align">이행여부</CTableHeaderCell>
-                        <CTableHeaderCell class="center-align">운영명세서</CTableHeaderCell>
-                      </CTableRow>
-                    </CTableHead>
-                    <CTableBody>
-                      <!-- 데이터 배열을 순회하여 상위 제목, 중간 제목, 최하위 항목 표시 -->
-                      <template v-for="(section, sectionIndex) in filteredSections" :key="sectionIndex">
-                        <CTableRow>
-                          <!-- 상위 제목 -->
-                          <CTableDataCell colspan="3" class="title-cell">{{ section.title }}</CTableDataCell>
-                        </CTableRow>
+                    <thead>
+                    <tr>
+                      <th>항목</th>
+                      <th class="center-align">이행여부</th>
+                      <th class="center-align">운영명세서</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- 데이터 배열을 순회하여 상위 제목, 중간 제목, 최하위 항목 표시 -->
+                    <template v-for="(section, sectionIndex) in filteredSections" :key="sectionIndex">
+                      <tr>
+                        <!-- 상위 제목 -->
+                        <td colspan="3" class="title-cell">{{ section.title }}</td>
+                      </tr>
 
-                        <template v-for="(subSection, subSectionIndex) in section.subSections" :key="subSectionIndex">
-                          <CTableRow>
-                            <!-- 중간 제목 -->
-                            <CTableDataCell colspan="3" class="subtitle-cell">{{ subSection.title }}</CTableDataCell>
-                          </CTableRow>
+                      <template v-for="(subSection, subSectionIndex) in section.subSections" :key="subSectionIndex">
+                        <tr>
+                          <!-- 중간 제목 -->
+                          <td colspan="3" class="subtitle-cell">{{ subSection.title }}</td>
+                        </tr>
 
-                          <!-- 최하위 항목 -->
-                          <CTableRow v-for="(item, itemIndex) in subSection.items" :key="itemIndex">
-                            <CTableDataCell>{{ item.id }} {{ item.title }}</CTableDataCell>
-                            <CTableDataCell class="center-align">
-                              <!-- 이행여부는 서버에서 받아온 값을 대신해 미리 정의된 상태로 표시 -->
-                              <span :class="item.status === '이행' ? 'text-success' : 'text-danger'">{{ item.status }}</span>
-                            </CTableDataCell>
-                            <CTableDataCell class="center-align">
-                              <CButton color="primary" class="small-btn" @click="viewOperationalDetails(item)">확인하기</CButton>
-                            </CTableDataCell>
-                          </CTableRow>
-                        </template>
+                        <!-- 최하위 항목 -->
+                        <tr v-for="(item, itemIndex) in subSection.items" :key="itemIndex">
+                          <td>{{ item.id }} {{ item.title }}</td>
+                          <td class="center-align">
+                            <span :class="item.status === '이행' ? 'text-success' : 'text-danger'">{{ item.status }}</span>
+                          </td>
+                          <td class="center-align">
+                            <button class="small-btn" @click="viewOperationalDetails(item)">확인하기</button>
+                          </td>
+                        </tr>
                       </template>
-                    </CTableBody>
-                  </CTable>
+                    </template>
+                    </tbody>
+                  </table>
                 </CCardBody>
               </CCard>
             </div>
@@ -60,8 +59,32 @@
       <CCol :xs="8" class="d-flex flex-column">
         <CCard v-if="selectedOperationalDetails">
           <CCardBody>
-            <h5>운영명세서: {{ selectedOperationalDetails.title }}</h5>
-            <p>{{ selectedOperationalDetails.description }}</p>
+            <h5>{{ selectedOperationalDetails.title }}</h5>
+            <div class="detail-box">
+              <p>{{ selectedOperationalDetails.description }}</p>
+            </div>
+            <div class="detail-row">
+              <div class="detail-box">
+                <strong>이행여부:</strong> {{ selectedOperationalDetails.status }}
+              </div>
+              <div class="detail-box">
+                <strong>인증 구분:</strong> ISMS
+              </div>
+            </div>
+            <div class="detail-box">
+              <strong>운영현황:</strong>
+              <p>{{ selectedOperationalDetails.operationalStatus }}</p>
+            </div>
+            <div class="detail-row">
+              <div class="detail-box">
+                <strong>관련문서:</strong>
+                <p>{{ selectedOperationalDetails.relatedDocuments }}</p>
+              </div>
+              <div class="detail-box">
+                <strong>기록:</strong>
+                <p>{{ selectedOperationalDetails.records }}</p>
+              </div>
+            </div>
           </CCardBody>
         </CCard>
         <CCard v-else class="d-flex justify-content-center align-items-center">
@@ -137,8 +160,12 @@ export default {
 
     const viewOperationalDetails = (item) => {
       selectedOperationalDetails.value = {
-        title: `항목 ${item.id} 운영명세서`,
+        title: `${item.id} 운영명세서`,
         description: `여기에 ${item.title}에 대한 운영명세서의 세부 정보가 표시됩니다.`,
+        status: item.status,
+        operationalStatus: "운영현황 내용이 여기에 표시됩니다.",
+        relatedDocuments: "관련문서 내용이 여기에 표시됩니다.",
+        records: "기록 내용이 여기에 표시됩니다."
       };
     };
 
@@ -156,17 +183,21 @@ export default {
 <style scoped>
 /* 테이블 및 버튼 크기 조정 */
 .small-table {
-  font-size: 12px; /* 글씨 크기 줄이기 */
+  font-size: 14px; /* 글씨 크기 키우기 */
+  width: 100%;
+  border-collapse: collapse;
 }
 
 .small-btn {
   font-size: 10px; /* 버튼 글씨 크기 줄이기 */
-  padding: 4px 8px; /* 버튼 패딩 줄이기 */
+  padding: 2px 8px; /* 버튼 패딩 줄이기 */
   background-color: transparent; /* 버튼 배경색 투명 */
+  border: 1px solid #ccc; /* 버튼 테두리 두께 줄이기 */
+  border-radius: 5px; /* 모서리 둥글게 */
 }
 
 .small-header {
-  font-size: 10px; /* 테이블 헤더 글씨 크기 줄이기 */
+  font-size: 12px; /* 테이블 헤더 글씨 크기 키우기 */
 }
 
 .title-cell {
@@ -182,17 +213,20 @@ export default {
 
 .text-success {
   color: green;
+  font-weight: bold; /* 글씨 두께 늘리기 */
 }
 
 .text-danger {
   color: red;
+  font-weight: bold; /* 글씨 두께 늘리기 */
 }
 
 table th,
 table td {
   text-align: left;
   padding: 4px; /* 셀의 padding 줄이기 */
-  font-size: 10px; /* 테이블 안의 글씨 크기 줄이기 */
+  font-size: 14px; /* 테이블 안의 글씨 크기 키우기 */
+  border: 1px solid #ddd;
 }
 
 .right-align {
@@ -201,5 +235,36 @@ table td {
 
 .center-align {
   text-align: center; /* 중앙 정렬 */
+}
+
+/* 3단계 항목 기본 흰색, hover 시 회색 */
+table tr td {
+  background-color: white !important;
+}
+
+table tr:hover td {
+  background-color: #f0f0f0 !important;
+}
+
+/* 오른쪽 화면 스타일링 */
+.detail-box {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.detail-row .detail-box {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.detail-row .detail-box:last-child {
+  margin-right: 0;
 }
 </style>
