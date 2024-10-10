@@ -86,8 +86,8 @@
         </CCard>
 
         <CCard v-else class="d-flex justify-content-center align-items-center">
-          <CCardBody>
-            <p>문서 목록에서 컴플라이언스 분석을 진행할 문서를 선택하세요.</p>
+          <CCardBody class="centered-text" style="height: 44.5vh;">
+            <p>문서 목록에서 컴플라이언스 분석을 진행할 문서를 선택해주세요.</p>
           </CCardBody>
         </CCard>
       </CCol>
@@ -372,6 +372,15 @@ export default {
 
 
 <style scoped>
+
+.centered-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-size: 20px; /* Adjust the value as needed */
+}
+
 /* 테이블 관련 스타일 추가 */
 table th, table td {
   word-break: keep-all; /* 줄바꿈 방지 */

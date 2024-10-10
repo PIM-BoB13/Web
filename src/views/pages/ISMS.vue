@@ -8,7 +8,7 @@
             <div>
               <h5>ISMS 인증기준 항목</h5>
               <input type="text" v-model="searchQuery" placeholder="항목 검색" class="form-control mb-3" />
-              <CCard class="mb-3" style="height: auto; max-height: 72vh; overflow-y: auto;">
+              <CCard class="mb-3" style="height: auto; max-height: 65vh; overflow-y: auto;">
                 <CCardBody>
                   <!-- 테이블에서 모든 항목과 하위 항목이 표시됨 -->
                   <table class="small-table">
@@ -16,8 +16,8 @@
                     <thead>
                     <tr>
                       <th>항목</th>
-                      <th class="center-align">이행여부</th>
-                      <th class="center-align">운영명세서</th>
+                      <th class="center-align1">이행여부</th>
+                      <th class="center-align1">운영명세서</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -37,10 +37,10 @@
                         <!-- 최하위 항목 -->
                         <tr v-for="(item, itemIndex) in subSection.items" :key="itemIndex">
                           <td>{{ item.id }} {{ item.title }}</td>
-                          <td class="center-align">
+                          <td class="center-align1">
                             <span :class="item.status === '이행' ? 'text-success' : 'text-danger'">{{ item.status }}</span>
                           </td>
-                          <td class="center-align">
+                          <td class="center-align2">
                             <button class="small-btn" @click="viewOperationalDetails(item)">확인하기</button>
                           </td>
                         </tr>
@@ -57,11 +57,12 @@
 
       <!-- 오른쪽 화면 (선택된 항목의 운영명세서) -->
       <CCol :xs="8" class="d-flex flex-column">
-        <CCard v-if="selectedOperationalDetails">
+        <CCard class="right-box" v-if="selectedOperationalDetails">
           <CCardBody>
-            <h5>{{ selectedOperationalDetails.title }}</h5>
+            <h5 class="center-align title-spacing">운영명세서</h5>
             <div class="detail-box">
-              <p>{{ selectedOperationalDetails.description }}</p>
+              <strong>{{ selectedOperationalDetails.description }}</strong>
+              <p class="details-paragraph">{{ selectedOperationalDetails.Details }}</p>
             </div>
             <div class="detail-row">
               <div class="detail-box">
@@ -71,24 +72,24 @@
                 <strong>인증 구분:</strong> ISMS
               </div>
             </div>
-            <div class="detail-box">
-              <strong>운영현황:</strong>
-              <p>{{ selectedOperationalDetails.operationalStatus }}</p>
+            <div class="detail-box operational-status-box">
+              <strong>운영현황(또는 미선택사유)</strong>
+              <p class="details-paragraph">{{ selectedOperationalDetails.operationalStatus }}</p>
             </div>
             <div class="detail-row">
               <div class="detail-box">
-                <strong>관련문서:</strong>
-                <p>{{ selectedOperationalDetails.relatedDocuments }}</p>
+                <strong>관련문서(정책, 지침 등 세부조항번호까지)</strong>
+                <p class="details-paragraph">{{ selectedOperationalDetails.relatedDocuments }}</p>
               </div>
               <div class="detail-box">
-                <strong>기록:</strong>
-                <p>{{ selectedOperationalDetails.records }}</p>
+                <strong>기록(증적자료)</strong>
+                <p class="details-paragraph">{{ selectedOperationalDetails.records }}</p>
               </div>
             </div>
           </CCardBody>
         </CCard>
-        <CCard v-else class="d-flex justify-content-center align-items-center">
-          <CCardBody>
+        <CCard v-else class="d-flex justify-content-center align-items-center right-box">
+          <CCardBody class="centered-text">
             <p>운영명세서를 선택해 주세요.</p>
           </CCardBody>
         </CCard>
@@ -99,8 +100,10 @@
 
 <script>
 import { ref, computed } from "vue";
+import {CCardBody} from "@coreui/vue-pro/dist/esm/components/card";
 
 export default {
+  components: {CCardBody},
   setup() {
     // ISMS 항목 데이터 - 상위 제목, 중간 제목, 최하위 항목들 포함
     const sections = ref([
@@ -110,16 +113,21 @@ export default {
           {
             title: "1.1 관리체계 기반 마련",
             items: [
-              { id: "1.1.1", title: "정보보호 정책 수립", status: "이행" },
-              { id: "1.1.2", title: "정보보호 조직 구성", status: "결함" },
-              { id: "1.1.3", title: "정보보호 역할 및 책임 정의", status: "이행" },
+              { id: "1.1.1", title: "경영진의 참여", status: "이행" },
+              { id: "1.1.2", title: "최고책임자의 지정", status: "결함" },
+              { id: "1.1.3", title: "조직 구성", status: "이행" },
+              { id: "1.1.4", title: "범위 설정", status: "이행" },
+              { id: "1.1.5", title: "정책 수립", status: "이행" },
+              { id: "1.1.6", title: "자원 할당", status: "이행" },
             ],
           },
           {
-            title: "1.2 자산 관리",
+            title: "1.2 위험 관리",
             items: [
-              { id: "1.2.1", title: "자산 식별", status: "이행" },
-              { id: "1.2.2", title: "자산 관리 체계 수립", status: "결함" },
+              { id: "1.2.1", title: "정보자산 식별", status: "이행" },
+              { id: "1.2.2", title: "현황 및 흐름분석", status: "결함" },
+              { id: "1.2.3", title: "위험평가", status: "결함" },
+              { id: "1.2.4", title: "보호대책 선정", status: "이행" },
             ],
           },
         ],
@@ -160,12 +168,13 @@ export default {
 
     const viewOperationalDetails = (item) => {
       selectedOperationalDetails.value = {
-        title: `${item.id} 운영명세서`,
-        description: `여기에 ${item.title}에 대한 운영명세서의 세부 정보가 표시됩니다.`,
+
+        description: `${item.id} ${item.title}의 상세내용`,
         status: item.status,
-        operationalStatus: "운영현황 내용이 여기에 표시됩니다.",
-        relatedDocuments: "관련문서 내용이 여기에 표시됩니다.",
-        records: "기록 내용이 여기에 표시됩니다."
+        Details: "최고경영자는 정보보호 및 개인정보보호 관리체계의 수립과 운영활동 전반에 경영진의 참여가 이루어질 수 있도록 보고 및 의사체계를 수립하여 운영하여야 한다.",
+        operationalStatus: "서버로부터 받아온 운영현황 내용이 여기에 표시됩니다.",
+        relatedDocuments: "서버로부터 받아온 관련문서 내용이 여기에 표시됩니다.",
+        records: "서버로부터 받아온 기록 내용이 여기에 표시됩니다."
       };
     };
 
@@ -194,10 +203,6 @@ export default {
   background-color: transparent; /* 버튼 배경색 투명 */
   border: 1px solid #ccc; /* 버튼 테두리 두께 줄이기 */
   border-radius: 5px; /* 모서리 둥글게 */
-}
-
-.small-header {
-  font-size: 12px; /* 테이블 헤더 글씨 크기 키우기 */
 }
 
 .title-cell {
@@ -235,6 +240,23 @@ table td {
 
 .center-align {
   text-align: center; /* 중앙 정렬 */
+  font-size: 24px;
+}
+.center-align1 {
+  text-align: center; /* 중앙 정렬 */
+}
+
+.center-align2 {
+  text-align: center; /* 중앙 정렬 */
+  padding: 7px 0; /* 셀의 padding 줄이기 */
+}
+
+.centered-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-size: 20px; /* Adjust the value as needed */
 }
 
 /* 3단계 항목 기본 흰색, hover 시 회색 */
@@ -249,22 +271,42 @@ table tr:hover td {
 /* 오른쪽 화면 스타일링 */
 .detail-box {
   border: 1px solid #ddd;
-  padding: 10px;
-  margin-bottom: 10px;
+  padding: 15px;
+  margin-bottom: 20px;
+  background-color: #fff; /* White background for document feel */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
 }
 
 .detail-row {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 .detail-row .detail-box {
   flex: 1;
-  margin-right: 10px;
+  margin-right: 20px;
 }
 
 .detail-row .detail-box:last-child {
   margin-right: 0;
+}
+
+.details-paragraph {
+  margin-top: 10px; /* Adjust the value as needed */
+}
+
+/* Match the height of the right screen to the left screen */
+.right-box {
+  height: 80vh;
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.title-spacing {
+  margin-bottom: 20px; /* Adjust the value as needed */
+}
+
+.operational-status-box {
+  height: 250px; /* Adjust the value as needed */
 }
 </style>
