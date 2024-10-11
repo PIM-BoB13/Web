@@ -46,7 +46,7 @@ export default [
   },
   {
     component: 'CNavItem',
-    name: '기업 문서 업로드',
+    name: '기업 자료 업로드',
     to: '/documents',
     icon: 'cil-grid',
     badge: {
@@ -61,7 +61,7 @@ export default [
       },
       {
         component: 'CNavItem',
-        name: () => i18next.t('기업 문서 업로드'),
+        name: () => i18next.t('기업 자료 업로드'),
         to: '/fileupload',
       },
       {
@@ -85,6 +85,24 @@ export default [
       text: 'AI',
     },
   },
+
+
+  {
+    component: 'CNavTitle',
+    name: () => i18next.t('GAP ANALYSIS'),
+  },
+  {
+    component: 'CNavItem',
+    name: '기업 자료 GAP 분석',
+    to: '/apps/invoicing/invoice',
+    icon: 'cil-chart-pie',
+    badge: {
+      color: 'info',
+      text: 'AI',
+    },
+  },
+
+
 
   {
     component: 'CNavTitle',

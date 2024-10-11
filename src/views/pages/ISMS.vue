@@ -74,7 +74,7 @@
               <div class="detail-row">
                 <div class="detail-box">
                   <strong>이행여부: </strong>
-                  <div v-if="isEditMode" class="inline-display">
+                  <div v-if="isEditMode" class="inline-display" >
                     <select v-model="editStatus" class="form-control inline-select">
                       <option value="이행">이행</option>
                       <option value="결함">결함</option>
@@ -91,10 +91,11 @@
               </div>
               <div class="detail-box operational-status-box">
                 <strong>운영현황(또는 미선택사유)</strong>
+
                 <div v-if="isEditMode">
                   <textarea v-model="editOperationalStatus" class="form-control"></textarea>
                 </div>
-                <div v-else>
+                <div v-else class="details-paragraph">
                   {{ selectedOperationalDetails.operationalStatus }}
                 </div>
               </div>
@@ -104,7 +105,7 @@
                   <div v-if="isEditMode">
                     <textarea v-model="editRelatedDocuments" class="form-control"></textarea>
                   </div>
-                  <div v-else>
+                  <div v-else class="details-paragraph">
                     {{ selectedOperationalDetails.relatedDocuments }}
                   </div>
                 </div>
@@ -113,7 +114,7 @@
                   <div v-if="isEditMode">
                     <textarea v-model="editRecords" class="form-control"></textarea>
                   </div>
-                  <div v-else>
+                  <div v-else class="details-paragraph">
                     {{ selectedOperationalDetails.records }}
                   </div>
                 </div>
@@ -173,7 +174,7 @@ export default {
           {
             title: "1.1 관리체계 기반 마련",
             items: [
-              { id: "1.1.1", title: "경영진의 참여", status: "판단 전", Details: "상세내용 1", operationalStatus: "운영현황 1", relatedDocuments: "관련문서 1", records: "기록 1" },
+              { id: "1.1.1", title: "경영진의 참여", status: "판단 전", Details: "상세내용 1", operationalStatus: "운영현황 1gkskgkskgkskgkskgksgkskgks", relatedDocuments: "관련문서 리스트 1", records: "증적자료 리스트 1" },
               { id: "1.1.2", title: "최고책임자의 지정", status: "결함" },
               { id: "1.1.3", title: "조직 구성", status: "이행" },
               { id: "1.1.4", title: "범위 설정", status: "이행" },
@@ -361,7 +362,7 @@ table tr:hover td {
 
 .detail-row .detail-box {
   flex: 1;
-  margin-right: 20px;
+  margin-right: 10px;
 }
 
 .detail-row .detail-box:last-child {
@@ -369,7 +370,7 @@ table tr:hover td {
 }
 
 .details-paragraph {
-  margin-top: 10px; /* Adjust the value as needed */
+  margin-top: 6px; /* Adjust the value as needed */
 }
 
 /* Match the height of the right screen to the left screen */
@@ -387,6 +388,8 @@ table tr:hover td {
 }
 
 .btn-details {
+  font-size: 12px;
+  margin-top: 5px; /* Adjust the value as needed */
   background-color: #007bff;
   color: white;
   border: none;
@@ -417,7 +420,6 @@ table tr:hover td {
 }
 
 .detail-box textarea{
-  margin-top: 5px; /* Adjust the value as needed */
+  margin-top: 8px; /* Adjust the value as needed */
 }
-
 </style>
