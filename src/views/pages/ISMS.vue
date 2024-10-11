@@ -38,7 +38,7 @@
                         <tr v-for="(item, itemIndex) in subSection.items" :key="itemIndex">
                           <td>{{ item.id }} {{ item.title }}</td>
                           <td class="center-align1">
-                            <span :class="item.status === '이행' ? 'text-success' : 'text-danger'">{{ item.status }}</span>
+                            <span :class="getStatusClass(item.status)">{{ item.status }}</span>
                           </td>
                           <td class="center-align2">
                             <button class="small-btn" @click="viewOperationalDetails(item)">확인하기</button>
@@ -59,31 +59,51 @@
       <CCol :xs="8" class="d-flex flex-column">
         <CCard class="right-box" v-if="selectedOperationalDetails">
           <CCardBody>
-            <h5 class="center-align title-spacing">운영명세서</h5>
-            <div class="detail-box">
-              <strong>{{ selectedOperationalDetails.description }}</strong>
-              <p class="details-paragraph">{{ selectedOperationalDetails.Details }}</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <h5 class="center-align title-spacing flex-grow-1 text-center">운영명세서</h5>
+              <button class="btn-details" @click="toggleEditMode">{{ isEditMode ? '취소' : '수정하기' }}</button>
             </div>
-            <div class="detail-row">
+            <div v-if="isEditMode">
               <div class="detail-box">
-                <strong>이행여부:</strong> {{ selectedOperationalDetails.status }}
+                <strong>Details:</strong>
+                <textarea v-model="editDetails" class="form-control"></textarea>
               </div>
               <div class="detail-box">
-                <strong>인증 구분:</strong> ISMS
-              </div>
-            </div>
-            <div class="detail-box operational-status-box">
-              <strong>운영현황(또는 미선택사유)</strong>
-              <p class="details-paragraph">{{ selectedOperationalDetails.operationalStatus }}</p>
-            </div>
-            <div class="detail-row">
-              <div class="detail-box">
-                <strong>관련문서(정책, 지침 등 세부조항번호까지)</strong>
-                <p class="details-paragraph">{{ selectedOperationalDetails.relatedDocuments }}</p>
+                <strong>관련문서(정책, 지침 등 세부조항번호까지):</strong>
+                <textarea v-model="editRelatedDocuments" class="form-control"></textarea>
               </div>
               <div class="detail-box">
-                <strong>기록(증적자료)</strong>
-                <p class="details-paragraph">{{ selectedOperationalDetails.records }}</p>
+                <strong>기록(증적자료):</strong>
+                <textarea v-model="editRecords" class="form-control"></textarea>
+              </div>
+              <button class="btn-details" @click="saveDetails">저장</button>
+            </div>
+            <div v-else>
+              <div class="detail-box">
+                <strong>{{ selectedOperationalDetails.description }}</strong>
+                <p class="details-paragraph">{{ selectedOperationalDetails.Details }}</p>
+              </div>
+              <div class="detail-row">
+                <div class="detail-box">
+                  <strong>이행여부:</strong> {{ selectedOperationalDetails.status }}
+                </div>
+                <div class="detail-box">
+                  <strong>인증 구분:</strong> ISMS
+                </div>
+              </div>
+              <div class="detail-box operational-status-box">
+                <strong>운영현황(또는 미선택사유)</strong>
+                <p class="details-paragraph">{{ selectedOperationalDetails.operationalStatus }}</p>
+              </div>
+              <div class="detail-row">
+                <div class="detail-box">
+                  <strong>관련문서(정책, 지침 등 세부조항번호까지)</strong>
+                  <p class="details-paragraph">{{ selectedOperationalDetails.relatedDocuments }}</p>
+                </div>
+                <div class="detail-box">
+                  <strong>기록(증적자료)</strong>
+                  <p class="details-paragraph">{{ selectedOperationalDetails.records }}</p>
+                </div>
               </div>
             </div>
           </CCardBody>
@@ -103,6 +123,28 @@ import { ref, computed } from "vue";
 import {CCardBody} from "@coreui/vue-pro/dist/esm/components/card";
 
 export default {
+  methods: {
+    getStatusClass(status) {
+      if (status === '이행') return 'text-success';
+      if (status === '결함') return 'text-danger';
+      if (status === '판단 전') return 'text-pending';
+      return '';
+    },
+    toggleEditMode() {
+      this.isEditMode = !this.isEditMode;
+      if (this.isEditMode) {
+        this.editDetails = this.selectedOperationalDetails.Details;
+        this.editRelatedDocuments = this.selectedOperationalDetails.relatedDocuments;
+        this.editRecords = this.selectedOperationalDetails.records;
+      }
+    },
+    saveDetails() {
+      this.selectedOperationalDetails.Details = this.editDetails;
+      this.selectedOperationalDetails.relatedDocuments = this.editRelatedDocuments;
+      this.selectedOperationalDetails.records = this.editRecords;
+      this.isEditMode = false;
+    }
+  },
   components: {CCardBody},
   setup() {
     // ISMS 항목 데이터 - 상위 제목, 중간 제목, 최하위 항목들 포함
@@ -113,7 +155,9 @@ export default {
           {
             title: "1.1 관리체계 기반 마련",
             items: [
-              { id: "1.1.1", title: "경영진의 참여", status: "이행" },
+              { id: "1.1.1", title: "경영진의 참여", status: "판단 전", Details: "최고경영자는 정보보호 및 개인정보보호 관리체계의 수립과 운영활동 전반에 경영진의 참여가 이루어질 수 있도록 보고 및 의사체계를 수립하여 운영하여야 한다.", operationalStatus: "서버로부터 받아온 운영현황 내용이 여기에 표시됩니다.",
+                relatedDocuments: "서버로부터 받아온 관련문서 내용이 여기에 표시됩니다.",
+                records: "서버로부터 받아온 기록 내용이 여기에 표시됩니다." },
               { id: "1.1.2", title: "최고책임자의 지정", status: "결함" },
               { id: "1.1.3", title: "조직 구성", status: "이행" },
               { id: "1.1.4", title: "범위 설정", status: "이행" },
@@ -138,7 +182,7 @@ export default {
           {
             title: "2.1 자산 관리",
             items: [
-              { id: "2.1.1", title: "자산 식별", status: "이행" },
+              { id: "2.1.1", title: "자산 식별", status: "이행", Details: "최고경영자는 정보보호 및 개인정보보호 관리체계의 수립과 운영활동 전반에 경영진의 참여가 이루어질 수 있도록 보고 및 의사체계를 수립하여 운영하여야 한다." },
               { id: "2.1.2", title: "자산 관리 체계 수립", status: "이행" },
             ],
           },
@@ -165,17 +209,21 @@ export default {
     });
 
     const selectedOperationalDetails = ref(null);
+    const isEditMode = ref(false);
+    const editDetails = ref("");
+    const editRelatedDocuments = ref("");
+    const editRecords = ref("");
 
     const viewOperationalDetails = (item) => {
       selectedOperationalDetails.value = {
-
         description: `${item.id} ${item.title}의 상세내용`,
         status: item.status,
-        Details: "최고경영자는 정보보호 및 개인정보보호 관리체계의 수립과 운영활동 전반에 경영진의 참여가 이루어질 수 있도록 보고 및 의사체계를 수립하여 운영하여야 한다.",
-        operationalStatus: "서버로부터 받아온 운영현황 내용이 여기에 표시됩니다.",
-        relatedDocuments: "서버로부터 받아온 관련문서 내용이 여기에 표시됩니다.",
-        records: "서버로부터 받아온 기록 내용이 여기에 표시됩니다."
+        Details: item.Details,
+        operationalStatus: item.operationalStatus,
+        relatedDocuments: item.relatedDocuments,
+        records: item.records
       };
+      isEditMode.value = false;
     };
 
     return {
@@ -184,6 +232,10 @@ export default {
       filteredSections,
       selectedOperationalDetails,
       viewOperationalDetails,
+      isEditMode,
+      editDetails,
+      editRelatedDocuments,
+      editRecords,
     };
   },
 };
@@ -216,15 +268,22 @@ export default {
   background-color: #e0e0e0;
 }
 
+
 .text-success {
-  color: green;
-  font-weight: bold; /* 글씨 두께 늘리기 */
+  color: #0410c2;
+  font-weight: bold;
 }
 
 .text-danger {
   color: red;
-  font-weight: bold; /* 글씨 두께 늘리기 */
+  font-weight: bold;
 }
+
+.text-pending {
+  color: #000000;
+  font-weight: bold;
+}
+
 
 table th,
 table td {
@@ -308,5 +367,18 @@ table tr:hover td {
 
 .operational-status-box {
   height: 250px; /* Adjust the value as needed */
+}
+
+.btn-details {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-details:hover {
+  background-color: #0056b3;
 }
 </style>
