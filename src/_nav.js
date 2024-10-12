@@ -46,7 +46,7 @@ export default [
   },
   {
     component: 'CNavItem',
-    name: '기업 자료 업로드',
+    name: '기업 자료',
     to: '/documents',
     icon: 'cil-grid',
     badge: {
@@ -54,19 +54,19 @@ export default [
       text: 'STEP1',
     },
     items:[
+      // {
+      //   component: 'CNavItem',
+      //   name: () => i18next.t('정책 지침 test'),
+      //   to: '/uploadtest'
+      // },
       {
         component: 'CNavItem',
-        name: () => i18next.t('정책 지침 test'),
-        to: '/uploadtest'
-      },
-      {
-        component: 'CNavItem',
-        name: () => i18next.t('기업 자료 업로드'),
+        name: () => i18next.t('정책/지침 자료 관리'),
         to: '/fileupload',
       },
       {
         component: 'CNavItem',
-        name: () => i18next.t('사내 클라우드 연동'),
+        name: () => i18next.t('증적 자료 관리'),
         to: '/cloud',
       },
     ]
@@ -94,7 +94,7 @@ export default [
   {
     component: 'CNavItem',
     name: '기업 자료 GAP 분석',
-    to: '/apps/invoicing/invoice',
+    to: '/gap/GAP',
     icon: 'cil-chart-pie',
     badge: {
       color: 'info',

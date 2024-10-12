@@ -69,7 +69,7 @@
       <CCol :xs="12">
         <CCard>
           <CCardHeader>
-            <strong>업로드한 문서 리스트</strong>
+            <strong>기업 정책/지침 자료 리스트</strong>
             <CButton class="me-1 float-end" color="secondary" size="sm" @click.prevent="print">
               <CIcon icon="cil-print" /> Print
             </CButton>

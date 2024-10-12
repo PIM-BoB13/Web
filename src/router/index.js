@@ -60,6 +60,8 @@ const routes = [
         component: () => import('@/views/documents/Cloud.vue'),
       },
 
+
+
       {
         path: '/pages',
         redirect: '/pages/404',
@@ -80,6 +82,11 @@ const routes = [
             path: 'interview',
             name: 'Interview',
             component: () => import('@/views/interview/Interview'),
+          },
+          {
+            path: '/gap/GAP',
+            name: 'GAP 분석',
+            component: () => import('@/views/gap/GAP.vue'),
           },
         ],
       },
