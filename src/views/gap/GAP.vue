@@ -2,7 +2,7 @@
   <div class="isms-gap-analysis">
     <div class="completion-section">
       <div class="completion-header">
-        <h2>GAP 분석 결과</h2>
+        <h2>GAP 분석 현황</h2>
         <div class="framework-name">{{ framework.name }}</div>
       </div>
       <div class="completion-content">
@@ -41,6 +41,7 @@
 
     <!-- Search Bar -->
     <div class="search-bar">
+
       <i class="fas fa-search search-icon"></i>
       <input type="text" v-model="searchQuery" placeholder="검색할 항목 번호를 입력하세요 (예: 1.1.1.1)" />
     </div>
@@ -69,13 +70,13 @@
                 <div class="control-id">{{ control.id }}</div>
                 <div class="control-description">{{ control.description }}</div>
               </td>
-              <td>
-                <div class="evidence-readiness">
+              <td class="center-align">
+                <div :class="getReadinessClass(control.policyReadiness)">
                   {{ control.policyReadiness.completed }}/{{ control.policyReadiness.total }}
                 </div>
               </td>
-              <td>
-                <div class="evidence-readiness">
+              <td class="center-align">
+                <div :class="getReadinessClass(control.evidenceReadiness)">
                   {{ control.evidenceReadiness.completed }}/{{ control.evidenceReadiness.total }}
                 </div>
               </td>
@@ -88,7 +89,12 @@
     </div>
 
     <!-- GapSlide Popup -->
-    <GapSlide v-if="isPopupVisible" :item="selectedItem" @close="closePopup" />
+    <GapSlide
+      v-if="isPopupVisible"
+      :item="selectedItem"
+      :isOpen="isPopupVisible"
+      @close="closePopup"
+    />
   </div>
 </template>
 
@@ -193,6 +199,9 @@ export default {
     },
     closePopup() {
       this.isPopupVisible = false; // Close the popup
+    },
+    getReadinessClass(readiness) {
+      return readiness.completed === readiness.total ? 'evidence-readiness complete' : 'evidence-readiness incomplete';
     }
   },
 };
@@ -280,6 +289,10 @@ th, td {
   border-bottom: 1px solid #e0e0e0;
 }
 
+.center-align {
+  text-align: center; /* 중앙정렬 */
+}
+
 .control-id {
   font-weight: bold;
 }
@@ -301,6 +314,14 @@ th, td {
   padding: 4px 8px;
   border-radius: 12px;
   display: inline-block;
+}
+.evidence-readiness.complete {
+  background-color: #E8F5E9;
+  color: #4CAF50;
+}
+.evidence-readiness.incomplete {
+  background-color: #FFEBEE;
+  color: #F44336;
 }
 
 .action-button {
@@ -337,19 +358,5 @@ th, td {
   margin-right: 0px;
   width: 400px; /* Increase the width */
   text-align: left; /* Align text to the right */
-}
-
-.search-bar button {
-  padding: 8px 16px;
-  font-size: 16px;
-  background-color: #ff00a6;
-  color: white;
-  border: none;
-  border-radius: 20px;
-  cursor: pointer;
-}
-
-.search-bar button:hover {
-  background-color: #e954f3;
 }
 </style>

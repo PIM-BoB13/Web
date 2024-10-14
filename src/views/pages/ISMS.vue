@@ -174,7 +174,7 @@ export default {
           {
             title: "1.1 관리체계 기반 마련",
             items: [
-              { id: "1.1.1", title: "경영진의 참여", status: "판단 전", Details: "상세내용 1", operationalStatus: "운영현황 1gkskgkskgkskgkskgksgkskgks", relatedDocuments: "관련문서 리스트 1", records: "증적자료 리스트 1" },
+              { id: "1.1.1", title: "경영진의 참여", status: "판단 전", Details: "정보보호 및 개인정보보호 관리체계의 수립 및 운영활동 전반에 경영진의 참여가 이루어질 수 있도록 보고 및 의사결정 등의 책임과 역할을 문서화하고 있는가?", operationalStatus: "정보보호 정책을 수립하여 최고 경영진의 승인을 받았다. 정보보호 정책은 연간 위험 분석 결과를 반영하여 수립되며, 전사적 리스크 관리와 법적 규제 요구 사항을 준수한다. 정책은 매년 검토되며 필요 시 업데이트된다. 정책의 최신 버전은 전사적으로 배포되어 모든 직원이 정책 내용을 숙지하도록 교육이 진행된다.", relatedDocuments: "정보보호 정책 v3.0 (POL-01-001)", records: "정보보호 정책 승인 회의록 (POL-MIN-20240110), 정책 교육 기록 (EDU-LOG-20240220)" },
               { id: "1.1.2", title: "최고책임자의 지정", status: "결함" },
               { id: "1.1.3", title: "조직 구성", status: "이행" },
               { id: "1.1.4", title: "범위 설정", status: "이행" },

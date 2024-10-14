@@ -53,7 +53,7 @@ const itemsCount = 7
           <div class="message text-wrap">
             <div class="d-flex justify-content-between mt-1">
               <div class="small text-body-secondary">Richard Johnson</div>
-              <div class="small text-body-secondary">5 minutes ago</div>
+              <div class="small text-body-secondary">5분 전</div>
             </div>
             <div class="fw-semibold">
               <span class="text-danger">!</span> Project Update: Milestone Achieved

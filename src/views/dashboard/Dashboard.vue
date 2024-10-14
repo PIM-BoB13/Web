@@ -57,16 +57,54 @@ const tableExampleUsagePeriod = (dateStart, dateEnd) => {
 
 const tableExample = computed(() => [
   {
-    avatar: { src: avatar1, status: 'success' },
+    avatar: { src: avatar5, status: 'success' },
     user: {
-      name: 'Yiorgos Avraamu',
+      name: 'OOO',
+      department: '정보보안팀',
       new: true,
       registered: t('date', {
         date: new Date(2023, 0, 10),
         formatParams: { date: { year: 'numeric', month: 'short', day: 'numeric' } },
       }),
     },
-    country: { name: 'USA', flag: 'cif-us' },
+    usage: {
+      value: 22,
+      period: tableExampleUsagePeriod(new Date(2023, 5, 11), new Date(2023, 6, 10)),
+      color: 'primary',
+    },
+    payment: { name: 'Google Wallet', icon: 'cib-cc-apple-pay' },
+    activity: t('relativeTime', { val: -5, range: 'minutes' }),
+  },
+  {
+    avatar: { src: avatar3, status: 'warning' },
+    user: {
+      name: 'OOO',
+      department: '정보보안팀',
+      new: true,
+      registered: t('date', {
+        date: new Date(2023, 0, 10),
+        formatParams: { date: { year: 'numeric', month: 'short', day: 'numeric' } },
+      }),
+    },
+    usage: {
+      value: 74,
+      period: tableExampleUsagePeriod(new Date(2023, 5, 11), new Date(2023, 6, 10)),
+      color: 'warning',
+    },
+    payment: { name: 'Stripe', icon: 'cib-cc-stripe' },
+    activity: t('relativeTime', { val: -1, range: 'hours' }),
+  },
+  {
+    avatar: { src: avatar1, status: 'success' },
+    user: {
+      name: 'OOO',
+      department: '정보보안팀',
+      new: true,
+      registered: t('date', {
+        date: new Date(2023, 0, 10),
+        formatParams: { date: { year: 'numeric', month: 'short', day: 'numeric' } },
+      }),
+    },
     usage: {
       value: 50,
       period: tableExampleUsagePeriod(new Date(2023, 5, 11), new Date(2023, 6, 10)),
@@ -78,14 +116,14 @@ const tableExample = computed(() => [
   {
     avatar: { src: avatar2, status: 'danger' },
     user: {
-      name: 'Avram Tarasios',
+      name: 'OOO',
+      department: '정보보안팀',
       new: false,
       registered: t('date', {
         date: new Date(2023, 0, 10),
         formatParams: { date: { year: 'numeric', month: 'short', day: 'numeric' } },
       }),
     },
-    country: { name: 'Brazil', flag: 'cif-br' },
     usage: {
       value: 22,
       period: tableExampleUsagePeriod(new Date(2023, 5, 11), new Date(2023, 6, 10)),
@@ -94,36 +132,18 @@ const tableExample = computed(() => [
     payment: { name: 'Visa', icon: 'cib-cc-visa' },
     activity: t('relativeTime', { val: -5, range: 'minutes' }),
   },
-  {
-    avatar: { src: avatar3, status: 'warning' },
-    user: {
-      name: 'Quintin Ed',
-      new: true,
-      registered: t('date', {
-        date: new Date(2023, 0, 10),
-        formatParams: { date: { year: 'numeric', month: 'short', day: 'numeric' } },
-      }),
-    },
-    country: { name: 'India', flag: 'cif-in' },
-    usage: {
-      value: 74,
-      period: tableExampleUsagePeriod(new Date(2023, 5, 11), new Date(2023, 6, 10)),
-      color: 'warning',
-    },
-    payment: { name: 'Stripe', icon: 'cib-cc-stripe' },
-    activity: t('relativeTime', { val: -1, range: 'hours' }),
-  },
+
   {
     avatar: { src: avatar4, status: 'secondary' },
     user: {
-      name: 'Enéas Kwadwo',
+      name: 'OOO',
+      department: '정보보안팀',
       new: true,
       registered: t('date', {
         date: new Date(2023, 0, 10),
         formatParams: { date: { year: 'numeric', month: 'short', day: 'numeric' } },
       }),
     },
-    country: { name: 'France', flag: 'cif-fr' },
     usage: {
       value: 98,
       period: tableExampleUsagePeriod(new Date(2023, 5, 11), new Date(2023, 6, 10)),
@@ -133,35 +153,16 @@ const tableExample = computed(() => [
     activity: t('relativeTime', { val: -1, range: 'weeks' }),
   },
   {
-    avatar: { src: avatar5, status: 'success' },
-    user: {
-      name: 'Agapetus Tadeáš',
-      new: true,
-      registered: t('date', {
-        date: new Date(2023, 0, 10),
-        formatParams: { date: { year: 'numeric', month: 'short', day: 'numeric' } },
-      }),
-    },
-    country: { name: 'Spain', flag: 'cif-es' },
-    usage: {
-      value: 22,
-      period: tableExampleUsagePeriod(new Date(2023, 5, 11), new Date(2023, 6, 10)),
-      color: 'primary',
-    },
-    payment: { name: 'Google Wallet', icon: 'cib-cc-apple-pay' },
-    activity: t('relativeTime', { val: -3, range: 'months' }),
-  },
-  {
     avatar: { src: avatar6, status: 'danger' },
     user: {
-      name: 'Friderik Dávid',
+      name: 'OOO',
+      department: '정보보안팀',
       new: true,
       registered: t('date', {
         date: new Date(2023, 0, 10),
         formatParams: { date: { year: 'numeric', month: 'short', day: 'numeric' } },
       }),
     },
-    country: { name: 'Poland', flag: 'cif-pl' },
     usage: {
       value: 43,
       period: tableExampleUsagePeriod(new Date(2023, 5, 11), new Date(2023, 6, 10)),
@@ -203,14 +204,14 @@ onMounted(() => {
             <CCardBody class="p-4">
               <CRow>
                 <CCol>
-                  <CCardTitle class="fs-5 fw-semibold">{{ t('컴플라이언스 준수율') }}</CCardTitle>
+                  <CCardTitle class="fs-5 fw-semibold">{{ t('GAP 분석 진행률') }}</CCardTitle>
                 </CCol>
                 <CCol class="text-end text-primary fs-4 fw-semibold">현재 42%</CCol>
               </CRow>
               <CCardSubtitle class="fw-normal text-body-secondary">
                 {{
                   t('date', {
-                    date: new Date(2023, 0, 1),
+                    date: new Date(2024, 0, 1),
                     formatParams: {
                       date: {
                         month: 'long',
@@ -221,7 +222,7 @@ onMounted(() => {
                 -
                 {{
                   t('date', {
-                    date: new Date(2023, 6, 1),
+                    date: new Date(2024, 6, 1),
                     formatParams: {
                       date: {
                         year: 'numeric',
@@ -253,7 +254,7 @@ onMounted(() => {
                     backgroundColor: `rgba(${getStyle('--cui-primary-rgb')}, .1)`,
                     borderColor: getStyle('--cui-primary'),
                     borderWidth: 3,
-                    data: [78, 81, 80, 45, 34, 22, 40],
+                    data: [1, 11, 23, 27, 42, 51, 53],
                     fill: true,
                   },
                 ],
@@ -294,10 +295,10 @@ onMounted(() => {
             <CCardBody>
               <div class="d-flex justify-content-between">
                 <CCardTitle component="h6" class="text-body-secondary text-truncate">{{
-                  t('운영명세서')
+                  t('정책 및 지침')
                 }}</CCardTitle>
                 <div class="bg-primary bg-opacity-25 text-primary rounded p-2 ms-2">
-                  <CIcon icon="cil-people" size="xl" />
+                  <CIcon icon="cil-File" size="xl" />
                 </div>
               </div>
               <div class="fs-4 fw-semibold pb-3">44</div>
@@ -310,10 +311,10 @@ onMounted(() => {
             <CCardBody>
               <div class="d-flex justify-content-between">
                 <CCardTitle component="h6" class="text-body-secondary text-truncate">{{
-                  t('문서 수')
+                  t('증적 자료')
                 }}</CCardTitle>
                 <div class="bg-primary bg-opacity-25 text-primary rounded p-2 ms-2">
-                  <CIcon icon="cil-cart" size="xl" />
+                  <CIcon icon="cil-Satelite" size="xl" />
                 </div>
               </div>
               <div class="fs-4 fw-semibold pb-3">78</div>
@@ -326,11 +327,11 @@ onMounted(() => {
     <CCol :xl="8">
       <CCard class="mb-4">
         <CCardBody class="p-4">
-          <CCardTitle class="fs-4 fw-semibold">{{ t('월별 컴플라이언스 준수율') }}</CCardTitle>
+          <CCardTitle class="fs-4 fw-semibold">{{ t('월별 ISMS 운영명세서 판단') }}</CCardTitle>
           <CCardSubtitle class="fw-normal text-body-secondary">
             {{
               t('date', {
-                date: new Date(2022, 0, 1),
+                date: new Date(2024, 0, 1),
                 formatParams: {
                   date: { year: 'numeric', month: 'long', day: 'numeric' },
                 },
@@ -339,7 +340,7 @@ onMounted(() => {
             -
             {{
               t('date', {
-                date: new Date(2022, 11, 31),
+                date: new Date(2024, 11, 31),
                 formatParams: {
                   date: { year: 'numeric', month: 'long', day: 'numeric' },
                 },
@@ -371,7 +372,7 @@ onMounted(() => {
                   backgroundColor: getStyle('--cui-primary'),
                   borderRadius: 6,
                   borderSkipped: false,
-                  data: [78, 81, 80, 45, 34, 12, 40, 85, 65, 23, 12, 98, 34, 84, 67, 82],
+                  data: [28, 16, 19, 45, 34, 12, 40, 44, 15, 23, 12, 35],
                   barPercentage: 0.6,
                   categoryPercentage: 0.5,
                 },
@@ -380,7 +381,7 @@ onMounted(() => {
                   backgroundColor: getStyle('--cui-gray-200'),
                   borderRadius: 6,
                   borderSkipped: false,
-                  data: [78, 81, 80, 45, 34, 12, 40, 85, 65, 23, 12, 98, 34, 84, 67, 82],
+                  data: [30, 20, 50, 45, 34, 12, 40, 50, 22, 23, 12, 50],
                   barPercentage: 0.6,
                   categoryPercentage: 0.5,
                 },
@@ -465,8 +466,8 @@ onMounted(() => {
                 <CTableHeaderCell class="text-center">
                   <CIcon name="cil-people" />
                 </CTableHeaderCell>
-                <CTableHeaderCell>{{ t('users') }}</CTableHeaderCell>
-                <CTableHeaderCell class="text-center">{{ t('country') }}</CTableHeaderCell>
+                <CTableHeaderCell>{{ t('담당자') }}</CTableHeaderCell>
+                <CTableHeaderCell class="text-center">{{ t('부서') }}</CTableHeaderCell>
                 <CTableHeaderCell>{{ t('usage') }}</CTableHeaderCell>
                 <CTableHeaderCell>{{ t('activity') }}</CTableHeaderCell>
               </CTableRow>
@@ -479,13 +480,13 @@ onMounted(() => {
                 <CTableDataCell>
                   <div>{{ item.user.name }}</div>
                   <div class="small text-body-secondary text-nowrap">
-                    <span>{{ item.user.new ? t('new') : t('recurring') }}</span> |
-                    {{ t('registered') }}
+                    <span>{{ item.user.new ? t('신규') : t('기존') }}</span> |
+                    {{ t('등록일: ') }}
                     {{ item.user.registered }}
                   </div>
                 </CTableDataCell>
                 <CTableDataCell class="text-center">
-                  <CIcon size="xl" :name="item.country.flag" :title="item.country.name" />
+                  <div>{{ item.user.department }}</div>
                 </CTableDataCell>
                 <CTableDataCell>
                   <div class="d-flex justify-content-between align-items-baseline mb-1">
@@ -513,8 +514,8 @@ onMounted(() => {
         <CCol :md="4" :xl="12">
           <CWidgetStatsA class="mb-4" color="primary-gradient">
             <template #value
-              >업무 진행율
-              <span class="fs-6 fw-normal"> (14% <CIcon icon="cil-arrow-bottom" />) </span>
+              >정책/지침 현황
+              <span class="fs-6 fw-normal"> (21% <CIcon icon="cil-arrow-top" />) </span>
             </template>
             <template #title>{{ t('총 41개') }}</template>
             <template #action>
@@ -543,7 +544,7 @@ onMounted(() => {
                       backgroundColor: 'transparent',
                       borderColor: 'rgba(255,255,255,.55)',
                       pointBackgroundColor: getStyle('--cui-primary'),
-                      data: [68, 59, 84, 84, 51, 55, 40],
+                      data: [40, 45, 47, 60, 70, 75, 81],
                     },
                   ],
                 }"
@@ -597,10 +598,10 @@ onMounted(() => {
         <CCol :md="4" :xl="12">
           <CWidgetStatsA class="mb-4" color="warning-gradient">
             <template #value
-              >ISMS 진단 현황
+              >증적자료 현황
               <span class="fs-6 fw-normal"> (21% <CIcon icon="cil-arrow-top" />) </span>
             </template>
-            <template #title>{{ t('총 38개 항목') }}</template>
+            <template #title>{{ t('총 38개') }}</template>
             <template #action>
               <CDropdown placement="bottom-end">
                 <CDropdownToggle color="transparent" class="p-0 text-white" :caret="false">
@@ -626,7 +627,7 @@ onMounted(() => {
                       label: 'My First dataset',
                       backgroundColor: 'rgba(255,255,255,.2)',
                       borderColor: 'rgba(255,255,255,.55)',
-                      data: [78, 81, 80, 45, 34, 12, 40],
+                      data: [4, 9, 13, 34, 38, 40, 40],
                       fill: true,
                     },
                   ],
@@ -711,7 +712,7 @@ onMounted(() => {
                       label: 'My First dataset',
                       backgroundColor: 'rgba(255,255,255,.2)',
                       borderColor: 'rgba(255,255,255,.55)',
-                      data: [78, 81, 80, 45, 34, 12, 40, 85, 65, 23, 12, 98, 34, 84, 67, 82],
+                      data: [8, 81, 80, 45, 34, 12, 40, 85, 65, 23, 12, 98, 34, 84, 67, 82],
                       barPercentage: 0.6,
                     },
                   ],
