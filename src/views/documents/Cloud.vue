@@ -18,12 +18,12 @@
             <CTable striped hover>
               <CTableHead>
                 <CTableRow>
-                  <CTableHeaderCell>문서 이름</CTableHeaderCell>
-                  <CTableHeaderCell>종류</CTableHeaderCell>
-                  <CTableHeaderCell>카테고리</CTableHeaderCell>
+                  <CTableHeaderCell>증적 자료명</CTableHeaderCell>
+                  <CTableHeaderCell>관련 ISMS 항목</CTableHeaderCell>
                   <CTableHeaderCell>업로드 일시</CTableHeaderCell>
                   <CTableHeaderCell>크기</CTableHeaderCell>
                   <CTableHeaderCell>파일 종류</CTableHeaderCell>
+                  <CTableHeaderCell>버전 관리</CTableHeaderCell>
                 </CTableRow>
               </CTableHead>
               <CTableBody>
@@ -142,7 +142,7 @@ export default {
 }
 
 .toggle-button.active {
-  background-color: #007bff;
+  background-color: #1c25a9;
   color: white;
 }
 
@@ -201,7 +201,7 @@ export default {
 }
 
 .custom-options li.active {
-  background-color: #007bff;
+  background-color: #1c25a9;
   color: white;
 }
 
@@ -250,7 +250,7 @@ td {
 .long-button {
   width: 100%;
   height: 40px;
-  background-color: #007bff; /* 파란색 */
+  background-color: #1c25a9; /* 파란색 */
   color: white; /* 글씨 색 검은색 */
 }
 

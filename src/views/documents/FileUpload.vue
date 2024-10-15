@@ -16,10 +16,10 @@
                   정책 및 지침
                 </button>
                 <button
-                  :class="['toggle-button', selectedFileType === '증적 자료' ? 'active' : '']"
-                  @click="selectedFileType = '증적 자료'"
+                  :class="['toggle-button', selectedFileType === '그 외 문서 자료' ? 'active' : '']"
+                  @click="selectedFileType = '그 외 문서 자료'"
                 >
-                  증적 자료
+                  그 외 문서 자료
                 </button>
               </div>
 
@@ -82,12 +82,13 @@
             <CTable striped hover>
               <CTableHead>
                 <CTableRow>
-                  <CTableHeaderCell>문서 이름</CTableHeaderCell>
+                  <CTableHeaderCell>문서명</CTableHeaderCell>
                   <CTableHeaderCell>종류</CTableHeaderCell>
                   <CTableHeaderCell>카테고리</CTableHeaderCell>
                   <CTableHeaderCell>업로드 일시</CTableHeaderCell>
                   <CTableHeaderCell>크기</CTableHeaderCell>
                   <CTableHeaderCell>파일 종류</CTableHeaderCell>
+                  <CTableHeaderCell>버전 관리</CTableHeaderCell>
                 </CTableRow>
               </CTableHead>
               <CTableBody>
@@ -98,6 +99,9 @@
                   <CTableDataCell>{{ file.uploadedAt }}</CTableDataCell>
                   <CTableDataCell>{{ file.size }} KB</CTableDataCell>
                   <CTableDataCell>{{ file.extension }}</CTableDataCell>
+                  <CTableDataCell>
+                    <CButton @click="uploadFile" class="blue-button1 long-button1">V_1</CButton>
+                  </CTableDataCell>
                 </CTableRow>
               </CTableBody>
             </CTable>
@@ -206,7 +210,7 @@ export default {
 }
 
 .toggle-button.active {
-  background-color: #007bff;
+  background-color: #1c25a9;
   color: white;
 }
 
@@ -265,7 +269,7 @@ export default {
 }
 
 .custom-options li.active {
-  background-color: #007bff;
+  background-color: #1c25a9;
   color: white;
 }
 
@@ -314,8 +318,17 @@ td {
 .long-button {
   width: 100%;
   height: 40px;
-  background-color: #007bff; /* 파란색 */
+  background-color: #1c25a9; /* 파란색 */
   color: white; /* 글씨 색 검은색 */
+}
+
+.long-button1 {
+  width: 90%;
+  height: 30px;
+  background-color: #1c25a9; /* 파란색 */
+  color: white; /* 글씨 색 검은색 */
+  align-items: center;
+  font-size: 13px;
 }
 
 .required {

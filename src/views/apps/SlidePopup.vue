@@ -277,7 +277,7 @@ export default {
 
 /* 관련 법률 피드백용 AI 뱃지 */
 .ai-badge-feedback {
-  background-color: #747af2;
+  background-color: #1c25a9;
   color: white;
   padding: 4px 12px;
   border-radius: 12px;
@@ -289,7 +289,7 @@ export default {
 
 /* 개정안용 AI 뱃지 */
 .ai-badge-revision {
-  background-color: #747af2;
+  background-color: #1c25a9;
   color: white;
   padding: 4px 12px;
   border-radius: 12px;

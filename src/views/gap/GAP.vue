@@ -263,7 +263,7 @@ export default {
 }
 
 .progress, .mini-progress {
-  background-color: #4CAF50;
+  background-color: #1c25a9;
   border-radius: 4px;
   height: 100%;
 }

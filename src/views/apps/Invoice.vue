@@ -455,7 +455,7 @@ table th, table td {
 }
 
 .btn-details {
-  background-color: #007bff;
+  background-color: #1c25a9;
   color: white;
   border: none;
   padding: 6px 12px;
