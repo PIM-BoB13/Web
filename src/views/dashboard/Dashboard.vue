@@ -298,7 +298,7 @@ onMounted(() => {
                   t('정책 및 지침')
                 }}</CCardTitle>
                 <div class="bg-primary bg-opacity-25 text-primary rounded p-2 ms-2">
-                  <CIcon icon="침" size="xl" />
+                  <CIcon icon="cil-Description" size="xl" />
                 </div>
               </div>
               <div class="fs-4 fw-semibold pb-3">44</div>

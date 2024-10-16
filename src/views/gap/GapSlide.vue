@@ -1,3 +1,12 @@
+<!--https://velog.io/@iepppop/vue-tab%EB%A9%94%EB%89%B4-->
+<!--웹페이지 UI를 만드는 디자이너 입장으로 봐바. 이 팝업창에는 띄울 내용이 많아. 그래서 첨부한 사진처럼 Mapped elements랑 History로 나누어서 각각에 맞는 내용을 배치할거야. 그래서 Mapped elements를누르면 Mapped elements에 맞는 내용이 밑에 보이고, History를 누르면 History에 맞는 내용이 아래에 보여. 이러한 버튼? 기능?을 뭐라고 부르지? 첨부한 사진 바탕으로 vue.js에서 구현하려고해-->
+<!--ChatGPT의 말:-->
+<!--ChatGPT-->
+<!--메모리 업데이트됨-->
+<!--이 기능을 "탭 내비게이션(Tab Navigation)"이라고 부릅니다. 탭을 이용해서 Mapped elements와 History와 같은 각기 다른 내용을 보여주는 방식이죠. Vue.js에서는 이 기능을 구현하기 위해 v-if, v-show, 또는 Vue Router를 사용하여 각 탭의 내용을 전환하는 방식으로 구현할 수 있습니다. 또는 UI 프레임워크인 Vuetify나 Bootstrap-Vue를 사용하면 간편하게 탭 컴포넌트를 활용할 수도 있습니다.-->
+
+<!--이렇게 구현하면 사용자가 클릭하는 탭에 따라 해당되는 컨텐츠가 보여지는 구조를 손쉽게 만들 수 있습니다.-->
+
 <template>
   <div v-if="isOpen" class="popup-overlay" @click="closePopup">
     <div class="sidebar-popup open" @click.stop>
@@ -348,7 +357,7 @@ export default {
   position: fixed;
   top: 80px;
   right: -50%;
-  width: 50%;
+  width: 75%;
   height: calc(100% - 90px);
   background-color: white;
   border-radius: 10px 0 0 10px;

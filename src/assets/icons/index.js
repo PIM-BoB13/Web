@@ -22,7 +22,13 @@ import {
   cibCcStripe,
   cibCcPaypal,
   cibCcApplePay,
-  cibCcAmex, cilSatelite, cilAudioSpectrum, cilBraille,
+  cibCcAmex,
+  cilSatelite,
+  cilAudioSpectrum,
+  cilBraille,
+  cilDescription
+
+
 } from '@coreui/icons'
 import { cifUs, cifBr, cifIn, cifFr, cifEs, cifPl, cifGb } from '@coreui/icons'
 import {
@@ -202,7 +208,8 @@ export const iconsSet = Object.assign(
     cilXCircle,
     cilSatelite,
     cilAudioSpectrum,
-    cilBraille
+    cilBraille,
+    cilDescription
   },
   {
     cifUs,
