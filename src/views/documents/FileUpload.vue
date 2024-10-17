@@ -113,6 +113,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
@@ -148,23 +150,50 @@ export default {
     handleDrop(event) {
       this.file = event.dataTransfer.files[0]; // 드래그한 파일을 표시
     },
-    uploadFile() {
+    async uploadFile() {
       if (!this.selectedFileType || !this.selectedCategory || !this.file) {
         alert('모든 필수 항목을 채워주세요.');
         return;
       }
 
-      const uploadedFile = {
-        name: this.file.name,
-        type: this.selectedFileType,
-        category: this.selectedCategory,
-        uploadedAt: new Date().toLocaleString(),
-        size: (this.file.size / 1024).toFixed(1), // KB 단위로 파일 크기
-        extension: this.file.name.split('.').pop(),
-      };
+      const formData = new FormData();
+      formData.append('file', this.file);
+      formData.append('fileType', this.selectedFileType);
+      formData.append('category', this.selectedCategory);
 
-      this.uploadedFiles.push(uploadedFile); // 파일 목록에 추가
-      this.file = null; // 파일 초기화
+      // Convert file name to Base64
+      const encoder = new TextEncoder();
+      const uint8Array = encoder.encode(this.file.name);
+      const base64FileName = btoa(String.fromCharCode(...uint8Array));
+      formData.append('fileName', base64FileName);
+
+      try {
+        const response = await axios.post('http://43.202.210.72:3000/upload', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+
+        console.log(response.data); // 응답 데이터 확인
+
+        const { message, url } = response.data;
+
+        const uploadedFile = {
+          name: this.file.name,
+          type: this.selectedFileType,
+          category: this.selectedCategory,
+          uploadedAt: new Date().toLocaleString(),
+          size: (this.file.size / 1024).toFixed(1), // KB 단위로 파일 크기
+          extension: this.file.name.split('.').pop(),
+        };
+
+        this.uploadedFiles.push(uploadedFile); // 파일 목록에 추가
+        this.file = null; // 파일 초기화
+        alert(`파일이 성공적으로 업로드되었습니다.\n메시지: ${message}\nURL: ${url}`);
+      } catch (error) {
+        console.error('파일 업로드 ��� 오류가 발생했습니다:', error);
+        alert('파일 업로드 중 오류가 발생했습니다.');
+      }
     },
     print() {
       window.print(); // Print 기능

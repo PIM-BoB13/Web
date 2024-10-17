@@ -126,7 +126,7 @@ export default {
                 id: '1.1.1.2',
                 description: '경영진이 참여하는 회의체에서 정보보호 및 개인정보보호 관련 보고 및 의사결정이 이루어 질 수 있도록 보고체계를 수립·운영하고 있는가?',
                 policyReadiness: { completed: 1, total: 1 },
-                evidenceReadiness: { completed: 1, total: 1 },
+                evidenceReadiness: { completed: 0, total: 0 },
                 owner: '김철수'
               },
             ]
@@ -159,13 +159,13 @@ export default {
           },
         ]
       },
-      completion: 68,
-      completedControls: 177,
+      completion: 17,
+      completedControls: 44,
       totalControls: 262,
-      testCompleted: 13,
-      testTotal: 36,
-      documentCompleted: 28,
-      documentTotal: 115,
+      testCompleted: 46,
+      testTotal: 262,
+      documentCompleted: 42,
+      documentTotal: 262,
       isPopupVisible: false, // Track popup visibility
       hoveredControl: null, // Track which control is being hovered
       selectedItem: null, // Track the selected item for the popup
@@ -196,11 +196,16 @@ export default {
     openPopup(control) {
       this.isPopupVisible = true; // Show popup
       this.selectedItem = control; // Pass the selected control to GapSlide
+      this.$router.push({ path: this.$route.path, query: { id: control.id } }); // Update URL
     },
     closePopup() {
       this.isPopupVisible = false; // Close the popup
+      this.$router.push({ path: this.$route.path }); // Restore original URL
     },
     getReadinessClass(readiness) {
+      if (readiness.total === 0) {
+        return 'evidence-readiness incomplete';
+      }
       return readiness.completed === readiness.total ? 'evidence-readiness complete' : 'evidence-readiness incomplete';
     }
   },

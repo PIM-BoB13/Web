@@ -1,12 +1,3 @@
-<!--https://velog.io/@iepppop/vue-tab%EB%A9%94%EB%89%B4-->
-<!--웹페이지 UI를 만드는 디자이너 입장으로 봐바. 이 팝업창에는 띄울 내용이 많아. 그래서 첨부한 사진처럼 Mapped elements랑 History로 나누어서 각각에 맞는 내용을 배치할거야. 그래서 Mapped elements를누르면 Mapped elements에 맞는 내용이 밑에 보이고, History를 누르면 History에 맞는 내용이 아래에 보여. 이러한 버튼? 기능?을 뭐라고 부르지? 첨부한 사진 바탕으로 vue.js에서 구현하려고해-->
-<!--ChatGPT의 말:-->
-<!--ChatGPT-->
-<!--메모리 업데이트됨-->
-<!--이 기능을 "탭 내비게이션(Tab Navigation)"이라고 부릅니다. 탭을 이용해서 Mapped elements와 History와 같은 각기 다른 내용을 보여주는 방식이죠. Vue.js에서는 이 기능을 구현하기 위해 v-if, v-show, 또는 Vue Router를 사용하여 각 탭의 내용을 전환하는 방식으로 구현할 수 있습니다. 또는 UI 프레임워크인 Vuetify나 Bootstrap-Vue를 사용하면 간편하게 탭 컴포넌트를 활용할 수도 있습니다.-->
-
-<!--이렇게 구현하면 사용자가 클릭하는 탭에 따라 해당되는 컨텐츠가 보여지는 구조를 손쉽게 만들 수 있습니다.-->
-
 <template>
   <div v-if="isOpen" class="popup-overlay" @click="closePopup">
     <div class="sidebar-popup open" @click.stop>
@@ -37,136 +28,166 @@
           </tbody>
         </table>
 
-
-        <!-- Flex container for side-by-side cards -->
-        <div class="card-container">
-          <CCard class="mb-4">
-            <CCardHeader class="header-title">
-              정책/지침 운영 현황
-              <span class="ai-badge-feedback">AI</span>
-            </CCardHeader>
-            <CCBody>
-              <div v-for="(policy, index) in realpolicy" :key="index">
-                <div class="law-title" @click="toggleRealPolicy(index)">
-                  <span class="law-text">{{ policy.name }}</span>
-                  <button class="toggle-btn" @click.stop="toggleRealPolicy(index)">
-                    <span v-if="isRealPolicyVisible(index)">▲</span>
-                    <span v-else>▼</span>
-                  </button>
-                </div>
-                <div v-if="isRealPolicyVisible(index)" class="feedback-content">
-                  {{ policy.explain }}
-                </div>
-              </div>
-            </CCBody>
-          </CCard>
-
-
-          <CCard class="mb-4">
-            <CCardHeader class="header-title">
-              증적 자료 운영 현황
-              <span class="ai-badge-feedback">AI</span>
-            </CCardHeader>
-            <CCBody>
-              <div v-for="(evidence, index) in realevidence" :key="index">
-                <div class="law-title" @click="toggleRealEvidence(index)">
-                  <span class="law-text">{{ evidence.name }}</span>
-                  <button class="toggle-btn" @click.stop="toggleRealEvidence(index)">
-                    <span v-if="isRealEvidenceVisible(index)">▲</span>
-                    <span v-else>▼</span>
-                  </button>
-                </div>
-                <div v-if="isRealEvidenceVisible(index)" class="feedback-content">
-                  {{ evidence.explain }}
-                </div>
-              </div>
-            </CCBody>
-          </CCard>
+        <div class="tab-navigation">
+          <button
+            :class="['tab-button', { active: activeTab === 'recommendation' }]"
+            @click="setActiveTab('recommendation')"
+          >
+            추천
+          </button>
+          <button
+            :class="['tab-button', { active: activeTab === 'status' }]"
+            @click="setActiveTab('status')"
+          >
+            현황
+          </button>
+          <div class="tab-indicator" :style="indicatorStyle"></div>
         </div>
 
+        <div class="tab-content" :class="activeTab">
+          <transition name="fade" mode="out-in">
+            <div v-if="activeTab === 'recommendation'" key="recommendation">
+              <CCard class="mapped-elements">
+                <CCardHeader class="CCardHeader">
 
-        <CCard class="mb-4">
-          <CCardHeader class="header-title">
-            결함 내역<span class="ai-badge-feedback">AI</span>
-          </CCardHeader>
-          <CCBody>
-            <CTable>
-              <CTableBody>
-                <CTableRow>
-                  <CTableDataCell class="text-start padded-cell wide-cell">
-                    <strong>정책/지침 결함 내역</strong>
-                  </CTableDataCell>
-                  <CTableDataCell class="text-start padded-cell">{{ realPolicyFault }}</CTableDataCell>
-                </CTableRow>
-                <CTableRow>
-                  <CTableDataCell class="text-start padded-cell wide-cell">
-                    <strong>증적 자료 결함 내역</strong>
-                  </CTableDataCell>
-                  <CTableDataCell class="text-start padded-cell align-middle">{{ realEvidenceFault }}</CTableDataCell>
-                </CTableRow>
-              </CTableBody>
-            </CTable>
-          </CCBody>
-        </CCard>
+                  <div class="header-title-container">
+                    <span class="header-title">정책/지침 자료 추천</span>
+                    <span class="ai-badge-feedback1">AI</span>
+                  </div>
+                </CCardHeader>
+                <CCardBody class="CCardBody">
+                  <div class="ai-suggestion">
+                    <CIcon class="icon-blue" icon="cil-Braille" size="xl" />
+                    <span class="suggestion-text">PIM은 문서 적합도 기반으로 {{ aiSuggestions.policy }}개의 정책/지침 문서를 추천드립니다.</span>
+                  </div>
+                  <ul class="recommendation-list">
+                    <li v-for="(policy, index) in policies" :key="index" >
+                      <div class="law-title" @click="toggleSuggestPolicy(index)">
+                        <span class="law-text">{{ policy.name }}</span>
+                        <span class="percent">{{ policy.percent }}</span>
+                        <div class="action-buttons">
+                          <button class="action-button add-button" @click="showAddConfirmation(index)">
+                            <span class="button-icon">+</span>
+                          </button>
+                          <button class="action-button remove-button" @click="showRemoveConfirmation(index)">
+                            X
+                          </button>
+                        </div>
+                      </div>
+                      <div v-if="isSuggestPolicyVisible(index)" class="feedback-content">
+                        {{ policy.explain }}
+                      </div>
+                    </li>
+                  </ul>
+                  <button class="show-more">How To Use</button>
+                </CCardBody>
+              </CCard>
 
+              <CCard class="mapped-elements">
+                <CCardHeader class="CCardHeader">
+                  <div class="header-title-container">
+                    <span class="header-title">증적 자료 추천</span>
+                    <span class="ai-badge-feedback1">AI</span>
+                  </div>
+                </CCardHeader>
+                <CCardBody class="CCardBody">
+                  <div class="ai-suggestion">
+                    <CIcon class="icon-blue" icon="cil-Braille" size="xl" />
+                    <span class="suggestion-text">PIM은 문서 적합도 기반으로 {{ aiSuggestions.evidence }}개의 증적 자료를 추천드립니다.</span>
+                  </div>
+                  <ul class="recommendation-list">
+                    <li v-for="(evidence, index) in evidences" :key="index">
+                      <div class="law-title" @click="toggleSuggestEvidence(index)">
+                        <span class="law-text">{{ evidence.name }}</span>
+                        <span class="percent">{{ evidence.percent }}</span>
+                        <div class="action-buttons">
+                          <button class="action-button add-button" @click="showAddConfirmation(index)">
+                            <span class="button-icon">+</span>
+                          </button>
+                          <button class="action-button remove-button" @click="showRemoveConfirmation(index)">
+                            X
+                          </button>
+                        </div>
+                      </div>
+                      <div v-if="isSuggestEvidenceVisible(index)" class="feedback-content">
+                        {{ evidence.explain }}
+                      </div>
+                    </li>
+                  </ul>
+                  <button class="show-more">How To Use</button>
+                </CCardBody>
+              </CCard>
+            </div>
 
-
-        <CCard>
-          <CCardBody>
-            <CCard class="mapped-elements">
-              <CCardHeader class="CCardHeader">
-                <span class="header-title">정책/지침 자료 추천
-                </span>
-              </CCardHeader>
-              <CCardBody class="CCardBody">
-                <div class="ai-suggestion">
-                  <CIcon class="icon-blue" icon="cil-Braille" size="xl" />
-                  <span class="suggestion-text">PIM은 {{ item.id }} 항목에 적합한 {{ aiSuggestions.policy }}개의 정책/지침 문서를 추천드립니다.</span>
-                </div>
-                <ul class="recommendation-list">
-                  <li v-for="(policy, index) in policies" :key="index" class="recommendation-item">
-                    <span class="policy-name">{{ policy.name }}</span>
-                    <div class="action-buttons">
-                      <button class="action-button add-button" @click="showAddConfirmation(index)">
-                        <span class="button-icon">+</span>
-                      </button>
-                      <button class="action-button remove-button" @click="showRemoveConfirmation(index)">
-                        X
-                      </button>
+            <div v-else-if="activeTab === 'status'" key="status">
+              <div class="card-container">
+                <CCard class="mb-4">
+                  <CCardHeader class="header-title">
+                    정책/지침 운영 현황
+                  </CCardHeader>
+                  <CCBody>
+                    <div v-for="(policy, index) in realpolicy" :key="index">
+                      <div class="law-title" @click="toggleRealPolicy(index)">
+                        <span class="law-text">{{ policy.name }}</span>
+                        <button class="toggle-btn" @click.stop="toggleRealPolicy(index)">
+                          <span v-if="isRealPolicyVisible(index)">▲</span>
+                          <span v-else>▼</span>
+                        </button>
+                      </div>
+                      <div v-if="isRealPolicyVisible(index)" class="feedback-content">
+                        {{ policy.explain }}
+                      </div>
                     </div>
-                  </li>
-                </ul>
-                <button class="show-more">Show more</button>
-              </CCardBody>
-            </CCard>
-            <CCard class="mapped-elements">
-              <CCardHeader class="CCardHeader">
-                <span class="header-title">증적 자료 추천
-                </span>
-              </CCardHeader>
-              <CCardBody class="CCardBody">
-                <div class="ai-suggestion">
-                  <CIcon class="icon-blue" icon="cil-Braille" size="xl" />
-                  <span class="suggestion-text">PIM은 {{ item.id }} 항목에 적합한 {{ aiSuggestions.evidence }}개의 증적 자료를 추천드립니다.</span>
-                </div>
-                <ul class="recommendation-list">
-                  <li v-for="(evidence, index) in evidences" :key="index" class="recommendation-item">
-                    <span class="policy-name">{{ evidence.name }}</span>
-                    <div class="action-buttons">
-                      <button class="action-button add-button" @click="showAddConfirmation(index)">
-                        <span class="button-icon">+</span>
-                      </button>
-                      <button class="action-button remove-button" @click="showRemoveConfirmation(index)">
-                        X
-                      </button>
+                  </CCBody>
+                </CCard>
+
+                <CCard class="mb-4">
+                  <CCardHeader class="header-title">
+                    증적 자료 운영 현황
+                  </CCardHeader>
+                  <CCBody>
+                    <div v-for="(evidence, index) in realevidence" :key="index">
+                      <div class="law-title" @click="toggleRealEvidence(index)">
+                        <span class="law-text">{{ evidence.name }}</span>
+                        <button class="toggle-btn" @click.stop="toggleRealEvidence(index)">
+                          <span v-if="isRealEvidenceVisible(index)">▲</span>
+                          <span v-else>▼</span>
+                        </button>
+                      </div>
+                      <div v-if="isRealEvidenceVisible(index)" class="feedback-content">
+                        {{ evidence.explain }}
+                      </div>
                     </div>
-                  </li>
-                </ul>
-                <button class="show-more">Show more</button>
-              </CCardBody>
-            </CCard>
-          </CCardBody>
-        </CCard>
+                  </CCBody>
+                </CCard>
+              </div>
+
+              <CCard class="mb-4">
+                <CCardHeader class="header-title">
+                  결함 내역<span class="ai-badge-feedback">AI</span>
+                </CCardHeader>
+                <CCBody>
+                  <CTable>
+                    <CTableBody>
+                      <CTableRow>
+                        <CTableDataCell class="text-start padded-cell wide-cell">
+                          <strong>정책/지침 결함 내역</strong>
+                        </CTableDataCell>
+                        <CTableDataCell class="text-start padded-cell">{{ realPolicyFault }}</CTableDataCell>
+                      </CTableRow>
+                      <CTableRow>
+                        <CTableDataCell class="text-start padded-cell wide-cell">
+                          <strong>증적 자료 결함 내역</strong>
+                        </CTableDataCell>
+                        <CTableDataCell class="text-start padded-cell align-middle">{{ realEvidenceFault }}</CTableDataCell>
+                      </CTableRow>
+                    </CTableBody>
+                  </CTable>
+                </CCBody>
+              </CCard>
+            </div>
+          </transition>
+        </div>
 
         <!-- Confirmation Popups -->
         <div v-if="showAddPopup" class="confirmation-popup">
@@ -178,7 +199,6 @@
             </div>
           </div>
         </div>
-
         <div v-if="showRemovePopup" class="confirmation-popup">
           <div class="popup-content">
             <p>삭제하시겠습니까?</p>
@@ -208,9 +228,11 @@ export default {
   },
   data() {
     return {
+      activeTab: 'recommendation',
+      indicatorPosition: 0,
+      indicatorWidth: 0,
       realPolicyFault: '현재 정보보호 지침2에 대해 어떠어떠한 내용이 포함되어 있지 않습니다.',
       realEvidenceFault: '결함 없음',
-
       realpolicy: [
         { name: '정보보호 지침1', explain: '~~ 잘 운영되고 있음.' },
         { name: '정보보호 지침2', explain: '~~ 내용이 포함되어 있지 않음.' },
@@ -220,33 +242,55 @@ export default {
         { name: '기업 조직도 구성도', explain: '~~ 잘 운영되고 있음.' },
       ],
       aiSuggestions: {
-        policy: 4,
+        policy: 3,
         evidence: 3
       },
       policies: [
-        { name: '정보보호 의사소통계획', selected: true },
-        { name: '정보보호 및 개인정보보호 지침', selected: true },
-        { name: '내부 관리계획', selected: true },
+        { name: '정보보호 의사소통계획', explain: 'AA', percent:'90%', selected: true },
+        { name: '정보보호 및 개인정보보호 지침', explain: 'BB', percent:'80%', selected: true },
+        { name: '내부 관리계획', explain: 'CC', percent:'70%', selected: true },
       ],
       evidences: [
-        { name: '정보보호 보고체계', selected: true },
-        { name: '정책/지침 경영진 승인내역', selected: true },
-        { name: '정보보호 및 개인정보보호 조직도', selected: true }
+        { name: '정보보호 보고체계', explain: 'AA', percent:'91%', selected: true },
+        { name: '정책/지침 경영진 승인내역', explain: 'BB', percent:'82%', selected: true },
+        { name: '정보보호 및 개인정보보호 조직도', explain: 'CC', percent:'73%', selected: true }
       ],
       showAddPopup: false,
       showRemovePopup: false,
       currentIndex: null,
       detailsVisible: false,
       realPolicyVisible: [],
-      realEvidenceVisible: []
+      realEvidenceVisible: [],
+      suggestPolicyVisible: [],
+      suggestEvidenceVisible: []
+    }
+  },
+  computed: {
+    indicatorStyle() {
+      return {
+        transform: `translateX(${this.indicatorPosition}px)`,
+        width: `${this.indicatorWidth}px`
+      }
     }
   },
   methods: {
+    setActiveTab(tab) {
+      this.activeTab = tab;
+      this.$nextTick(() => {
+        const activeButton = this.$el.querySelector('.tab-button.active');
+        if (activeButton) {
+          this.indicatorPosition = activeButton.offsetLeft;
+          this.indicatorWidth = activeButton.offsetWidth;
+        }
+      });
+    },
     closePopup() {
       this.$emit('close')
     },
-
     getReadinessClass(readiness) {
+      if (readiness.total === 0) {
+        return 'evidence-readiness incomplete';
+      }
       return readiness.completed === readiness.total ? 'evidence-readiness complete' : 'evidence-readiness incomplete';
     },
     showAddConfirmation(index) {
@@ -258,7 +302,6 @@ export default {
       this.showRemovePopup = true;
     },
     confirmAdd() {
-      // Implement the logic to add the item
       this.showAddPopup = false;
     },
     cancelAdd() {
@@ -295,13 +338,71 @@ export default {
     },
     isRealEvidenceVisible(index) {
       return this.realEvidenceVisible.includes(index);
-    }
+    },
+
+    toggleSuggestPolicy(index) {
+      const policyIndex = this.suggestPolicyVisible.indexOf(index);
+      if (policyIndex > -1) {
+        this.suggestPolicyVisible.splice(policyIndex, 1);
+      } else {
+        this.suggestPolicyVisible.push(index);
+      }
+    },
+    isSuggestPolicyVisible(index) {
+      return this.suggestPolicyVisible.includes(index);
+    },
+    toggleSuggestEvidence(index) {
+      const evidenceIndex = this.suggestEvidenceVisible.indexOf(index);
+      if (evidenceIndex > -1) {
+        this.suggestEvidenceVisible.splice(evidenceIndex, 1);
+      } else {
+        this.suggestEvidenceVisible.push(index);
+      }
+    },
+    isSuggestEvidenceVisible(index) {
+      return this.suggestEvidenceVisible.includes(index);
+    },
+  },
+  mounted() {
+    this.$nextTick(() => {
+      this.setActiveTab(this.activeTab);
+    });
   }
 }
 </script>
 
 
 <style scoped>
+
+.tab-navigation {
+  display: flex;
+  position: relative;
+  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: 20px;
+}
+
+.tab-button {
+  padding: 10px 20px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  color: #606060;
+  transition: color 0.3s;
+}
+
+.tab-button.active {
+  color: #1c25a9;
+}
+
+.tab-indicator {
+  position: absolute;
+  bottom: -1px;
+  height: 2px;
+  background-color: #1c25a9;
+  transition: all 0.3s ease;
+}
 
 .wide-cell {
   white-space: nowrap; /* Prevent the label from wrapping */
@@ -357,7 +458,7 @@ export default {
   position: fixed;
   top: 80px;
   right: -50%;
-  width: 75%;
+  width: 40%;
   height: calc(100% - 90px);
   background-color: white;
   border-radius: 10px 0 0 10px;
@@ -391,24 +492,40 @@ export default {
 
 .header-title {
   font-weight: bold;
-  font-size: 1.4em;
+  font-size: 1.2em;
+  display: flex;
+  align-items: center;
+}
+
+.header-title-container {
   display: flex;
   align-items: center;
 }
 
 .ai-badge-feedback {
-  background-color: #1c25a9;
+  background-color: #5e82f3;
   color: white;
-  padding: 4px 12px;
+  padding: 1px 9px;
   border-radius: 12px;
-  font-size: 0.50em;
-  margin-left: 10px;
-  display: inline-block;
-  white-space: nowrap;
-  max-width: 100px;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  font-size: 0.60em;
+  margin-left: 5px;
+  display: inline-block; /* Ensure the badge stays inline with the title */
+  white-space: nowrap; /* Prevent the badge text from wrapping */
+  vertical-align: center; /* Align the badge vertically in the middle */
 }
+
+.ai-badge-feedback1 {
+  background-color: #5e82f3;
+  color: white;
+  padding: 2px 9px;
+  border-radius: 12px;
+  font-size: 0.70em;
+  margin-left: 5px;
+  display: inline-block; /* Ensure the badge stays inline with the title */
+  white-space: nowrap; /* Prevent the badge text from wrapping */
+  vertical-align: center; /* Align the badge vertically in the middle */
+}
+
 
 .recommendation-list {
   list-style-type: none;
@@ -469,6 +586,9 @@ export default {
   color: #1c25a9;
   cursor: pointer;
   margin-top: 10px;
+  text-align: right; /* Ensure text inside the button is right-aligned */
+  display: block; /* Make the button a block element */
+  margin-left: auto; /* Push the button to the right */
 }
 
 .confirmation-popup {
@@ -582,6 +702,14 @@ export default {
   padding: 13px;
 }
 
+
+.law-title:hover {
+  text-decoration: underline;
+}
+.law-text {
+  padding: 13px;
+}
+
 .law-title {
   display: flex;
   justify-content: space-between;
@@ -590,13 +718,20 @@ export default {
 }
 
 .law-text {
+  flex: 1;
   font-weight: bold;
+  padding-right: 30px; /* Add padding to the right */
+  white-space: nowrap; /* Prevent text from wrapping */
+  overflow: hidden; /* Hide overflow text */
+  text-overflow: ellipsis; /* Add ellipsis for overflow text */
 }
 
-.law-title:hover {
-  text-decoration: underline;
+.percent {
+  margin-right: 23px; /* Adjust this value to move the percent further to the left */
+  font-weight: bold;
+  color: #718ce1;
+  white-space: nowrap; /* Prevent text from wrapping */
+  font-size: 0.86em; /* Reduce the font size */
 }
-.law-text {
-  padding: 13px;
-}
+
 </style>
