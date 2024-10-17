@@ -161,11 +161,9 @@ export default {
       formData.append('fileType', this.selectedFileType);
       formData.append('category', this.selectedCategory);
 
-      // Convert file name to Base64
-      const encoder = new TextEncoder();
-      const uint8Array = encoder.encode(this.file.name);
-      const base64FileName = btoa(String.fromCharCode(...uint8Array));
-      formData.append('fileName', base64FileName);
+      // 파일명을 URL-safe 방식으로 인코딩
+      const encodedFileName = encodeURIComponent(this.file.name);
+      formData.append('fileName', encodedFileName);
 
       try {
         const response = await axios.post('http://43.202.210.72:3000/upload', formData, {
@@ -191,7 +189,7 @@ export default {
         this.file = null; // 파일 초기화
         alert(`파일이 성공적으로 업로드되었습니다.\n메시지: ${message}\nURL: ${url}`);
       } catch (error) {
-        console.error('파일 업로드 ��� 오류가 발생했습니다:', error);
+        console.error('파일 업로드 중 오류가 발생했습니다:', error);
         alert('파일 업로드 중 오류가 발생했습니다.');
       }
     },

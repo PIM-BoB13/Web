@@ -99,6 +99,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import { CCard, CCardBody } from '@coreui/vue-pro';
 import GapSlide from './GapSlide.vue'; // Import GapSlide component
 
@@ -169,7 +170,8 @@ export default {
       isPopupVisible: false, // Track popup visibility
       hoveredControl: null, // Track which control is being hovered
       selectedItem: null, // Track the selected item for the popup
-      searchQuery: '' // Track the search query
+      searchQuery: '', // Track the search query
+      sourceDocuments: [] // Store the retrieved documents
     };
   },
   computed: {
@@ -193,10 +195,21 @@ export default {
     hoverControl(controlId) {
       this.hoveredControl = controlId; // Highlight the hovered row
     },
-    openPopup(control) {
+    async openPopup(control) {
       this.isPopupVisible = true; // Show popup
       this.selectedItem = control; // Pass the selected control to GapSlide
       this.$router.push({ path: this.$route.path, query: { id: control.id } }); // Update URL
+
+      // Make an API call to retrieve data
+      try {
+        const response = await axios.post('http://43.202.210.72:5000/retrieval', {
+          question: control.question
+        });
+        this.sourceDocuments = response.data.source_documents;
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        this.sourceDocuments = []; //에러일 때는 빈배열로
+      }
     },
     closePopup() {
       this.isPopupVisible = false; // Close the popup

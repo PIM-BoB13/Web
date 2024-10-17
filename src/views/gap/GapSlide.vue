@@ -58,13 +58,15 @@
                 <CCardBody class="CCardBody">
                   <div class="ai-suggestion">
                     <CIcon class="icon-blue" icon="cil-Braille" size="xl" />
-                    <span class="suggestion-text">PIM은 문서 적합도 기반으로 {{ aiSuggestions.policy }}개의 정책/지침 문서를 추천드립니다.</span>
+                    <div v-if="sourceDocuments && sourceDocuments.length > 0">
+                      <span class="suggestion-text">PIM은 문서 적합도 기반으로 {{ sourceDocuments.length }}개의 정책/지침 문서를 추천드립니다.</span>
+                    </div>
                   </div>
                   <ul class="recommendation-list">
-                    <li v-for="(policy, index) in source_documents" :key="index" >
+                    <li v-for="(document, index) in sourceDocuments" :key="index" >
                       <div class="law-title" @click="toggleSuggestPolicy(index)">
-                        <span class="law-text">{{ policy.title }}</span>
-                        <span class="similarity">{{ policy.similarity }}</span>
+                        <span class="law-text">{{ document.title }}</span>
+                        <span class="similarity">{{ document.similarity }}</span>
                         <div class="action-buttons">
                           <button class="action-button add-button" @click="showAddConfirmation(index)">
                             <span class="button-icon">+</span>
@@ -75,7 +77,7 @@
                         </div>
                       </div>
                       <div v-if="isSuggestPolicyVisible(index)" class="feedback-content">
-                        {{ policy.content }}
+                        {{ document.content }}
                       </div>
                     </li>
                   </ul>
@@ -214,8 +216,13 @@
 </template>
 
 <script>
+import { CCard, CCardBody } from '@coreui/vue-pro';
 export default {
   name: 'GapSlide',
+  components: {
+    CCard, // CCBody 컴포넌트를 등록
+    CCardBody
+  },
   props: {
     item: {
       type: Object,
@@ -223,6 +230,10 @@ export default {
     },
     isOpen: {
       type: Boolean,
+      required: true
+    },
+    sourceDocuments: {
+      type: Array,
       required: true
     }
   },
@@ -237,7 +248,6 @@ export default {
         policy: 3,
         evidence: 3
       },
-
       source_documents: [
         { title: '정보보호 의사소통계획', content: 'AA', similarity:'90%', selected: true },
         { title: '정보보호 및 개인정보보호 지침', content: 'BB', similarity:'80%', selected: true },
@@ -278,7 +288,7 @@ export default {
       return {
         transform: `translateX(${this.indicatorPosition}px)`,
         width: `${this.indicatorWidth}px`
-      }
+      };
     }
   },
   methods: {
