@@ -160,10 +160,7 @@ export default {
       formData.append('file', this.file);
       formData.append('fileType', this.selectedFileType);
       formData.append('category', this.selectedCategory);
-
-      // 파일명을 URL-safe 방식으로 인코딩
-      const encodedFileName = encodeURIComponent(this.file.name);
-      formData.append('fileName', encodedFileName);
+      formData.append('file_name', this.file.name); // Add the file name to the form data
 
       try {
         const response = await axios.post('http://43.202.210.72:3000/upload', formData, {
