@@ -6,7 +6,7 @@
           <h2>{{ item.id }}</h2>
           <button @click="closePopup" class="close-button">&times;</button>
         </div>
-        <p>{{ item.description }}</p>
+        <p>{{ item.question }}</p>
         <table class="compact-table mb-4">
           <tbody>
           <tr>
@@ -61,10 +61,10 @@
                     <span class="suggestion-text">PIM은 문서 적합도 기반으로 {{ aiSuggestions.policy }}개의 정책/지침 문서를 추천드립니다.</span>
                   </div>
                   <ul class="recommendation-list">
-                    <li v-for="(policy, index) in policies" :key="index" >
+                    <li v-for="(policy, index) in source_documents" :key="index" >
                       <div class="law-title" @click="toggleSuggestPolicy(index)">
-                        <span class="law-text">{{ policy.name }}</span>
-                        <span class="percent">{{ policy.percent }}</span>
+                        <span class="law-text">{{ policy.title }}</span>
+                        <span class="similarity">{{ policy.similarity }}</span>
                         <div class="action-buttons">
                           <button class="action-button add-button" @click="showAddConfirmation(index)">
                             <span class="button-icon">+</span>
@@ -75,7 +75,7 @@
                         </div>
                       </div>
                       <div v-if="isSuggestPolicyVisible(index)" class="feedback-content">
-                        {{ policy.explain }}
+                        {{ policy.content }}
                       </div>
                     </li>
                   </ul>
@@ -98,8 +98,8 @@
                   <ul class="recommendation-list">
                     <li v-for="(evidence, index) in evidences" :key="index">
                       <div class="law-title" @click="toggleSuggestEvidence(index)">
-                        <span class="law-text">{{ evidence.name }}</span>
-                        <span class="percent">{{ evidence.percent }}</span>
+                        <span class="law-text">{{ evidence.title }}</span>
+                        <span class="similarity">{{ evidence.similarity }}</span>
                         <div class="action-buttons">
                           <button class="action-button add-button" @click="showAddConfirmation(index)">
                             <span class="button-icon">+</span>
@@ -110,7 +110,7 @@
                         </div>
                       </div>
                       <div v-if="isSuggestEvidenceVisible(index)" class="feedback-content">
-                        {{ evidence.explain }}
+                        {{ evidence.content }}
                       </div>
                     </li>
                   </ul>
@@ -120,7 +120,7 @@
             </div>
 
             <div v-else-if="activeTab === 'status'" key="status">
-              <div class="card-container">
+
                 <CCard class="mb-4">
                   <CCardHeader class="header-title">
                     정책/지침 운영 현황
@@ -128,14 +128,14 @@
                   <CCBody>
                     <div v-for="(policy, index) in realpolicy" :key="index">
                       <div class="law-title" @click="toggleRealPolicy(index)">
-                        <span class="law-text">{{ policy.name }}</span>
+                        <span class="law-text">{{ policy.title }}</span>
                         <button class="toggle-btn" @click.stop="toggleRealPolicy(index)">
                           <span v-if="isRealPolicyVisible(index)">▲</span>
                           <span v-else>▼</span>
                         </button>
                       </div>
                       <div v-if="isRealPolicyVisible(index)" class="feedback-content">
-                        {{ policy.explain }}
+                        {{ policy.content }}
                       </div>
                     </div>
                   </CCBody>
@@ -148,19 +148,19 @@
                   <CCBody>
                     <div v-for="(evidence, index) in realevidence" :key="index">
                       <div class="law-title" @click="toggleRealEvidence(index)">
-                        <span class="law-text">{{ evidence.name }}</span>
+                        <span class="law-text">{{ evidence.title }}</span>
                         <button class="toggle-btn" @click.stop="toggleRealEvidence(index)">
                           <span v-if="isRealEvidenceVisible(index)">▲</span>
                           <span v-else>▼</span>
                         </button>
                       </div>
                       <div v-if="isRealEvidenceVisible(index)" class="feedback-content">
-                        {{ evidence.explain }}
+                        {{ evidence.content }}
                       </div>
                     </div>
                   </CCBody>
                 </CCard>
-              </div>
+
 
               <CCard class="mb-4">
                 <CCardHeader class="header-title">
@@ -231,30 +231,38 @@ export default {
       activeTab: 'recommendation',
       indicatorPosition: 0,
       indicatorWidth: 0,
-      realPolicyFault: '현재 정보보호 지침2에 대해 어떠어떠한 내용이 포함되어 있지 않습니다.',
-      realEvidenceFault: '결함 없음',
-      realpolicy: [
-        { name: '정보보호 지침1', explain: '~~ 잘 운영되고 있음.' },
-        { name: '정보보호 지침2', explain: '~~ 내용이 포함되어 있지 않음.' },
-      ],
-      realevidence: [
-        { name: '정보보호 임원 회의록', explain: '~~ 잘 운영되고 있음.' },
-        { name: '기업 조직도 구성도', explain: '~~ 잘 운영되고 있음.' },
-      ],
+
+
       aiSuggestions: {
         policy: 3,
         evidence: 3
       },
-      policies: [
-        { name: '정보보호 의사소통계획', explain: 'AA', percent:'90%', selected: true },
-        { name: '정보보호 및 개인정보보호 지침', explain: 'BB', percent:'80%', selected: true },
-        { name: '내부 관리계획', explain: 'CC', percent:'70%', selected: true },
+
+      source_documents: [
+        { title: '정보보호 의사소통계획', content: 'AA', similarity:'90%', selected: true },
+        { title: '정보보호 및 개인정보보호 지침', content: 'BB', similarity:'80%', selected: true },
+        { title: '내부 관리계획', content: 'CC', similarity:'70%', selected: true },
       ],
       evidences: [
-        { name: '정보보호 보고체계', explain: 'AA', percent:'91%', selected: true },
-        { name: '정책/지침 경영진 승인내역', explain: 'BB', percent:'82%', selected: true },
-        { name: '정보보호 및 개인정보보호 조직도', explain: 'CC', percent:'73%', selected: true }
+        { title: '정보보호 보고체계', content: 'AA', similarity:'91%', selected: true },
+        { title: '정책/지침 경영진 승인내역', content: 'BB', similarity:'82%', selected: true },
+        { title: '정보보호 및 개인정보보호 조직도', content: 'CC', similarity:'73%', selected: true }
       ],
+
+      realpolicy: [
+        { title: '정보보호 지침1', content: '~~ 잘 운영되고 있음.' },
+        { title: '정보보호 지침2', content: '~~ 내용이 포함되어 있지 않음.' },
+      ],
+      realevidence: [
+        { title: '정보보호 임원 회의록', content: '~~ 잘 운영되고 있음.' },
+        { title: '기업 조직도 구성도', content: '~~ 잘 운영되고 있음.' },
+      ],
+
+
+      realPolicyFault: '현재 정보보호 지침2에 대해 어떠어떠한 내용이 포함되어 있지 않습니다.',
+      realEvidenceFault: '결함 없음',
+
+
       showAddPopup: false,
       showRemovePopup: false,
       currentIndex: null,
@@ -308,7 +316,7 @@ export default {
       this.showAddPopup = false;
     },
     confirmRemove() {
-      this.policies.splice(this.currentIndex, 1);
+      this.source_documents.splice(this.currentIndex, 1);
       this.showRemovePopup = false;
     },
     cancelRemove() {
@@ -459,7 +467,7 @@ export default {
   top: 80px;
   right: -50%;
   width: 40%;
-  height: calc(100% - 90px);
+  height: calc(100% - 73px);
   background-color: white;
   border-radius: 10px 0 0 10px;
   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
@@ -541,7 +549,7 @@ export default {
   border-bottom: 1px solid #e0e0e0;
 }
 
-.policy-name {
+.policy-title {
   flex-grow: 1;
 }
 
@@ -726,8 +734,8 @@ export default {
   text-overflow: ellipsis; /* Add ellipsis for overflow text */
 }
 
-.percent {
-  margin-right: 23px; /* Adjust this value to move the percent further to the left */
+.similarity {
+  margin-right: 23px; /* Adjust this value to move the similarity further to the left */
   font-weight: bold;
   color: #718ce1;
   white-space: nowrap; /* Prevent text from wrapping */
