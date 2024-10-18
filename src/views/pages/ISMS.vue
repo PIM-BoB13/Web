@@ -1,7 +1,6 @@
 <template>
   <div>
     <CRow class="align-items-stretch">
-      <!-- 왼쪽 화면 (ISMS 항목 목록) -->
       <CCol :xs="4">
         <CCard class="mb-4 left-box" style="height: 80vh;">
           <CCardBody class="d-flex flex-column" style="height: 100%;">
@@ -11,7 +10,6 @@
               <CCard class="mb-3" style="height: auto; max-height: 65vh; overflow-y: auto;">
                 <CCardBody>
                   <table class="small-table">
-                    <!-- 테이블 헤더 추가 -->
                     <thead>
                     <tr>
                       <th>항목</th>
@@ -20,29 +18,28 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <!-- 데이터 배열을 순회하여 상위 제목, 중간 제목, 최하위 항목 표시 -->
                     <template v-for="(section, sectionIndex) in filteredSections" :key="sectionIndex">
                       <tr>
-                        <!-- 상위 제목 -->
                         <td colspan="3" class="title-cell">{{ section.title }}</td>
                       </tr>
-
                       <template v-for="(subSection, subSectionIndex) in section.subSections" :key="subSectionIndex">
                         <tr>
-                          <!-- 중간 제목 -->
                           <td colspan="3" class="subtitle-cell">{{ subSection.title }}</td>
                         </tr>
-
-                        <!-- 최하위 항목 -->
-                        <tr v-for="(item, itemIndex) in subSection.items" :key="itemIndex">
-                          <td>{{ item.id }} {{ item.title }}</td>
-                          <td class="center-align1">
-                            <span :class="getStatusClass(item.status)">{{ item.status }}</span>
-                          </td>
-                          <td class="center-align2">
-                            <button class="small-btn" @click="viewOperationalDetails(item)">확인하기</button>
-                          </td>
-                        </tr>
+                        <template v-for="(item, itemIndex) in subSection.items" :key="itemIndex">
+                          <tr>
+                            <td colspan="3" class="subtitle-cell">{{ item.title }}</td>
+                          </tr>
+                          <tr v-for="(subItem, subItemIndex) in item.subItems" :key="subItemIndex">
+                            <td>{{ subItem.id }} {{ subItem.title }}</td>
+                            <td class="center-align3">
+                              <span :class="getStatusClass(subItem.status)">{{ subItem.status }}</span>
+                            </td>
+                            <td class="center-align4">
+                              <button class="small-btn" @click="viewOperationalDetails(subItem)">확인하기</button>
+                            </td>
+                          </tr>
+                        </template>
                       </template>
                     </template>
                     </tbody>
@@ -53,8 +50,6 @@
           </CCardBody>
         </CCard>
       </CCol>
-
-      <!-- 오른쪽 화면 (선택된 항목의 운영명세서) -->
       <CCol :xs="8" class="d-flex flex-column">
         <CCard class="right-box" v-if="selectedOperationalDetails">
           <CCardBody>
@@ -74,7 +69,7 @@
               <div class="detail-row">
                 <div class="detail-box">
                   <strong>이행여부: </strong>
-                  <div v-if="isEditMode" class="inline-display" >
+                  <div v-if="isEditMode" class="inline-display">
                     <select v-model="editStatus" class="form-control inline-select">
                       <option value="이행">이행</option>
                       <option value="결함">결함</option>
@@ -91,7 +86,6 @@
               </div>
               <div class="detail-box operational-status-box">
                 <strong>운영현황(또는 미선택사유)</strong>
-
                 <div v-if="isEditMode">
                   <textarea v-model="editOperationalStatus" class="form-control"></textarea>
                 </div>
@@ -174,23 +168,32 @@ export default {
           {
             title: "1.1 관리체계 기반 마련",
             items: [
-              { id: "1.1.1", title: "경영진의 참여", status: "판단 전", Details: "정보보호 및 개인정보보호 관리체계의 수립 및 운영활동 전반에 경영진의 참여가 이루어질 수 있도록 보고 및 의사결정 등의 책임과 역할을 문서화하고 있는가?", operationalStatus: "정보보호 정책을 수립하여 최고 경영진의 승인을 받았다. 정보보호 정책은 연간 위험 분석 결과를 반영하여 수립되며, 전사적 리스크 관리와 법적 규제 요구 사항을 준수한다. 정책은 매년 검토되며 필요 시 업데이트된다. 정책의 최신 버전은 전사적으로 배포되어 모든 직원이 정책 내용을 숙지하도록 교육이 진행된다.", relatedDocuments: "정보보호 정책 v3.0 (POL-01-001)", records: "정보보호 정책 승인 회의록 (POL-MIN-20240110), 정책 교육 기록 (EDU-LOG-20240220)" },
-              { id: "1.1.2", title: "최고책임자의 지정", status: "결함" },
-              { id: "1.1.3", title: "조직 구성", status: "이행" },
-              { id: "1.1.4", title: "범위 설정", status: "이행" },
-              { id: "1.1.5", title: "정책 수립", status: "이행" },
-              { id: "1.1.6", title: "자원 할당", status: "이행" },
+              {
+                title: "1.1.1 경영진의 참여",
+                subItems: [
+                  { id: "1.1.1.1", title: "경영진의 참여 세부항목 1", status: "판단 전", Details: "세부항목 1의 상세내용", operationalStatus: "운영현황", relatedDocuments: "관련문서", records: "기록" },
+                  { id: "1.1.1.2", title: "경영진의 참여 세부항목 2", status: "결함" },
+                ]
+              },
+              {
+                title: "1.1.2 최고책임자의 지정",
+                subItems: [
+                  { id: "1.1.2.1", title: "최고책임자의 지정 세부항목 1", status: "이행" },
+                ]
+              },
             ]
           },
           {
             title: "1.2 위험 관리",
             items: [
-              { id: "1.2.1", title: "정보자산 식별", status: "이행" },
-              { id: "1.2.2", title: "현황 및 흐름분석", status: "결함" },
-              { id: "1.2.3", title: "위험평가", status: "결함" },
-              { id: "1.2.4", title: "보호대책 선정", status: "이행" },
-            ],
-          },
+              {
+                title: "1.2.1 정보자산 식별",
+                subItems: [
+                  { id: "1.2.1.1", title: "정보자산 식별 세부항목 1", status: "이행" },
+                ]
+              },
+            ]
+          }
         ]
       },
       {
@@ -199,11 +202,14 @@ export default {
           {
             title: "2.1 자산 관리",
             items: [
-              { id: "2.1.1", title: "자산 식별", status: "이행", Details: "최고경영자는 정보보호 및 개인정보보호 관리체계의 수립과 운영활동 전반에 경영진의 참여가 이루어질 수 있도록 보고 및 의사체계를 수립하여 운영하여야 한다." },
-              { id: "2.1.2", title: "자산 관리 체계 수립", status: "이행" },
+              {
+                title: "2.1.1 자산 식별",
+                subItems: [
+                  { id: "2.1.1.1", title: "자산 식별 세부항목 1", status: "이행" },
+                ]
+              },
             ]
-          },
-
+          }
         ]
       }
     ]);
@@ -233,14 +239,14 @@ export default {
     const editRecords = ref("");
     const editStatus = ref("");
 
-    const viewOperationalDetails = (item) => {
+    const viewOperationalDetails = (subItem) => {
       selectedOperationalDetails.value = {
-        description: `${item.id} ${item.title}의 상세내용`,
-        status: item.status,
-        Details: item.Details,
-        operationalStatus: item.operationalStatus,
-        relatedDocuments: item.relatedDocuments,
-        records: item.records
+        description: `${subItem.id} ${subItem.title}의 상세내용`,
+        status: subItem.status,
+        Details: subItem.Details,
+        operationalStatus: subItem.operationalStatus,
+        relatedDocuments: subItem.relatedDocuments,
+        records: subItem.records
       };
       isEditMode.value = false;
     };
@@ -271,7 +277,7 @@ export default {
 
 .small-btn {
   font-size: 10px; /* 버튼 글씨 크기 줄이기 */
-  padding: 2px 8px; /* 버튼 패딩 줄이기 */
+  padding: 2px 4px; /* 버튼 패딩 줄이기 */
   background-color: transparent; /* 버튼 배경색 투명 */
   border: 1px solid #ccc; /* 버튼 테두리 두께 줄이기 */
   border-radius: 5px; /* 모서리 둥글게 */
@@ -321,11 +327,21 @@ table td {
 }
 .center-align1 {
   text-align: center; /* 중앙 정렬 */
+  font-size: 10px;
 }
 
-.center-align2 {
+
+
+.center-align3 {
   text-align: center; /* 중앙 정렬 */
-  padding: 7px 0; /* 셀의 padding 줄이기 */
+  padding: 8px 0; /* 셀의 padding 줄이기 */
+  font-size: 13px;
+}
+
+.center-align4 {
+  text-align: center; /* 중앙 정렬 */
+  padding: 2px 0; /* 셀의 padding 줄이기 */
+  font-size: 1px;
 }
 
 .centered-text {
