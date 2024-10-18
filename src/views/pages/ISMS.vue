@@ -186,6 +186,17 @@ export default {
         } else {
           console.error('Error fetching data:', response.data);
         }
+
+        // Additional request to fetch related documents
+        const documentsResponse = await axios.post('http://43.202.210.72:5002/documents', {
+          ISMSID: subItem.id
+        });
+        if (documentsResponse.status === 200) {
+          const documents = documentsResponse.data.map(doc => `${doc.Content} (${doc.DocumentTitle})`).join('<br>');
+          this.selectedOperationalDetails.relatedDocuments = documents;
+        } else {
+          console.error('Error fetching documents:', documentsResponse.data);
+        }
       } catch (error) {
         console.error('Error fetching data:', error);
       }
