@@ -121,7 +121,7 @@ export default {
               {
                 id: '1.1.1.1',
                 question: '정보보호 및 개인정보보호 관리체계의 수립 및 운영활동을 지원하고 관리감독을 수행하기 위한 정보보호 및 개인정보보호 위원회 등의 조직을 구성하고 있는가?',
-                policyReadiness: { completed: 0, total: 0 },
+                policyReadiness: { completed: 0, total: 2 },
                 evidenceReadiness: { completed: 0, total: 0 },
                 owner: '홍길동'
               },
@@ -162,12 +162,12 @@ export default {
           },
         ]
       },
-      completion: 17,
-      completedControls: 44,
+      completion: 1,
+      completedControls: 0,
       totalControls: 262,
-      testCompleted: 46,
+      testCompleted: 0,
       testTotal: 262,
-      documentCompleted: 42,
+      documentCompleted: 0,
       documentTotal: 262,
       isPopupVisible: false, // Track popup visibility
       hoveredControl: null, // Track which control is being hovered

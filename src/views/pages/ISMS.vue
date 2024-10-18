@@ -51,7 +51,14 @@
         </CCard>
       </CCol>
       <CCol :xs="8" class="d-flex flex-column">
-        <CCard class="right-box" v-if="selectedOperationalDetails">
+        <CCard class="right-box" v-if="loading">
+          <CCardBody class="d-flex justify-content-center align-items-center">
+            <div class="spinner-border" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </CCardBody>
+        </CCard>
+        <CCard class="right-box" v-else-if="selectedOperationalDetails">
           <CCardBody>
             <div>
               <div class="d-flex justify-content-between align-items-center">
@@ -126,7 +133,7 @@
         </CCard>
         <CCard v-else class="d-flex justify-content-center align-items-center right-box">
           <CCardBody class="centered-text">
-            운영명세서를 선택해 주세요.
+            인증기준 항목을 선택해 주세요.
           </CCardBody>
         </CCard>
       </CCol>
@@ -170,13 +177,14 @@ export default {
       this.editOperationalStatus = event.target.innerHTML;
     },
     async viewOperationalDetails(subItem) {
+      this.loading = true; // Show loading spinner
       try {
         const response = await axios.post('http://43.202.210.72:5002/ask', {
           ISMSID: subItem.id
         });
         if (response.data.status === 'success') {
           this.selectedOperationalDetails = {
-            description: `${subItem.id} ${subItem.title}의 세부설명`,
+            description: `${subItem.id}의 세부설명`,
             status: subItem.status,
             Details: subItem.Details,
             operationalStatus: this.formatResponse(response.data.response),
@@ -199,6 +207,8 @@ export default {
         }
       } catch (error) {
         console.error('Error fetching data:', error);
+      } finally {
+        this.loading = false; // Hide loading spinner
       }
       this.isEditMode = false;
     },
@@ -229,30 +239,30 @@ export default {
                 title: "1.1.1 경영진의 참여",
                 subItems: [
                   { id: "1.1.1.1", status: "판단 전", Details: "정보보호 및 개인정보보호 관리체계의 수립 및 운영활동 전반에 경영진의 참여가 이루어질 수 있도록 보고 및 의사결정 등의 책임과 역할을 문서화하고 있는가?" },
-                  { id: "1.1.1.2", status: "결함", Details: "경영진이 정보보호 및 개인정보보호 활동에 관한 의사결정에 적극적으로 참여할 수 있는 보고, 검토 및 승인 절차를 수립·이행하고 있는가?" },
+                  { id: "1.1.1.2", status: "판단 전", Details: "경영진이 정보보호 및 개인정보보호 활동에 관한 의사결정에 적극적으로 참여할 수 있는 보고, 검토 및 승인 절차를 수립·이행하고 있는가?" },
                 ]
               },
               {
                 title: "1.1.2 최고책임자의 지정",
                 subItems: [
-                  { id: "1.1.2.1", status: "이행" },
-                  { id: "1.1.2.2", status: "이행" },
+                  { id: "1.1.2.1", status: "판단 전" },
+                  { id: "1.1.2.2", status: "판단 전" },
                 ]
               },
               {
                 title: "1.1.3 조직  구성",
                 subItems: [
-                  { id: "1.1.3.1", status: "이행" },
-                  { id: "1.1.3.2", status: "이행" },
-                  { id: "1.1.3.3", status: "이행" },
+                  { id: "1.1.3.1", status: "판단 전" },
+                  { id: "1.1.3.2", status: "판단 전" },
+                  { id: "1.1.3.3", status: "판단 전" },
                 ]
               },
               {
                 title: "1.1.4 범위 설정",
                 subItems: [
-                  { id: "1.1.4.1", status: "이행" },
-                  { id: "1.1.4.2", status: "이행" },
-                  { id: "1.1.4.3", status: "이행" },
+                  { id: "1.1.4.1", status: "판단 전" },
+                  { id: "1.1.4.2", status: "판단 전" },
+                  { id: "1.1.4.3", status: "판단 전" },
                 ]
               },
             ]
@@ -263,7 +273,7 @@ export default {
               {
                 title: "1.2.1 정보자산 식별",
                 subItems: [
-                  { id: "1.2.1.1", status: "이행" },
+                  { id: "1.2.1.1", status: "판단 전" },
                 ]
               },
             ]
@@ -279,7 +289,7 @@ export default {
               {
                 title: "2.1.1 자산 식별",
                 subItems: [
-                  { id: "2.1.1.1", status: "이행" },
+                  { id: "2.1.1.1", status: "판단 전" },
                 ]
               },
             ]
@@ -312,24 +322,23 @@ export default {
     const editRelatedDocuments = ref("");
     const editRecords = ref("");
     const editStatus = ref("");
-
+    const loading = ref(false);
 
     return {
       sections,
       searchQuery,
       filteredSections,
       selectedOperationalDetails,
-
       isEditMode,
       editOperationalStatus,
       editRelatedDocuments,
       editRecords,
       editStatus,
+      loading,
     };
   },
 };
 </script>
-
 <style scoped>
 /* 테이블 및 버튼 크기 조정 */
 .small-table {

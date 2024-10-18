@@ -135,7 +135,11 @@ export default {
       dropdownOpen: false, // 드롭다운 상태
       categoryOptions: [
         { value: '정보보호 및 개인정보보호 정책', label: '정보보호 및 개인정보보호 정책' },
+        { value: '개인정보 내부관리 계획', label: '개인정보 내부관리 계획' },
         { value: '정보보호 관리체계', label: '정보보호 관리체계' },
+        { value: '물리적 보안 지침', label: '물리적 보안 지침' },
+        { value: '정보시스템 운영 보안 지침', label: '정보시스템 운영 보안 지침' },
+        { value: '정보자산관리 지침', label: '정보자산관리 지침' },
         { value: '기타', label: '기타' },
       ],
       file: null, // 업로드할 파일

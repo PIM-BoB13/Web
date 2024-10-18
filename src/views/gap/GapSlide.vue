@@ -241,14 +241,14 @@ export default {
       realpolicy: [],
 
 
-      realevidence: [
-        { title: '정보보호 임원 회의록', content: '~~ 잘 운영되고 있음.' },
-        { title: '기업 조직도 구성도', content: '~~ 잘 운영되고 있음.' },
-      ],
+      // realevidence: [
+      //   { title: '정보보호 임원 회의록', content: '~~ 잘 운영되고 있음.' },
+      //   { title: '기업 조직도 구성도', content: '~~ 잘 운영되고 있음.' },
+      // ],
 
 
-      realPolicyFault: '현재 정보보호 지침2에 대해 어떠어떠한 내용이 포함되어 있지 않습니다.',
-      realEvidenceFault: '결함 없음',
+      realPolicyFault: ' ',
+      realEvidenceFault: ' ',
 
 
 
