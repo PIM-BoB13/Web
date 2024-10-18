@@ -93,6 +93,7 @@
       v-if="isPopupVisible"
       :item="selectedItem"
       :isOpen="isPopupVisible"
+      :sourceDocuments="sourceDocuments"
       @close="closePopup"
     />
   </div>
@@ -208,7 +209,7 @@ export default {
         this.sourceDocuments = response.data.source_documents;
       } catch (error) {
         console.error('Error fetching data:', error);
-        this.sourceDocuments = []; //에러일 때는 빈배열로
+        this.sourceDocuments = []; // 에러일 때는 빈배열로
       }
     },
     closePopup() {

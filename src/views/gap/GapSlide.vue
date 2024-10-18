@@ -29,18 +29,8 @@
         </table>
 
         <div class="tab-navigation">
-          <button
-            :class="['tab-button', { active: activeTab === 'recommendation' }]"
-            @click="setActiveTab('recommendation')"
-          >
-            추천
-          </button>
-          <button
-            :class="['tab-button', { active: activeTab === 'status' }]"
-            @click="setActiveTab('status')"
-          >
-            현황
-          </button>
+          <button :class="['tab-button', { active: activeTab === 'recommendation' }]" @click="setActiveTab('recommendation')">추천</button>
+          <button :class="['tab-button', { active: activeTab === 'status' }]" @click="setActiveTab('status')">현황</button>
           <div class="tab-indicator" :style="indicatorStyle"></div>
         </div>
 
@@ -49,7 +39,6 @@
             <div v-if="activeTab === 'recommendation'" key="recommendation">
               <CCard class="mapped-elements">
                 <CCardHeader class="CCardHeader">
-
                   <div class="header-title-container">
                     <span class="header-title">정책/지침 자료 추천</span>
                     <span class="ai-badge-feedback1">AI</span>
@@ -58,15 +47,13 @@
                 <CCardBody class="CCardBody">
                   <div class="ai-suggestion">
                     <CIcon class="icon-blue" icon="cil-Braille" size="xl" />
-                    <div v-if="sourceDocuments && sourceDocuments.length > 0">
-                      <span class="suggestion-text">PIM은 문서 적합도 기반으로 {{ sourceDocuments.length }}개의 정책/지침 문서를 추천드립니다.</span>
-                    </div>
+                    <span class="suggestion-text">PIM은 문서 적합도 기반으로 {{ sourceDocuments.length }}개의 정책/지침 자료를 추천드립니다.</span>
                   </div>
                   <ul class="recommendation-list">
-                    <li v-for="(document, index) in sourceDocuments" :key="index" >
+                    <li v-for="(document, index) in sourceDocuments" :key="index">
                       <div class="law-title" @click="toggleSuggestPolicy(index)">
                         <span class="law-text">{{ document.title }}</span>
-                        <span class="similarity">{{ document.similarity }}</span>
+                        <span class="similarity">{{ document.similarity }}%</span>
                         <div class="action-buttons">
                           <button class="action-button add-button" @click="showAddConfirmation(index)">
                             <span class="button-icon">+</span>
@@ -84,6 +71,7 @@
                   <button class="show-more">How To Use</button>
                 </CCardBody>
               </CCard>
+
 
               <CCard class="mapped-elements">
                 <CCardHeader class="CCardHeader">
@@ -121,8 +109,9 @@
               </CCard>
             </div>
 
-            <div v-else-if="activeTab === 'status'" key="status">
 
+
+            <div v-else-if="activeTab === 'status'" key="status">
                 <CCard class="mb-4">
                   <CCardHeader class="header-title">
                     정책/지침 운영 현황
@@ -216,7 +205,8 @@
 </template>
 
 <script>
-import { CCard, CCardBody } from '@coreui/vue-pro';
+import { CCard, CCardBody} from '@coreui/vue-pro';
+
 export default {
   name: 'GapSlide',
   components: {
@@ -242,6 +232,10 @@ export default {
       activeTab: 'recommendation',
       indicatorPosition: 0,
       indicatorWidth: 0,
+      showAddPopup: false,
+      showRemovePopup: false,
+      currentIndex: null,
+      suggestPolicyVisible: [],
 
 
       aiSuggestions: {
@@ -273,13 +267,10 @@ export default {
       realEvidenceFault: '결함 없음',
 
 
-      showAddPopup: false,
-      showRemovePopup: false,
-      currentIndex: null,
+
       detailsVisible: false,
       realPolicyVisible: [],
       realEvidenceVisible: [],
-      suggestPolicyVisible: [],
       suggestEvidenceVisible: []
     }
   },
@@ -549,18 +540,6 @@ export default {
   list-style-type: none;
   padding: 0;
   margin: 0;
-}
-
-.recommendation-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
-  border-bottom: 1px solid #e0e0e0;
-}
-
-.policy-title {
-  flex-grow: 1;
 }
 
 .action-buttons {
