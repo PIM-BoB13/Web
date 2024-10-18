@@ -73,8 +73,8 @@
             <CButton class="me-1 float-end" color="secondary" size="sm" @click.prevent="print">
               <CIcon icon="cil-print" /> Print
             </CButton>
-            <CButton class="me-1 float-end" color="success" size="sm" style="color:white;">
-              <CIcon icon="cil-save" /> Save
+            <CButton class="me-1 float-end" color="success" size="sm" style="color:white;" @click="showConfirmationPopup">
+              <CIcon icon="cil-save" /> 기업 자료 분석 시작
             </CButton>
           </CCardHeader>
 
@@ -110,6 +110,17 @@
       </CCol>
     </CRow>
   </div>
+
+  <div v-if="showPopup" class="confirmation-popup">
+    <div class="popup-content">
+      <p>기업 자료 분석을 시작하시겠습니까?</p>
+      <div class="popup-buttons">
+        <button @click="startAnalysis">예</button>
+        <button @click="showPopup = false">아니오</button>
+      </div>
+    </div>
+  </div>
+
 </template>
 
 <script>
@@ -118,6 +129,7 @@ import axios from 'axios';
 export default {
   data() {
     return {
+      showPopup: false,
       selectedFileType: '', // 파일 종류 선택
       selectedCategory: '', // 문서 카테고리 선택
       dropdownOpen: false, // 드롭다운 상태
@@ -131,6 +143,20 @@ export default {
     };
   },
   methods: {
+    async startAnalysis() {
+      this.showPopup = false;
+      try {
+        // eslint-disable-next-line no-unused-vars
+        const response = await axios.post('http://43.202.210.72:5000/create_index');
+        alert('분석이 성공적으로 시작되었습니다.');
+      } catch (error) {
+        console.error('분석 시작 중 오류가 발생했습니다:', error);
+        alert('분석 시작 중 오류가 발생했습니다.');
+      }
+    },
+    showConfirmationPopup() {
+      this.showPopup = true;
+    },
     toggleDropdown() {
       this.dropdownOpen = !this.dropdownOpen;
     },
@@ -198,6 +224,38 @@ export default {
 </script>
 
 <style scoped>
+.confirmation-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.confirmation-popup .popup-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.confirmation-popup .popup-buttons {
+  margin-top: 20px;
+}
+
+.confirmation-popup button {
+  margin: 0 10px;
+  padding: 5px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
 .upload-page {
   padding: 20px;
   display: flex;
