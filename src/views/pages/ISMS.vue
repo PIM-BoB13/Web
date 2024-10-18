@@ -176,7 +176,7 @@ export default {
         });
         if (response.data.status === 'success') {
           this.selectedOperationalDetails = {
-            description: `${subItem.id} ${subItem.title}의 상세내용`,
+            description: `${subItem.id} ${subItem.title}의 세부설명`,
             status: subItem.status,
             Details: subItem.Details,
             operationalStatus: this.formatResponse(response.data.response),
@@ -228,14 +228,31 @@ export default {
               {
                 title: "1.1.1 경영진의 참여",
                 subItems: [
-                  { id: "1.1.1.1", title: "경영진의 참여 세부항목 1", status: "판단 전", Details: "세부항목 1의 상세내용", operationalStatus: "운영현황", relatedDocuments: "관련문서", records: "기록" },
-                  { id: "1.1.1.2", title: "경영진의 참여 세부항목 2", status: "결함" },
+                  { id: "1.1.1.1", status: "판단 전", Details: "정보보호 및 개인정보보호 관리체계의 수립 및 운영활동 전반에 경영진의 참여가 이루어질 수 있도록 보고 및 의사결정 등의 책임과 역할을 문서화하고 있는가?" },
+                  { id: "1.1.1.2", status: "결함", Details: "경영진이 정보보호 및 개인정보보호 활동에 관한 의사결정에 적극적으로 참여할 수 있는 보고, 검토 및 승인 절차를 수립·이행하고 있는가?" },
                 ]
               },
               {
                 title: "1.1.2 최고책임자의 지정",
                 subItems: [
-                  { id: "1.1.2.1", title: "최고책임자의 지정 세부항목 1", status: "이행" },
+                  { id: "1.1.2.1", status: "이행" },
+                  { id: "1.1.2.2", status: "이행" },
+                ]
+              },
+              {
+                title: "1.1.3 조직  구성",
+                subItems: [
+                  { id: "1.1.3.1", status: "이행" },
+                  { id: "1.1.3.2", status: "이행" },
+                  { id: "1.1.3.3", status: "이행" },
+                ]
+              },
+              {
+                title: "1.1.4 범위 설정",
+                subItems: [
+                  { id: "1.1.4.1", status: "이행" },
+                  { id: "1.1.4.2", status: "이행" },
+                  { id: "1.1.4.3", status: "이행" },
                 ]
               },
             ]
@@ -246,7 +263,7 @@ export default {
               {
                 title: "1.2.1 정보자산 식별",
                 subItems: [
-                  { id: "1.2.1.1", title: "정보자산 식별 세부항목 1", status: "이행" },
+                  { id: "1.2.1.1", status: "이행" },
                 ]
               },
             ]
@@ -262,7 +279,7 @@ export default {
               {
                 title: "2.1.1 자산 식별",
                 subItems: [
-                  { id: "2.1.1.1", title: "자산 식별 세부항목 1", status: "이행" },
+                  { id: "2.1.1.1", status: "이행" },
                 ]
               },
             ]
@@ -489,4 +506,18 @@ table tr:hover td {
   overflow: hidden; /* Hide the scrollbar */
   resize: none; /* Prevent manual resizing */
 }
+
+/* Adjust the width of the columns for "항목", "이행여부", and "운영명세서" */
+.small-table th:nth-child(1), /* Assuming "항목" is the first column */
+.small-table td:nth-child(1) {
+  width: 200px; /* Increase the width as needed */
+}
+
+.small-table th:nth-child(3), /* Assuming "이행여부" is the second column */
+.small-table td:nth-child(2),
+.small-table th:nth-child(3), /* Assuming "운영명세서" is the third column */
+.small-table td:nth-child(3) {
+  width: 60px; /* Decrease the width as needed */
+}
+
 </style>
