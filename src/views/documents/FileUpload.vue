@@ -50,8 +50,8 @@
         <div class="file-upload-area" @click="triggerFileUpload">
 
 
-            <span v-if="file">{{ file.name }}</span>
-            <span v-else>파일을 선택해주세요</span>
+          <span v-if="file">{{ file.name }}</span>
+          <span v-else>파일을 선택해주세요</span>
 
           <input type="file" id="file-upload" ref="fileInput" @change="handleFileUpload" style="display: none;" />
         </div>
@@ -142,7 +142,32 @@ export default {
       uploadedFiles: [], // 업로드된 파일 목록
     };
   },
+  created() {
+    this.fetchDocumentList();
+  },
   methods: {
+    async fetchDocumentList() {
+      try {
+        const response = await axios.get('http://43.202.210.72:3000/policy_metadata');
+        if (Array.isArray(response.data)) {
+          this.uploadedFiles = response.data.map(file => ({
+            name: file.FileName,
+            type: file.Category1,
+            category: file.Category2,
+            uploadedAt: new Date(file.UploadDate).toLocaleString(),
+            size: (file.Size / 1024).toFixed(1), // KB 단위로 파일 크기
+            extension: file.FileType,
+            version: file.VersionId,
+          }));
+        } else {
+          console.error('Unexpected response format:', response.data);
+          alert('문서 리스트를 가져오는 중 오류가 발생했습니다.');
+        }
+      } catch (error) {
+        console.error('문서 리스트를 가져오는 중 오류가 발생했습니다:', error);
+        alert('문서 리스트를 가져오는 중 오류가 발생했습니다.');
+      }
+    },
     async startAnalysis() {
       this.showPopup = false;
       try {
@@ -176,6 +201,8 @@ export default {
     handleDrop(event) {
       this.file = event.dataTransfer.files[0]; // 드래그한 파일을 표시
     },
+
+
     async uploadFile() {
       if (!this.selectedFileType || !this.selectedCategory || !this.file) {
         alert('모든 필수 항목을 채워주세요.');
@@ -184,9 +211,10 @@ export default {
 
       const formData = new FormData();
       formData.append('file', this.file);
-      formData.append('fileType', this.selectedFileType);
-      formData.append('category', this.selectedCategory);
       formData.append('file_name', this.file.name); // Add the file name to the form data
+      formData.append('type', 'policy');
+      formData.append('category1', this.selectedCategory);
+      formData.append('category2', this.selectedCategory);
 
       try {
         const response = await axios.post('http://43.202.210.72:3000/upload', formData, {
@@ -197,20 +225,10 @@ export default {
 
         console.log(response.data); // 응답 데이터 확인
 
-        const { message, url } = response.data;
-
-        const uploadedFile = {
-          name: this.file.name,
-          type: this.selectedFileType,
-          category: this.selectedCategory,
-          uploadedAt: new Date().toLocaleString(),
-          size: (this.file.size / 1024).toFixed(1), // KB 단위로 파일 크기
-          extension: this.file.name.split('.').pop(),
-        };
-
-        this.uploadedFiles.push(uploadedFile); // 파일 목록에 추가
         this.file = null; // 파일 초기화
-        alert(`파일이 성공적으로 업로드되었습니다.\n메시지: ${message}\nURL: ${url}`);
+        alert(`파일이 성공적으로 업로드되었습니다!`);
+
+        await this.fetchDocumentList(); // 파일 업로드 후 목록 갱신
       } catch (error) {
         console.error('파일 업로드 중 오류가 발생했습니다:', error);
         alert('파일 업로드 중 오류가 발생했습니다.');
@@ -260,7 +278,7 @@ export default {
   padding: 20px;
   display: flex;
   flex-direction: column;
-  height: 100vh;
+
 }
 
 .left-box {
