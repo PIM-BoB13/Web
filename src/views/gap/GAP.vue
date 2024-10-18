@@ -94,6 +94,7 @@
       :item="selectedItem"
       :isOpen="isPopupVisible"
       :sourceDocuments="sourceDocuments"
+      :recommendations="recommendations"
       @close="closePopup"
     />
   </div>
@@ -172,7 +173,8 @@ export default {
       hoveredControl: null, // Track which control is being hovered
       selectedItem: null, // Track the selected item for the popup
       searchQuery: '', // Track the search query
-      sourceDocuments: [] // Store the retrieved documents
+      sourceDocuments: [], // Store the retrieved documents
+      recommendations: [] // Store the retrieved recommendations
     };
   },
   computed: {
@@ -211,6 +213,19 @@ export default {
         console.error('Error fetching data:', error);
         this.sourceDocuments = []; // 에러일 때는 빈배열로
       }
+
+
+      try {
+        const response = await axios.post('http://43.202.210.72:3001/evidence_recommend', {
+          id: control.id
+        });
+        this.recommendations = response.data.recommendations;
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        this.recommendations = []; // 에러일 때는 빈배열로
+      }
+
+
     },
     closePopup() {
       this.isPopupVisible = false; // Close the popup

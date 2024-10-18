@@ -83,13 +83,12 @@
                 <CCardBody class="CCardBody">
                   <div class="ai-suggestion">
                     <CIcon class="icon-blue" icon="cil-Braille" size="xl" />
-                    <span class="suggestion-text">PIM은 문서 적합도 기반으로 {{ aiSuggestions.evidence }}개의 증적 자료를 추천드립니다.</span>
+                    <span class="suggestion-text">PIM은 문서 적합도 기반으로 {{ recommendations.length }}개의 증적 자료를 추천드립니다.</span>
                   </div>
                   <ul class="recommendation-list">
-                    <li v-for="(evidence, index) in evidences" :key="index">
+                    <li v-for="(recommendations, index) in recommendations" :key="index">
                       <div class="law-title" @click="toggleSuggestEvidence(index)">
-                        <span class="law-text">{{ evidence.title }}</span>
-                        <span class="similarity">{{ evidence.similarity }}</span>
+                        <span class="law-text">{{ recommendations }}</span>
                         <div class="action-buttons">
                           <button class="action-button add-button" @click="showAddConfirmation(index)">
                             <span class="button-icon">+</span>
@@ -99,9 +98,7 @@
                           </button>
                         </div>
                       </div>
-                      <div v-if="isSuggestEvidenceVisible(index)" class="feedback-content">
-                        {{ evidence.content }}
-                      </div>
+
                     </li>
                   </ul>
                   <button class="show-more">How To Use</button>
@@ -112,45 +109,45 @@
 
 
             <div v-else-if="activeTab === 'status'" key="status">
-                <CCard class="mb-4">
-                  <CCardHeader class="header-title">
-                    정책/지침 운영 현황
-                  </CCardHeader>
-                  <CCBody>
-                    <div v-for="(policy, index) in realpolicy" :key="index">
-                      <div class="law-title" @click="toggleRealPolicy(index)">
-                        <span class="law-text">{{ policy.title }}</span>
-                        <button class="toggle-btn" @click.stop="toggleRealPolicy(index)">
-                          <span v-if="isRealPolicyVisible(index)">▲</span>
-                          <span v-else>▼</span>
-                        </button>
-                      </div>
-                      <div v-if="isRealPolicyVisible(index)" class="feedback-content">
-                        {{ policy.content }}
-                      </div>
+              <CCard class="mb-4">
+                <CCardHeader class="header-title">
+                  정책/지침 운영 현황
+                </CCardHeader>
+                <CCBody>
+                  <div v-for="(policy, index) in realpolicy" :key="index">
+                    <div class="law-title" @click="toggleRealPolicy(index)">
+                      <span class="law-text">{{ policy.title }}</span>
+                      <button class="toggle-btn" @click.stop="toggleRealPolicy(index)">
+                        <span v-if="isRealPolicyVisible(index)">▲</span>
+                        <span v-else>▼</span>
+                      </button>
                     </div>
-                  </CCBody>
-                </CCard>
+                    <div v-if="isRealPolicyVisible(index)" class="feedback-content">
+                      {{ policy.content }}
+                    </div>
+                  </div>
+                </CCBody>
+              </CCard>
 
-                <CCard class="mb-4">
-                  <CCardHeader class="header-title">
-                    증적 자료 운영 현황
-                  </CCardHeader>
-                  <CCBody>
-                    <div v-for="(evidence, index) in realevidence" :key="index">
-                      <div class="law-title" @click="toggleRealEvidence(index)">
-                        <span class="law-text">{{ evidence.title }}</span>
-                        <button class="toggle-btn" @click.stop="toggleRealEvidence(index)">
-                          <span v-if="isRealEvidenceVisible(index)">▲</span>
-                          <span v-else>▼</span>
-                        </button>
-                      </div>
-                      <div v-if="isRealEvidenceVisible(index)" class="feedback-content">
-                        {{ evidence.content }}
-                      </div>
+              <CCard class="mb-4">
+                <CCardHeader class="header-title">
+                  증적 자료 운영 현황
+                </CCardHeader>
+                <CCBody>
+                  <div v-for="(evidence, index) in realevidence" :key="index">
+                    <div class="law-title" @click="toggleRealEvidence(index)">
+                      <span class="law-text">{{ evidence.title }}</span>
+                      <button class="toggle-btn" @click.stop="toggleRealEvidence(index)">
+                        <span v-if="isRealEvidenceVisible(index)">▲</span>
+                        <span v-else>▼</span>
+                      </button>
                     </div>
-                  </CCBody>
-                </CCard>
+                    <div v-if="isRealEvidenceVisible(index)" class="feedback-content">
+                      {{ evidence.content }}
+                    </div>
+                  </div>
+                </CCBody>
+              </CCard>
 
 
               <CCard class="mb-4">
@@ -223,6 +220,10 @@ export default {
       required: true
     },
     sourceDocuments: {
+      type: Array,
+      required: true
+    },
+    recommendations: {
       type: Array,
       required: true
     }
