@@ -203,6 +203,7 @@
 
 <script>
 import { CCard, CCardBody} from '@coreui/vue-pro';
+import axios from 'axios';
 
 export default {
   name: 'GapSlide',
@@ -243,16 +244,6 @@ export default {
         policy: 3,
         evidence: 3
       },
-      source_documents: [
-        { title: '정보보호 의사소통계획', content: 'AA', similarity:'90%', selected: true },
-        { title: '정보보호 및 개인정보보호 지침', content: 'BB', similarity:'80%', selected: true },
-        { title: '내부 관리계획', content: 'CC', similarity:'70%', selected: true },
-      ],
-      evidences: [
-        { title: '정보보호 보고체계', content: 'AA', similarity:'91%', selected: true },
-        { title: '정책/지침 경영진 승인내역', content: 'BB', similarity:'82%', selected: true },
-        { title: '정보보호 및 개인정보보호 조직도', content: 'CC', similarity:'73%', selected: true }
-      ],
 
       realpolicy: [
         { title: '정보보호 지침1', content: '~~ 잘 운영되고 있음.' },
@@ -311,8 +302,27 @@ export default {
       this.currentIndex = index;
       this.showRemovePopup = true;
     },
-    confirmAdd() {
-      this.showAddPopup = false;
+
+
+
+    async confirmAdd() {
+      const selectedDocument = this.sourceDocuments[this.currentIndex];
+      const payload = {
+        userId: 'user1',
+        id: this.item.id,
+        title: selectedDocument.title,
+        content: selectedDocument.content,
+        similarity: selectedDocument.similarity
+      };
+
+      try {
+        const response = await axios.post('http://43.202.210.72:5001/user-selected', payload);
+        this.showAddPopup = false;
+        alert(`Status: ${response.data.status}\nMessage: ${response.data.message}\nData Status: ${response.data.data.status}`);
+      } catch (error) {
+        console.error('Error sending document to server:', error);
+        alert('Error sending document to server.');
+      }
     },
     cancelAdd() {
       this.showAddPopup = false;
