@@ -238,17 +238,9 @@ export default {
       showRemovePopup: false,
       currentIndex: null,
       suggestPolicyVisible: [],
+      realpolicy: [],
 
 
-      aiSuggestions: {
-        policy: 3,
-        evidence: 3
-      },
-
-      realpolicy: [
-        { title: '정보보호 지침1', content: '~~ 잘 운영되고 있음.' },
-        { title: '정보보호 지침2', content: '~~ 내용이 포함되어 있지 않음.' },
-      ],
       realevidence: [
         { title: '정보보호 임원 회의록', content: '~~ 잘 운영되고 있음.' },
         { title: '기업 조직도 구성도', content: '~~ 잘 운영되고 있음.' },
@@ -275,8 +267,11 @@ export default {
     }
   },
   methods: {
-    setActiveTab(tab) {
+    async setActiveTab(tab) {
       this.activeTab = tab;
+      if (tab === 'status') {
+        await this.fetchPolicyStatus();
+      }
       this.$nextTick(() => {
         const activeButton = this.$el.querySelector('.tab-button.active');
         if (activeButton) {
@@ -284,6 +279,16 @@ export default {
           this.indicatorWidth = activeButton.offsetWidth;
         }
       });
+    },
+    async fetchPolicyStatus() {
+      try {
+        const response = await axios.post('http://43.202.210.72:5002/now_document', {
+          ISMSID: this.item.id
+        });
+        this.realpolicy = response.data;
+      } catch (error) {
+        console.error('Error fetching policy status:', error);
+      }
     },
     closePopup() {
       this.$emit('close')
