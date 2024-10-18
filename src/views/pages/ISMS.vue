@@ -87,10 +87,15 @@
               <div class="detail-box operational-status-box">
                 <strong>운영현황(또는 미선택사유)</strong>
                 <div v-if="isEditMode">
-                  <textarea v-model="editOperationalStatus" class="form-control"></textarea>
+                  <div
+                    class="form-control"
+                    ref="editOperationalStatusTextarea"
+                    contenteditable="true"
+                    v-html="editOperationalStatus"
+                    @input="updateOperationalStatus">
+                  </div>
                 </div>
-                <div v-else class="details-paragraph">
-                  {{ selectedOperationalDetails.operationalStatus }}
+                <div v-else class="details-paragraph" v-html="selectedOperationalDetails.operationalStatus">
                 </div>
               </div>
               <div class="detail-row">
@@ -132,9 +137,17 @@
 <script>
 import { ref, computed } from "vue";
 import { CCardBody } from "@coreui/vue-pro/dist/esm/components/card";
+import axios from 'axios';
 
 export default {
   methods: {
+    adjustTextareaHeight() {
+      const textarea = this.$refs.editOperationalStatusTextarea;
+      if (textarea) {
+        textarea.style.height = 'auto';
+        textarea.style.height = `${textarea.scrollHeight}px`;
+      }
+    },
     getStatusClass(status) {
       if (status === '이행') return 'text-success';
       if (status === '결함') return 'text-danger';
@@ -148,7 +161,40 @@ export default {
         this.editRelatedDocuments = this.selectedOperationalDetails.relatedDocuments;
         this.editRecords = this.selectedOperationalDetails.records;
         this.editStatus = this.selectedOperationalDetails.status;
+        this.$nextTick(() => {
+          this.adjustTextareaHeight();
+        });
       }
+    },
+    updateOperationalStatus(event) {
+      this.editOperationalStatus = event.target.innerHTML;
+    },
+    async viewOperationalDetails(subItem) {
+      try {
+        const response = await axios.post('http://43.202.210.72:5002/ask', {
+          ISMSID: subItem.id
+        });
+        if (response.data.status === 'success') {
+          this.selectedOperationalDetails = {
+            description: `${subItem.id} ${subItem.title}의 상세내용`,
+            status: subItem.status,
+            Details: subItem.Details,
+            operationalStatus: this.formatResponse(response.data.response),
+            relatedDocuments: subItem.relatedDocuments,
+            records: subItem.records
+          };
+        } else {
+          console.error('Error fetching data:', response.data);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+      this.isEditMode = false;
+    },
+    formatResponse(response) {
+      return response
+        .replace(/\n/g, '<br>')
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
     },
     saveDetails() {
       this.selectedOperationalDetails.operationalStatus = this.editOperationalStatus;
@@ -239,24 +285,13 @@ export default {
     const editRecords = ref("");
     const editStatus = ref("");
 
-    const viewOperationalDetails = (subItem) => {
-      selectedOperationalDetails.value = {
-        description: `${subItem.id} ${subItem.title}의 상세내용`,
-        status: subItem.status,
-        Details: subItem.Details,
-        operationalStatus: subItem.operationalStatus,
-        relatedDocuments: subItem.relatedDocuments,
-        records: subItem.records
-      };
-      isEditMode.value = false;
-    };
 
     return {
       sections,
       searchQuery,
       filteredSections,
       selectedOperationalDetails,
-      viewOperationalDetails,
+
       isEditMode,
       editOperationalStatus,
       editRelatedDocuments,
@@ -400,7 +435,10 @@ table tr:hover td {
 }
 
 .operational-status-box {
-  height: 250px; /* Adjust the value as needed */
+  overflow: auto; /* Enable scrolling if content overflows */
+  max-height: none; /* Remove any fixed height constraints */
+  height: auto; /* Allow the box to grow with the content */
+  white-space: pre-wrap; /* Preserve whitespace and wrap text */
 }
 
 .btn-details {
@@ -435,7 +473,9 @@ table tr:hover td {
   height: auto; /* Ensure the height is auto */
 }
 
-.detail-box textarea{
+.detail-box textarea {
   margin-top: 8px; /* Adjust the value as needed */
+  overflow: hidden; /* Hide the scrollbar */
+  resize: none; /* Prevent manual resizing */
 }
 </style>
