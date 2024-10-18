@@ -71,20 +71,20 @@ export default [
       },
     ]
   },
-  {
-    component: 'CNavTitle',
-    name: () => i18next.t('COMPLIANCE ANALYSIS'),
-  },
-  {
-    component: 'CNavItem',
-    name: '컴플라이언스 분석',
-    to: '/apps/invoicing/invoice',
-    icon: 'cil-chart-pie',
-    badge: {
-      color: 'info',
-      text: 'AI',
-    },
-  },
+  // {
+  //   component: 'CNavTitle',
+  //   name: () => i18next.t('COMPLIANCE ANALYSIS'),
+  // },
+  // {
+  //   component: 'CNavItem',
+  //   name: '컴플라이언스 분석',
+  //   to: '/apps/invoicing/invoice',
+  //   icon: 'cil-chart-pie',
+  //   badge: {
+  //     color: 'info',
+  //     text: 'AI',
+  //   },
+  // },
 
 
   {

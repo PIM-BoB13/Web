@@ -180,7 +180,7 @@
         <!-- Confirmation Popups -->
         <div v-if="showAddPopup" class="confirmation-popup">
           <div class="popup-content">
-            <p>추가하시겠습니까?</p>
+            <p>해당 정책/지침 자료를 현황에 추가하시겠습니까?</p>
             <div class="popup-buttons">
               <button @click="confirmAdd">예</button>
               <button @click="cancelAdd">아니오</button>
@@ -323,7 +323,7 @@ export default {
       try {
         const response = await axios.post('http://43.202.210.72:5001/user-selected', payload);
         this.showAddPopup = false;
-        alert(`Status: ${response.data.status}\nMessage: ${response.data.message}\nData Status: ${response.data.data.status}`);
+        alert('현황에 해당 정책/지침 자료가 성공적으로 추가되었습니다!');
       } catch (error) {
         console.error('Error sending document to server:', error);
         alert('Error sending document to server.');
@@ -622,18 +622,33 @@ export default {
   padding: 20px;
   border-radius: 5px;
   text-align: center;
+  height: 130px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+
+.confirmation-popup p {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 20px;
 }
 
 .confirmation-popup .popup-buttons {
-  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
 }
 
+
 .confirmation-popup button {
-  margin: 0 10px;
-  padding: 5px 15px;
+  padding: 10px 20px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
 }
 
 .mapped-elements .CCardHeader {
