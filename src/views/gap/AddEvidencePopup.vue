@@ -46,6 +46,7 @@
 
       <!-- Step 1: File Upload -->
       <div v-if="currentStep === 1" class="step-content">
+        <div class="content-wrapper">
         <h2 class="step-title">'{{ evidenceName }}'를 업로드해주세요</h2>
 
         <div class="upload-zone"
@@ -79,9 +80,11 @@
             </button>
           </div>
         </div>
+        </div>
 
 
         <div class="action-buttons">
+          <div class="button-container">
           <button class="button next"
                   @click="nextStep"
                   :disabled="!selectedFile">
@@ -89,20 +92,21 @@
           </button>
         </div>
       </div>
+      </div>
 
       <!-- Step 2: Analysis Result -->
       <div v-else-if="currentStep === 2" class="step-content">
-        <h2 class="step-title">분석 결과</h2>
+        <h2 class="step-title1">분석 결과</h2>
 
         <div class="analysis-container">
           <div class="analysis-header">
             <div class="file-info">
               <i class="fas fa-file-alt"></i>
               <span>{{ selectedFile?.name }}</span>
-            </div>
-            <div class="analysis-status success">
-              <i class="fas fa-check-circle"></i>
-              분석 완료
+              <div class="analysis-status success">
+                <i class="fas fa-check-circle"></i>
+                분석 완료
+              </div>
             </div>
           </div>
 
@@ -131,9 +135,12 @@
         </div>
 
         <div class="action-buttons">
-          <button class="button cancel" @click="$emit('cancel')">취소</button>
-          <button class="button confirm" @click="$emit('confirm')">현황에 추가</button>
+          <div class="button-container">
+            <button class="button cancel" @click="$emit('cancel')">취소</button>
+            <button class="button confirm" @click="$emit('confirm')">현황에 추가</button>
+          </div>
         </div>
+
       </div>
     </div>
   </div>
@@ -208,6 +215,15 @@ export default {
 </script>
 
 <style scoped>
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px; /* 버튼 사이의 간격을 20px로 설정 */
+  max-width: 400px; /* 버튼 컨테이너의 최대 너비 설정 */
+  margin: 0 auto; /* 가운데 정렬 */
+}
+
 .step-text {
   font-size: 14px;
   font-weight: 700;
@@ -227,6 +243,7 @@ export default {
   display: flex;
   align-items: center;
   transition: all 0.3s ease;
+  margin-left: 10px; /* 왼쪽으로 10px 이동 */
 }
 
 /* Active State */
@@ -327,11 +344,14 @@ export default {
 
 .popup-container {
   background-color: white;
-  width: 600px;
+  width: 700px; /* 고정된 너비 */
+  height: 700px; /* 고정된 높이 */
   border-radius: 12px;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
   position: relative;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .close-button {
@@ -425,7 +445,17 @@ export default {
 }
 
 .step-content {
-  padding: 30px 40px;
+  padding: 20px 40px;
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0; /* 이것이 flex 아이템의 스크롤을 가능하게 합니다 */
+}
+.content-wrapper {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 20px;
 }
 
 .step-title {
@@ -436,6 +466,13 @@ export default {
   text-align: center;
 }
 
+.step-title1 {
+  font-size: 20px;
+  color: #1e293b;
+  margin: 0 0 20px 0;
+  font-weight: 600;
+  text-align: center;
+}
 .upload-zone {
   border: 2px dashed #e2e8f0;
   border-radius: 8px;
@@ -479,7 +516,7 @@ export default {
 }
 
 .file-list {
-  min-height: 60px; /* 최소 높이 설정 */
+  min-height: 0px; /* 최소 높이 설정 */
   transition: all 0.3s ease;
 }
 
@@ -489,7 +526,6 @@ export default {
   padding: 12px 16px;
   background-color: #f8fafc;
   border-radius: 6px;
-  margin-bottom: 24px;
 }
 
 .selected-file i {
@@ -506,12 +542,14 @@ export default {
   padding: 4px;
 }
 
+/* 버튼 영역 조정 */
 .action-buttons {
-  display: flex;
-  justify-content: center; /* 버튼들을 가로 중앙으로 정렬 */
-  gap: 12px;
-  margin-top: 20px; /* 버튼과 위 요소들 사이에 여백 추가 */
+  padding: 20px 0;
+  background-color: white;
+  border-top: 1px solid #e2e8f0;
+  margin-top: auto; /* 이것이 버튼을 항상 아래에 위치시킵니다 */
 }
+
 
 
 .button {
@@ -521,6 +559,13 @@ export default {
   cursor: pointer;
   transition: all 0.3s;
   border: none;
+  min-width: 120px;
+}
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .button.cancel {
@@ -553,15 +598,19 @@ export default {
   border-radius: 8px;
   overflow: hidden;
   margin-bottom: 24px;
+  height: calc(100% - 160px); /* 상단 여백과 버튼 영역을 고려한 높이 */
+  display: flex;
+  flex-direction: column;
 }
 
+/* 헤더 부분 조정 */
 .analysis-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   padding: 16px 24px;
   background-color: white;
   border-bottom: 1px solid #e2e8f0;
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
 .file-info {
@@ -583,52 +632,78 @@ export default {
 }
 
 .analysis-content {
-  padding: 24px;
+  padding: 20px;
+  flex: 1;
+  overflow-y: auto;
 }
 
 .analysis-section {
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 .analysis-section h3 {
   font-size: 16px;
   color: #1e293b;
-  margin-bottom: 16px;
+  margin-bottom: 13px;
   font-weight: 600;
 }
 
 .info-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
+  gap: 12px;
+  margin-bottom: 20px;
 }
-
 .info-item {
   background-color: white;
-  padding: 12px 16px;
+  padding: 6px 16px;
   border-radius: 6px;
   border: 1px solid #e2e8f0;
+
 }
 
 .info-item .label {
-  font-size: 14px;
+  font-size: 12px;
   color: #64748b;
   display: block;
-  margin-bottom: 4px;
+  margin-bottom: 0px;
 }
 
 .info-item .value {
-  font-size: 16px;
+  font-size: 14px;
   color: #1e293b;
   font-weight: 500;
 }
 
 .result-content {
+  font-weight: 700;
   background-color: white;
   padding: 16px;
   border-radius: 6px;
-  border: 1px solid #e2e8f0;
+  border: 3px solid #e2e8f0;
   color: #1e293b;
   line-height: 1.6;
+  min-height: 100px; /* Set a minimum height */
+  overflow-y: auto; /* Enable scrolling if content overflows */
+  font-size: 15px;
+  margin-top: 10px;
+}
+/* 스크롤바 스타일링 */
+.result-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.result-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.result-content::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.result-content::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 </style>
