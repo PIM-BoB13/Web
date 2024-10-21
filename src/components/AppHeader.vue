@@ -10,11 +10,14 @@ import AppHeaderDropdownTasks from '@/components/AppHeaderDropdownTasks.vue'
 import { useAsideStore } from '@/stores/aside.js'
 import { useSidebarStore } from '@/stores/sidebar.js'
 
+// eslint-disable-next-line no-unused-vars
 const { t, i18next } = useTranslation()
+// eslint-disable-next-line no-unused-vars
+const { colorMode, setColorMode } = useColorModes('coreui-pro-vue-admin-template-theme-modern')
 const aside = useAsideStore()
 const sidebar = useSidebarStore()
 const headerClassNames = ref('mb-4 p-0')
-const { colorMode, setColorMode } = useColorModes('coreui-pro-vue-admin-template-theme-modern')
+
 
 onMounted(() => {
   document.addEventListener('scroll', () => {
@@ -59,81 +62,11 @@ onMounted(() => {
         <li class="nav-item py-1">
           <div class="vr h-100 mx-2 text-body text-opacity-75"></div>
         </li>
-        <CDropdown variant="nav-item" placement="bottom-end">
-          <CDropdownToggle :caret="false">
-            <CIcon icon="cil-language" size="lg" />
-          </CDropdownToggle>
-          <CDropdownMenu>
-            <CDropdownItem
-              :active="i18next.language === 'en'"
-              as="button"
-              class="d-flex align-items-center"
-              @click="i18next.changeLanguage('en')"
-            >
-              <CIcon class="me-2" icon="cif-gb" size="lg" /> English
-            </CDropdownItem>
-            <CDropdownItem
-              :active="i18next.language === 'es'"
-              as="button"
-              class="d-flex align-items-center"
-              @click="i18next.changeLanguage('es')"
-            >
-              <CIcon class="me-2" icon="cif-es" size="lg" /> Español
-            </CDropdownItem>
-            <CDropdownItem
-              :active="i18next.language === 'pl'"
-              as="button"
-              class="d-flex align-items-center"
-              @click="i18next.changeLanguage('pl')"
-            >
-              <CIcon class="me-2" icon="cif-pl" size="lg" /> Polski
-            </CDropdownItem>
-          </CDropdownMenu>
-        </CDropdown>
-        <CDropdown variant="nav-item" placement="bottom-end">
-          <CDropdownToggle :caret="false">
-            <CIcon v-if="colorMode === 'dark'" icon="cil-moon" size="lg" />
-            <CIcon v-else-if="colorMode === 'light'" icon="cil-sun" size="lg" />
-            <CIcon v-else icon="cil-contrast" size="lg" />
-          </CDropdownToggle>
-          <CDropdownMenu>
-            <CDropdownItem
-              :active="colorMode === 'light'"
-              as="button"
-              class="d-flex align-items-center"
-              type="button"
-              @click="setColorMode('light')"
-            >
-              <CIcon class="me-2" icon="cil-sun" size="lg" /> Light
-            </CDropdownItem>
-            <CDropdownItem
-              :active="colorMode === 'dark'"
-              as="button"
-              class="d-flex align-items-center"
-              type="button"
-              @click="setColorMode('dark')"
-            >
-              <CIcon class="me-2" icon="cil-moon" size="lg" /> Dark
-            </CDropdownItem>
-            <CDropdownItem
-              :active="colorMode === 'auto'"
-              as="button"
-              class="d-flex align-items-center"
-              type="button"
-              @click="setColorMode('auto')"
-            >
-              <CIcon class="me-2" icon="cil-contrast" size="lg" /> Auto
-            </CDropdownItem>
-          </CDropdownMenu>
-        </CDropdown>
-        <li class="nav-item py-1">
-          <div class="vr h-100 mx-2 text-body text-opacity-75"></div>
-        </li>
       </CHeaderNav>
       <CHeaderNav>
         <AppHeaderDropdownAccnt />
       </CHeaderNav>
-      <CHeaderToggler @click="aside.toggleVisible()" style="margin-inline-end: -12px">
+      <CHeaderToggler @click="aside.toggleVisible()" style="margin-inline-end: -14px">
         <CIcon icon="cil-applications-settings" size="lg" />
       </CHeaderToggler>
     </CContainer>
