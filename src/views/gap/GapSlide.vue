@@ -86,19 +86,18 @@
                     <span class="suggestion-text">PIM은 문서 적합도 기반으로 {{ recommendations.length }}개의 증적 자료를 추천드립니다.</span>
                   </div>
                   <ul class="recommendation-list">
-                    <li v-for="(recommendations, index) in recommendations" :key="index">
+                    <li v-for="(recommendation, index) in recommendations" :key="index">
                       <div class="law-title" @click="toggleSuggestEvidence(index)">
-                        <span class="law-text">{{ recommendations }}</span>
+                        <span class="law-text">{{ recommendation }}</span>
                         <div class="action-buttons">
-                          <button class="action-button add-button" @click="showAddConfirmation(index)">
+                          <button class="action-button add-button" @click="showAddEvidenceConfirmation(index)">
                             <span class="button-icon">+</span>
                           </button>
-                          <button class="action-button remove-button" @click="showRemoveConfirmation(index)">
+                          <button class="action-button remove-button" @click="showRemoveEvidenceConfirmation(index)">
                             X
                           </button>
                         </div>
                       </div>
-
                     </li>
                   </ul>
                   <button class="show-more">How To Use</button>
@@ -189,10 +188,26 @@
         </div>
         <div v-if="showRemovePopup" class="confirmation-popup">
           <div class="popup-content">
-            <p>삭제하시겠습니까?</p>
+            <p>추천된 해당 정책/지침 항목을 삭제하시겠습니까?</p>
             <div class="popup-buttons">
               <button @click="confirmRemove">예</button>
               <button @click="cancelRemove">아니오</button>
+            </div>
+          </div>
+        </div>
+
+        <AddEvidencePopup
+          v-if="showAddEvidencePopup"
+          :evidenceName="selectedEvidenceName"
+          @confirm="confirmAddEvidence"
+          @cancel="cancelAddEvidence"
+        />
+        <div v-if="showRemoveEvidencePopup" class="confirmation-popup">
+          <div class="popup-content">
+            <p>추천된 해당 증적 자료를 삭제하겠습니까?</p>
+            <div class="popup-buttons">
+              <button @click="confirmRemoveEvidence">예</button>
+              <button @click="cancelRemoveEvidence">아니오</button>
             </div>
           </div>
         </div>
@@ -202,6 +217,7 @@
 </template>
 
 <script>
+import AddEvidencePopup from './AddEvidencePopup.vue';
 import { CCard, CCardBody} from '@coreui/vue-pro';
 import axios from 'axios';
 
@@ -209,7 +225,8 @@ export default {
   name: 'GapSlide',
   components: {
     CCard, // CCBody 컴포넌트를 등록
-    CCardBody
+    CCardBody,
+    AddEvidencePopup,
   },
   props: {
     item: {
@@ -236,26 +253,18 @@ export default {
       indicatorWidth: 0,
       showAddPopup: false,
       showRemovePopup: false,
+      showAddEvidencePopup: false,
+      showRemoveEvidencePopup: false,
       currentIndex: null,
       suggestPolicyVisible: [],
       realpolicy: [],
-
-
-      // realevidence: [
-      //   { title: '정보보호 임원 회의록', content: '~~ 잘 운영되고 있음.' },
-      //   { title: '기업 조직도 구성도', content: '~~ 잘 운영되고 있음.' },
-      // ],
-
-
       realPolicyFault: ' ',
       realEvidenceFault: ' ',
-
-
-
       detailsVisible: false,
       realPolicyVisible: [],
       realEvidenceVisible: [],
-      suggestEvidenceVisible: []
+      suggestEvidenceVisible: [],
+      selectedEvidenceName: '',
     }
   },
   computed: {
@@ -307,7 +316,15 @@ export default {
       this.currentIndex = index;
       this.showRemovePopup = true;
     },
-
+    showAddEvidenceConfirmation(index) {
+      this.currentIndex = index;
+      this.selectedEvidenceName = this.recommendations[index]; // Set the selected evidence name
+      this.showAddEvidencePopup = true;
+    },
+    showRemoveEvidenceConfirmation(index) {
+      this.currentIndex = index;
+      this.showRemoveEvidencePopup = true;
+    },
 
 
     async confirmAdd() {
@@ -329,6 +346,43 @@ export default {
         alert('Error sending document to server.');
       }
     },
+
+    async confirmAddEvidence() {
+      const selectedEvidence = this.recommendations[this.currentIndex];
+      const payload = {
+        userId: 'user1',
+        id: this.item.id,
+        evidence: selectedEvidence
+      };
+
+      try {
+        const response = await axios.post('http://43.202.210.72:5003/add-evidence', payload);
+        this.showAddEvidencePopup = false;
+        alert('현황에 해당 증적 자료가 성공적으로 추가되었습니다!');
+      } catch (error) {
+        console.error('Error sending evidence to server:', error);
+        alert('Error sending evidence to server.');
+      }
+    },
+
+    async confirmRemoveEvidence() {
+      const selectedEvidence = this.recommendations[this.currentIndex];
+      const payload = {
+        userId: 'user1',
+        id: this.item.id,
+        evidence: selectedEvidence
+      };
+
+      try {
+        const response = await axios.post('http://43.202.210.72:5004/remove-evidence', payload);
+        this.showRemoveEvidencePopup = false;
+        alert('현황에서 해당 증적 자료가 성공적으로 삭제되었습니다!');
+      } catch (error) {
+        console.error('Error removing evidence from server:', error);
+        alert('Error removing evidence from server.');
+      }
+    },
+
     cancelAdd() {
       this.showAddPopup = false;
     },
@@ -338,6 +392,12 @@ export default {
     },
     cancelRemove() {
       this.showRemovePopup = false;
+    },
+    cancelAddEvidence() {
+      this.showAddEvidencePopup = false;
+    },
+    cancelRemoveEvidence() {
+      this.showRemoveEvidencePopup = false;
     },
     toggleDetails() {
       this.detailsVisible = !this.detailsVisible;
