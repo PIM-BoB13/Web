@@ -4,7 +4,6 @@
       <div class="popup-content">
         <div class="popup-header">
           <h2>{{ item.id }}</h2>
-          <button @click="closePopup" class="close-button">&times;</button>
         </div>
         <p>{{ item.question }}</p>
         <table class="compact-table mb-4">
@@ -177,24 +176,20 @@
         </div>
 
         <!-- Confirmation Popups -->
-        <div v-if="showAddPopup" class="confirmation-popup">
-          <div class="popup-content">
-            <p>해당 정책/지침 자료를 현황에 추가하시겠습니까?</p>
-            <div class="popup-buttons">
-              <button @click="confirmAdd">예</button>
-              <button @click="cancelAdd">아니오</button>
+        <transition name="fade">
+          <div v-if="showAddPopup || showRemovePopup || showRemoveEvidencePopup" class="confirmation-popup">
+            <div class="popup-content">
+              <div class="popup-header">
+                <h5>{{ getPopupTitle() }}</h5>
+              </div>
+              <p v-html="getPopupMessage()"></p>
+              <div class="popup-buttons">
+                <button @click="confirmCurrentAction" class="confirm-button">확인</button>
+                <button @click="closeCurrentPopup" class="cancel-button">취소</button>
+              </div>
             </div>
           </div>
-        </div>
-        <div v-if="showRemovePopup" class="confirmation-popup">
-          <div class="popup-content">
-            <p>추천된 해당 정책/지침 항목을 삭제하시겠습니까?</p>
-            <div class="popup-buttons">
-              <button @click="confirmRemove">예</button>
-              <button @click="cancelRemove">아니오</button>
-            </div>
-          </div>
-        </div>
+        </transition>
 
         <AddEvidencePopup
           v-if="showAddEvidencePopup"
@@ -202,15 +197,6 @@
           @confirm="confirmAddEvidence"
           @cancel="cancelAddEvidence"
         />
-        <div v-if="showRemoveEvidencePopup" class="confirmation-popup">
-          <div class="popup-content">
-            <p>추천된 해당 증적 자료를 삭제하겠습니까?</p>
-            <div class="popup-buttons">
-              <button @click="confirmRemoveEvidence">예</button>
-              <button @click="cancelRemoveEvidence">아니오</button>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -265,6 +251,7 @@ export default {
       realEvidenceVisible: [],
       suggestEvidenceVisible: [],
       selectedEvidenceName: '',
+      selectedDocumentTitle: '',
     }
   },
   computed: {
@@ -276,6 +263,33 @@ export default {
     }
   },
   methods: {
+    getPopupTitle() {
+      if (this.showAddPopup) return '정책/지침 추가';
+      if (this.showRemovePopup) return '정책/지침 삭제';
+      if (this.showRemoveEvidencePopup) return '증적 자료 삭제';
+      return '';
+    },
+    getPopupMessage() {
+      if (this.showAddPopup) return `${this.selectedDocumentTitle}를<br>현황에 추가하시겠습니까?`;
+      if (this.showRemovePopup) return `${this.selectedDocumentTitle}를<br>추천리스트에서 삭제하시겠습니까?`;
+      if (this.showRemoveEvidencePopup) return `${this.selectedEvidenceName}를<br>추천리스트에서 삭제하시겠습니까?`;
+
+      return '';
+    },
+
+    confirmCurrentAction() {
+      if (this.showAddPopup) this.confirmAdd();
+      if (this.showRemovePopup) this.confirmRemove();
+      if (this.showRemoveEvidencePopup) this.confirmRemoveEvidence();
+    },
+
+    closeCurrentPopup() {
+      this.showAddPopup = false;
+      this.showRemovePopup = false;
+      this.showRemoveEvidencePopup = false;
+    },
+
+
     async setActiveTab(tab) {
       this.activeTab = tab;
       if (tab === 'status') {
@@ -310,10 +324,12 @@ export default {
     },
     showAddConfirmation(index) {
       this.currentIndex = index;
+      this.selectedDocumentTitle = this.sourceDocuments[index].title; // Set the selected document title
       this.showAddPopup = true;
     },
     showRemoveConfirmation(index) {
       this.currentIndex = index;
+      this.selectedDocumentTitle = this.sourceDocuments[index].title; // Set the selected document title
       this.showRemovePopup = true;
     },
     showAddEvidenceConfirmation(index) {
@@ -323,6 +339,7 @@ export default {
     },
     showRemoveEvidenceConfirmation(index) {
       this.currentIndex = index;
+      this.selectedEvidenceName = this.recommendations[index];// Set the selected document title
       this.showRemoveEvidencePopup = true;
     },
 
@@ -563,7 +580,7 @@ export default {
 
 .popup-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center; /* Center-aligns the header content horizontally */
   align-items: center;
   margin-bottom: 20px;
 }
@@ -679,36 +696,87 @@ export default {
 
 .confirmation-popup .popup-content {
   background-color: white;
-  padding: 20px;
-  border-radius: 5px;
-  text-align: center;
-  height: 130px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  width: 400px;
+  max-width: 90%;
 }
 
+.confirmation-popup .popup-header {
+  display: flex;
+  justify-content: center; /* Center-aligns the header content horizontally */
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.confirmation-popup h3 {
+  font-size: 1.4em;
+  color: #333;
+  margin: 0;
+}
+
+.confirmation-popup .close-button {
+  background: none;
+  border: none;
+  font-size: 1.5em;
+  cursor: pointer;
+  color: #999;
+  transition: color 0.3s;
+}
+
+.confirmation-popup .close-button:hover {
+  color: #333;
+}
 
 .confirmation-popup p {
-  font-size: 16px;
-  font-weight: bold;
-  margin-bottom: 20px;
+  font-size: 1.1em;
+  color: #666;
+  margin-bottom: 30px;
+  line-height: 1.4;
+  text-align: center; /* Center-aligns the popup message text */
 }
 
 .confirmation-popup .popup-buttons {
   display: flex;
-  justify-content: center;
-  gap: 20px;
+  justify-content: center; /* Center-aligns the buttons horizontally */
+  gap: 15px;
 }
 
-
 .confirmation-popup button {
-  padding: 10px 20px;
+  padding: 8px 24px; /* Reduced vertical padding */
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.3s;
+  font-size: 1em;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+
+.confirmation-popup .confirm-button {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.confirmation-popup .confirm-button:hover {
+  background-color: #2563eb;
+}
+
+.confirmation-popup .cancel-button {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.confirmation-popup .cancel-button:hover {
+  background-color: #e0e0e0;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.3s;
+}
+
+.fade-enter, .fade-leave-to {
+  opacity: 0;
 }
 
 .mapped-elements .CCardHeader {
