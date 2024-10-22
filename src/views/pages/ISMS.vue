@@ -176,6 +176,19 @@ export default {
     updateOperationalStatus(event) {
       this.editOperationalStatus = event.target.innerHTML;
     },
+
+
+    async fetchEvidenceMetadata(id) {
+      try {
+        const response = await axios.get(`http://43.202.210.72:3000/evidence_metadata/${id}`);
+        const fileNames = response.data.map(item => item.FileName).join('<br>');
+        this.selectedOperationalDetails.records = fileNames;
+      } catch (error) {
+        console.error('Error fetching evidence metadata:', error);
+      }
+    },
+
+
     async viewOperationalDetails(subItem) {
       this.loading = true; // Show loading spinner
       try {
@@ -205,6 +218,10 @@ export default {
         } else {
           console.error('Error fetching documents:', documentsResponse.data);
         }
+
+
+        // Fetch evidence metadata
+        await this.fetchEvidenceMetadata(subItem.id);
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
@@ -212,6 +229,9 @@ export default {
       }
       this.isEditMode = false;
     },
+
+
+
     formatResponse(response) {
       return response
         .replace(/\n/g, '<br>')

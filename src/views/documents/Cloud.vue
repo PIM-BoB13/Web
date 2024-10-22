@@ -27,13 +27,13 @@
                 </CTableRow>
               </CTableHead>
               <CTableBody>
-                <CTableRow v-for="file in uploadedFiles" :key="file.name">
-                  <CTableDataCell>{{ file.name }}</CTableDataCell>
-                  <CTableDataCell>{{ file.type }}</CTableDataCell>
-                  <CTableDataCell>{{ file.category }}</CTableDataCell>
-                  <CTableDataCell>{{ file.uploadedAt }}</CTableDataCell>
-                  <CTableDataCell>{{ file.size }} KB</CTableDataCell>
-                  <CTableDataCell>{{ file.extension }}</CTableDataCell>
+                <CTableRow v-for="file in uploadedFiles" :key="file.FileName">
+                  <CTableDataCell>{{ file.FileName }}</CTableDataCell>
+                  <CTableDataCell>{{ file.ISMSItem }}</CTableDataCell>
+                  <CTableDataCell>{{ new Date(file.UploadDate).toLocaleString() }}</CTableDataCell>
+                  <CTableDataCell>{{ (file.Size / 1024).toFixed(2) }} KB</CTableDataCell>
+                  <CTableDataCell>{{ file.FileType }}</CTableDataCell>
+                  <CTableDataCell>{{ file.VersionId }}</CTableDataCell>
                 </CTableRow>
               </CTableBody>
             </CTable>
@@ -45,63 +45,34 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   data() {
     return {
-      selectedFileType: '', // 파일 종류 선택
-      selectedCategory: '', // 문서 카테고리 선택
-      dropdownOpen: false, // 드롭다운 상태
-      categoryOptions: [
-        { value: '정보보호 및 개인정보보호 정책', label: '정보보호 및 개인정보보호 정책' },
-        { value: '정보보호 관리체계', label: '정보보호 관리체계' },
-        { value: '기타', label: '기타' },
-      ],
-      file: null, // 업로드할 파일
-      uploadedFiles: [], // 업로드된 파일 목록
+      uploadedFiles: []
     };
   },
   methods: {
-    toggleDropdown() {
-      this.dropdownOpen = !this.dropdownOpen;
-    },
+
     closeDropdown() {
       this.dropdownOpen = false;
-    },
-    selectCategory(value) {
-      this.selectedCategory = value;
-      this.dropdownOpen = false; // 선택 후 드롭다운 닫기
-    },
-    triggerFileUpload() {
-      this.$refs.fileInput.click();
-    },
-    handleFileUpload(event) {
-      this.file = event.target.files[0]; // 선택한 파일을 표시
-    },
-    handleDrop(event) {
-      this.file = event.dataTransfer.files[0]; // 드래그한 파일을 표시
-    },
-    uploadFile() {
-      if (!this.selectedFileType || !this.selectedCategory || !this.file) {
-        alert('모든 필수 항목을 채워주세요.');
-        return;
-      }
-
-      const uploadedFile = {
-        name: this.file.name,
-        type: this.selectedFileType,
-        category: this.selectedCategory,
-        uploadedAt: new Date().toLocaleString(),
-        size: (this.file.size / 1024).toFixed(1), // KB 단위로 파일 크기
-        extension: this.file.name.split('.').pop(),
-      };
-
-      this.uploadedFiles.push(uploadedFile); // 파일 목록에 추가
-      this.file = null; // 파일 초기화
     },
     print() {
       window.print(); // Print 기능
     },
+    fetchFiles() {
+      axios.get('http://43.202.210.72:3000/evidence_metadata')
+        .then(response => {
+          this.uploadedFiles = response.data;
+        })
+        .catch(error => {
+          console.error('Error fetching files:', error);
+        });
+    }
   },
+  mounted() {
+    this.fetchFiles();
+  }
 };
 </script>
 

@@ -147,13 +147,19 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: 'AddEvidencePopup',
   props: {
     evidenceName: {
       type: String,
       required: true
-    }
+    },
+    itemId: {
+      type: String,
+      required: true
+    },
   },
   data() {
     return {
@@ -185,20 +191,34 @@ export default {
       this.selectedFile = null;
       this.$refs.fileInput.value = '';
     },
-    nextStep() {
+
+
+    async nextStep() {
       if (this.selectedFile) {
         this.analyzing = true;
-        this.currentStep = 2;
-        this.analyzeFile();
-      }
-    },
-    analyzeFile() {
-      // 실제 분석 로직을 여기에 구현
-      setTimeout(() => {
-        this.analysisResult = '파일 분석이 완료되었습니다. 문서 내 주요 키워드가 추출되었으며, 관련 데이터와의 연관성이 확인되었습니다.';
+        const formData = new FormData();
+      formData.append('file', this.selectedFile);
+      formData.append('file_name', this.selectedFile.name);
+      formData.append('type', 'evidence');
+      formData.append('id', this.itemId);
+
+      try {
+        const response = await axios.post('http://43.202.210.72:3000/upload', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+        const { message, url } = response.data;
+        this.analysisResult = `Message: ${message}\nURL: ${url}`;
+      } catch (error) {
+        console.error('Error uploading file:', error);
+        this.analysisResult = '파일 업로드 중 오류가 발생했습니다.';
+      } finally {
         this.analyzing = false;
-      }, 1500);
-    },
+        this.currentStep = 2;
+      }
+    }
+  },
     formatFileSize(bytes) {
       if (!bytes) return '0 Bytes';
       const k = 1024;

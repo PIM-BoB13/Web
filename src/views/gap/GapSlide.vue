@@ -194,6 +194,7 @@
         <AddEvidencePopup
           v-if="showAddEvidencePopup"
           :evidenceName="selectedEvidenceName"
+          :itemId="item.id"
           @confirm="confirmAddEvidence"
           @cancel="cancelAddEvidence"
         />
