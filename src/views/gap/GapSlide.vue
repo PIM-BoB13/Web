@@ -134,14 +134,16 @@
                 <CCBody>
                   <div v-for="(evidence, index) in realevidence" :key="index">
                     <div class="law-title" @click="toggleRealEvidence(index)">
-                      <span class="law-text">{{ evidence.title }}</span>
+                      <span class="law-text">{{ evidence.FileName }}</span>
                       <button class="toggle-btn" @click.stop="toggleRealEvidence(index)">
                         <span v-if="isRealEvidenceVisible(index)">▲</span>
                         <span v-else>▼</span>
                       </button>
                     </div>
                     <div v-if="isRealEvidenceVisible(index)" class="feedback-content">
-                      {{ evidence.content }}
+                      <p><strong>파일 종류:</strong> {{ evidence.FileType }}</p>
+                      <p><strong>업로드 일시:</strong> {{ new Date(evidence.UploadDate).toLocaleString() }}</p>
+                      <p><strong>크기:</strong> {{ (evidence.Size / 1024).toFixed(2) }} KB</p>
                     </div>
                   </div>
                 </CCBody>
@@ -295,6 +297,7 @@ export default {
       this.activeTab = tab;
       if (tab === 'status') {
         await this.fetchPolicyStatus();
+        await this.fetchEvidenceStatus(); // Fetch evidence data when "현황" tab is selected
       }
       this.$nextTick(() => {
         const activeButton = this.$el.querySelector('.tab-button.active');
@@ -354,7 +357,6 @@ export default {
         content: selectedDocument.content,
         similarity: selectedDocument.similarity
       };
-
       try {
         const response = await axios.post('http://43.202.210.72:5001/user-selected', payload);
         this.showAddPopup = false;
@@ -372,7 +374,6 @@ export default {
         id: this.item.id,
         evidence: selectedEvidence
       };
-
       try {
         const response = await axios.post('http://43.202.210.72:5003/add-evidence', payload);
         this.showAddEvidencePopup = false;
@@ -390,7 +391,6 @@ export default {
         id: this.item.id,
         evidence: selectedEvidence
       };
-
       try {
         const response = await axios.post('http://43.202.210.72:5004/remove-evidence', payload);
         this.showRemoveEvidencePopup = false;
@@ -401,9 +401,16 @@ export default {
       }
     },
 
-    cancelAdd() {
-      this.showAddPopup = false;
+
+    async fetchEvidenceStatus() {
+      try {
+        const response = await axios.get(`http://43.202.210.72:3000/evidence_metadata/${this.item.id}`);
+        this.realevidence = response.data;
+      } catch (error) {
+        console.error('Error fetching evidence status:', error);
+      }
     },
+
     confirmRemove() {
       this.source_documents.splice(this.currentIndex, 1);
       this.showRemovePopup = false;
@@ -414,12 +421,7 @@ export default {
     cancelAddEvidence() {
       this.showAddEvidencePopup = false;
     },
-    cancelRemoveEvidence() {
-      this.showRemoveEvidencePopup = false;
-    },
-    toggleDetails() {
-      this.detailsVisible = !this.detailsVisible;
-    },
+
     toggleRealPolicy(index) {
       const policyIndex = this.realPolicyVisible.indexOf(index);
       if (policyIndex > -1) {
