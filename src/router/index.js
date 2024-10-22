@@ -72,7 +72,11 @@ const routes = [
           },
         },
         children: [
-
+          {
+            path: 'ismstest',
+            name: 'ISMStest',
+            component: () => import('@/views/pages/ISMStest'),
+          },
           {
             path: 'isms',
             name: 'ISMS',

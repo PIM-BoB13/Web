@@ -31,7 +31,7 @@
                             <td colspan="3" class="subtitle-cell">{{ item.title }}</td>
                           </tr>
                           <tr v-for="(subItem, subItemIndex) in item.subItems" :key="subItemIndex">
-                            <td>{{ subItem.id }}</td>
+                            <td>{{ subItem.id }} {{ subItem.title }}</td>
                             <td class="center-align3">
                               <span :class="getStatusClass(subItem.status)">{{ subItem.status }}</span>
                             </td>
@@ -75,7 +75,7 @@
             <div>
               <div class="detail-box">
                 <strong>{{ selectedOperationalDetails.description }}</strong>
-                <p class="details-paragraph">{{ selectedOperationalDetails.title }}</p>
+                <p class="details-paragraph">{{ selectedOperationalDetails.Details }}</p>
               </div>
 
               <div class="detail-row">
@@ -158,7 +158,6 @@
 <script>
 import { ref, computed, reactive } from 'vue';
 import { CCardBody } from "@coreui/vue-pro/dist/esm/components/card";
-import axios from 'axios';
 
 export default {
   name: 'IsmsManagement',
@@ -175,15 +174,31 @@ export default {
               {
                 title: "1.1.1 경영진의 참여",
                 subItems: [
-                  { id: "1.1.1.1", title: "정보보호 및 개인정보보호 관리체계의 수립 및 운영활동 전반에 경영진의 참여가 이루어질 수 있도록 보고 및 의사결정 등의 책임과 역할을 문서화하고 있는가?", status: "판단 전" },
-                  { id: "1.1.1.2", title: "경영진이 정보보호 및 개인정보보호 활동에 관한 의사결정에 적극적으로 참여할 수 있는 보고, 검토 및 승인 절차를 수립·이행하고 있는가?", status: "판단 전" },
+                  {
+                    id: "1.1.1.1",
+                    title: "정보보호 및 개인정보보호 관리체계의 수립 및 운영활동 전반에 경영진의 참여가 이루어질 수 있도록 보고 및 의사결정 등의 책임과 역할을 문서화하고 있는가?",
+                    status: "판단 전",
+                    Details: "정보보호 및 개인정보보호 관리체계의 수립 및 운영활동 전반에 경영진의 참여가 이루어질 수 있도록 보고 및 의사결정 등의 책임과 역할을 문서화하고 있는가?",
+                    operationalStatus: "운영현황 내용",
+                    relatedDocuments: "관련문서 내용",
+                    records: "기록 내용"
+                  },
+                  {
+                    id: "1.1.1.2",
+                    title: "경영진이 정보보호 및 개인정보보호 활동에 관한 의사결정에 적극적으로 참여할 수 있는 보고, 검토 및 승인 절차를 수립·이행하고 있는가?",
+                    status: "판단 전",
+                    Details: "경영진이 정보보호 및 개인정보보호 활동에 관한 의사결정에 적극적으로 참여할 수 있는 보고, 검토 및 승인 절차를 수립·이행하고 있는가?",
+                    operationalStatus: "운영현황 내용",
+                    relatedDocuments: "관련문서 내용",
+                    records: "기록 내용"
+                  },
                 ]
               },
               {
                 title: "1.1.2 최고책임자의 지정",
                 subItems: [
-                  { id: "1.1.2.1", title: "최고책임자가 지정되어 있는가?", status: "판단 전" },
-                  { id: "1.1.2.2", title: "최고책임자가 정보보호 및 개인정보보호 활동을 총괄하고 있는가?", status: "판단 전" },
+                  { id: "1.1.2.1", status: "판단 전", operationalStatus: "운영현황 내용", relatedDocuments: "관련문서 내용", records: "기록 내용" },
+                  { id: "1.1.2.2", status: "판단 전", operationalStatus: "운영현황 내용", relatedDocuments: "관련문서 내용", records: "기록 내용" },
                 ]
               },
             ]
@@ -247,10 +262,6 @@ export default {
       return content.replace(/\n/g, '<br>');
     };
 
-    const formatResponse = (response) => {
-      // Implement the logic to format the response as needed
-      return response.replace(/\n/g, '<br>'); // Example: replacing newlines with <br> tags
-    };
     const getTextareaHeight = (text) => {
       if (!text) return '100px';
       const lineCount = (text.match(/\n/g) || []).length + 1;
@@ -261,64 +272,25 @@ export default {
       editForm[field] = event.target.value;
     };
 
-    const viewOperationalDetails = async (subItem) => {
-      loading.value = true; // Show loading spinner
-      try {
-        const response = await axios.post('http://43.202.210.72:5002/ask', {
-          ISMSID: subItem.id
-        });
-        if (response.data.status === 'success') {
-          selectedOperationalDetails.value = {
-            description: `${subItem.id}의 세부설명`,
-            title: subItem.title,
-            status: subItem.status,
-            Details: subItem.Details,
-            operationalStatus: formatResponse(response.data.response), // Assign response to operationalStatus
-            relatedDocuments: subItem.relatedDocuments,
-            records: subItem.records
-          };
-        } else {
-          console.error('Error fetching data:', response.data);
-        }
-
-        // Additional request to fetch related documents
-        const documentsResponse = await axios.post('http://43.202.210.72:5002/documents', {
-          ISMSID: subItem.id
-        });
-        if (documentsResponse.status === 200) {
-          const documents = documentsResponse.data.map(doc => `${doc.DocumentTitle}[${doc.Content}]`).join('<br>');
-          selectedOperationalDetails.value.relatedDocuments = documents;
-        } else {
-          console.error('Error fetching documents:', documentsResponse.data);
-        }
-
-        // Fetch evidence metadata
-        await fetchEvidenceMetadata(subItem.id);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      } finally {
-        loading.value = false; // Hide loading spinner
-      }
+    const viewOperationalDetails = (subItem) => {
+      selectedOperationalDetails.value = {
+        description: `${subItem.id}의 세부설명`,
+        status: subItem.status,
+        Details: subItem.Details,
+        operationalStatus: subItem.operationalStatus,
+        relatedDocuments: subItem.relatedDocuments,
+        records: subItem.records
+      };
       isEditMode.value = false;
-    };
-
-    const fetchEvidenceMetadata = async (id) => {
-      try {
-        const response = await axios.get(`http://43.202.210.72:3000/evidence_metadata/${id}`);
-        const fileNames = response.data.map(item => item.FileName).join('<br>');
-        selectedOperationalDetails.value.records = fileNames;
-      } catch (error) {
-        console.error('Error fetching evidence metadata:', error);
-      }
     };
 
     const toggleEditMode = () => {
       if (!isEditMode.value) {
-        // Convert <br> tags to newlines for editing
+        // 편집 모드 시작 시 현재 값으로 폼 초기화
         editForm.status = selectedOperationalDetails.value.status;
-        editForm.operationalStatus = selectedOperationalDetails.value.operationalStatus.replace(/<br>/g, '\n');
-        editForm.relatedDocuments = selectedOperationalDetails.value.relatedDocuments.replace(/<br>/g, '\n');
-        editForm.records = selectedOperationalDetails.value.records.replace(/<br>/g, '\n');
+        editForm.operationalStatus = selectedOperationalDetails.value.operationalStatus;
+        editForm.relatedDocuments = selectedOperationalDetails.value.relatedDocuments;
+        editForm.records = selectedOperationalDetails.value.records;
       }
       isEditMode.value = !isEditMode.value;
     };
@@ -392,33 +364,33 @@ export default {
 table th,
 table td {
   text-align: left;
-  padding: 4px;
-  font-size: 14px;
+  padding: 4px; /* 셀의 padding 줄이기 */
+  font-size: 14px; /* 테이블 안의 글씨 크기 키우기 */
   border: 1px solid #ddd;
 }
 
 .right-align {
-  text-align: right;
+  text-align: right; /* 오른쪽 정렬 */
 }
 
 .center-align {
-  text-align: center;
+  text-align: center; /* 중앙 정렬 */
   font-size: 24px;
 }
 .center-align1 {
-  text-align: center;
+  text-align: center; /* 중앙 정렬 */
   font-size: 10px;
 }
 
 .center-align3 {
-  text-align: center;
-  padding: 8px 0;
+  text-align: center; /* 중앙 정렬 */
+  padding: 8px 0; /* 셀의 padding 줄이기 */
   font-size: 13px;
 }
 
 .center-align4 {
-  text-align: center;
-  padding: 2px 0;
+  text-align: center; /* 중앙 정렬 */
+  padding: 2px 0; /* 셀의 padding 줄이기 */
   font-size: 1px;
 }
 
@@ -427,9 +399,10 @@ table td {
   align-items: center;
   justify-content: center;
   height: 100%;
-  font-size: 20px;
+  font-size: 20px; /* Adjust the value as needed */
 }
 
+/* 3단계 항목 기본 흰색, hover 시 회색 */
 table tr td {
   background-color: white !important;
 }
@@ -438,12 +411,13 @@ table tr:hover td {
   background-color: #f0f0f0 !important;
 }
 
+/* 오른쪽 화면 스타일링 */
 .detail-box {
   border: 1px solid #ddd;
   padding: 15px;
   margin-bottom: 20px;
-  background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #fff; /* White background for document feel */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
 }
 
 .detail-row {
@@ -462,29 +436,30 @@ table tr:hover td {
 }
 
 .details-paragraph {
-  margin-top: 6px;
-  margin-bottom: 0px;
+  margin-top: 6px; /* Adjust the value as needed */
+  margin-bottom: 0px; /* Reduce the bottom margin */
 }
 
+/* Match the height of the right screen to the left screen */
 .right-box {
   height: 80vh;
-  overflow-y: auto;
+  overflow-y: auto; /* Enable vertical scrolling */
 }
 
 .title-spacing {
-  margin-bottom: 5px;
+  margin-bottom: 5px; /* Adjust the value as needed */
 }
 
 .operational-status-box {
-  overflow: auto;
-  max-height: none;
-  height: auto;
-  white-space: pre-wrap;
+  overflow: auto; /* Enable scrolling if content overflows */
+  max-height: none; /* Remove any fixed height constraints */
+  height: auto; /* Allow the box to grow with the content */
+  white-space: pre-wrap; /* Preserve whitespace and wrap text */
 }
 
 .btn-details {
   font-size: 12px;
-  margin-top: 5px;
+  margin-top: 5px; /* Adjust the value as needed */
   background-color: #007bff;
   color: white;
   border: none;
@@ -499,8 +474,8 @@ table tr:hover td {
 }
 
 .button-container {
-  text-align: right;
-  margin-top: 0;
+  text-align: right; /* Right-align the button */
+  margin-top: 0; /* Remove the top margin */
 }
 
 .inline-display {
@@ -510,25 +485,27 @@ table tr:hover td {
 .inline-select {
   width: auto;
   display: inline-block;
-  padding: 1px 15px;
-  height: auto;
+  padding: 1px 15px; /* Adjust the padding to reduce the height */
+  height: auto; /* Ensure the height is auto */
 }
 
 .detail-box textarea {
-  margin-top: 8px;
-  overflow: hidden;
-  resize: none;
+  margin-top: 8px; /* Adjust the value as needed */
+  overflow: hidden; /* Hide the scrollbar */
+  resize: none; /* Prevent manual resizing */
 }
 
-.small-table th:nth-child(1),
+/* Adjust the width of the columns for "항목", "이행여부", and "운영명세서" */
+.small-table th:nth-child(1), /* Assuming "항목" is the first column */
 .small-table td:nth-child(1) {
-  width: 200px;
+  width: 200px; /* Increase the width as needed */
 }
 
-.small-table th:nth-child(3),
+.small-table th:nth-child(3), /* Assuming "이행여부" is the second column */
 .small-table td:nth-child(2),
-.small-table th:nth-child(3),
+.small-table th:nth-child(3), /* Assuming "운영명세서" is the third column */
 .small-table td:nth-child(3) {
-  width: 60px;
+  width: 60px; /* Decrease the width as needed */
 }
+
 </style>
