@@ -99,32 +99,43 @@
                     ref="editOperationalStatusTextarea"
                     contenteditable="true"
                     v-html="editOperationalStatus"
-                    @input="updateOperationalStatus">
+                    @input="handleInput('editOperationalStatus')">
                   </div>
                 </div>
                 <div v-else class="details-paragraph" v-html="selectedOperationalDetails.operationalStatus">
                 </div>
               </div>
-              <div class="detail-row">
+
                 <div class="detail-box">
                   <strong>관련문서(정책, 지침 등 세부조항번호까지)</strong>
                   <div v-if="isEditMode">
-                    <textarea v-model="editRelatedDocuments" class="form-control"></textarea>
+                    <div
+                      class="form-control"
+                      ref="editRelatedDocumentsTextarea"
+                      contenteditable="true"
+                      v-html="editRelatedDocuments"
+                      @input="updateRelatedDocuments">
+                    </div>
                   </div>
-                  <div v-else class="details-paragraph">
-                    {{ selectedOperationalDetails.relatedDocuments }}
+                  <div v-else class="details-paragraph" v-html="selectedOperationalDetails.relatedDocuments">
                   </div>
                 </div>
+
                 <div class="detail-box">
                   <strong>기록(증적자료)</strong>
                   <div v-if="isEditMode">
-                    <textarea v-model="editRecords" class="form-control"></textarea>
+                    <div
+                      class="form-control"
+                      ref="editRecordsTextarea"
+                      contenteditable="true"
+                      v-html="editRecords"
+                      @input="updateRecords">
+                    </div>
                   </div>
-                  <div v-else class="details-paragraph">
-                    {{ selectedOperationalDetails.records }}
+                  <div v-else class="details-paragraph" v-html="selectedOperationalDetails.records">
                   </div>
                 </div>
-              </div>
+
               <div v-if="isEditMode" class="button-container">
                 <button class="btn-details" @click="saveDetails">저장하기</button>
               </div>
@@ -175,6 +186,13 @@ export default {
     },
     updateOperationalStatus(event) {
       this.editOperationalStatus = event.target.innerHTML;
+      this.adjustTextareaHeight();
+    },
+    updateRecords(event) {
+      this.editRecords = event.target.innerHTML;
+    },
+    updateRelatedDocuments(event) {
+      this.editRelatedDocuments = event.target.innerHTML;
     },
 
 
@@ -213,7 +231,7 @@ export default {
           ISMSID: subItem.id
         });
         if (documentsResponse.status === 200) {
-          const documents = documentsResponse.data.map(doc => `${doc.Content} (${doc.DocumentTitle})`).join('<br>');
+          const documents = documentsResponse.data.map(doc => `${doc.DocumentTitle}[${doc.Content}]`).join('<br>');
           this.selectedOperationalDetails.relatedDocuments = documents;
         } else {
           console.error('Error fetching documents:', documentsResponse.data);
@@ -479,6 +497,7 @@ table tr:hover td {
 
 .details-paragraph {
   margin-top: 6px; /* Adjust the value as needed */
+  margin-bottom: 0px; /* Reduce the bottom margin */
 }
 
 /* Match the height of the right screen to the left screen */

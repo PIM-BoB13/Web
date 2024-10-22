@@ -88,7 +88,7 @@
           <button class="button next"
                   @click="nextStep"
                   :disabled="!selectedFile">
-            다음 단계
+            분석하기
           </button>
         </div>
       </div>
@@ -198,7 +198,8 @@ export default {
         this.analyzing = true;
         const formData = new FormData();
       formData.append('file', this.selectedFile);
-      formData.append('file_name', this.selectedFile.name);
+        formData.append('file_name', this.evidenceName);
+      // formData.append('file_name', this.selectedFile.name); 변환되어 저장되도록 막아놓음
       formData.append('type', 'evidence');
       formData.append('id', this.itemId);
 
