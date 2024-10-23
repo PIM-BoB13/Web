@@ -7,7 +7,7 @@
       </div>
       <div class="completion-content">
         <div class="main-progress">
-          <h4>이행률: {{ completion }}% </h4>
+          <h4>GAP 분석 이행률: {{ completion }}% </h4>
           <div class="progress-bar">
             <div class="progress" :style="{ width: completion + '%' }"></div>
           </div>

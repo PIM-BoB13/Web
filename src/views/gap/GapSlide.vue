@@ -82,7 +82,7 @@
                 <CCardBody class="CCardBody">
                   <div class="ai-suggestion">
                     <CIcon class="icon-blue" icon="cil-Braille" size="xl" />
-                    <span class="suggestion-text">PIM은 문서 적합도 기반으로 {{ recommendations.length }}개의 증적 자료를 추천드립니다.</span>
+                    <span class="suggestion-text">PIM은 {{ item.id }} 항목에 해당하는 {{ recommendations.length }}개의 증적 자료를 추천드립니다.</span>
                   </div>
                   <ul class="recommendation-list">
                     <li v-for="(recommendation, index) in recommendations" :key="index">
@@ -586,13 +586,6 @@ export default {
   justify-content: center; /* Center-aligns the header content horizontally */
   align-items: center;
   margin-bottom: 20px;
-}
-
-.close-button {
-  background: none;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
 }
 
 .header-title {
