@@ -7,19 +7,19 @@
           <CCardBody>
             <div class="section">
               <!-- 파일 종류 선택 (이중 토글 버튼) -->
-              <h5 class="info-title mb-4">1. 해당 파일의 종류를 구분해주세요. <span class="required">*필수</span></h5>
+              <h5 class="info-title mb-4">1. 해당 파일이 속한 ISMS 인증기준의 대분류를 선택해주세요. <span class="required">*필수</span></h5>
               <div class="toggle-wrapper mb-5">
                 <button
-                  :class="['toggle-button', selectedFileType === '정책 및 지침' ? 'active' : '']"
-                  @click="selectedFileType = '정책 및 지침'"
+                  :class="['toggle-button', selectedFileType === '1. 관리체계 수립 및 운영' ? 'active' : '']"
+                  @click="selectedFileType = '1. 관리체계 수립 및 운영'"
                 >
-                  정책 및 지침
+                  1. 관리체계 수립 및 운영
                 </button>
                 <button
-                  :class="['toggle-button', selectedFileType === '그 외 문서 자료' ? 'active' : '']"
-                  @click="selectedFileType = '그 외 문서 자료'"
+                  :class="['toggle-button', selectedFileType === '2. 보호대책 요구사항' ? 'active' : '']"
+                  @click="selectedFileType = '2. 보호대책 요구사항'"
                 >
-                  그 외 문서 자료
+                  2. 보호대책 요구사항
                 </button>
               </div>
 
@@ -30,7 +30,7 @@
                   <span class="selected-option">{{ selectedCategory || '문서 카테고리 선택' }}</span>
                   <ul v-show="dropdownOpen" class="custom-options">
                     <li
-                      v-for="option in categoryOptions"
+                      v-for="option in filteredCategoryOptions"
                       :key="option.value"
                       :class="{ 'active': selectedCategory === option.value }"
                       @click.stop="selectCategory(option.value)"
@@ -44,7 +44,6 @@
           </CCardBody>
         </CCard>
       </CCol>
-
       <!-- 오른쪽 화면 (파일 선택 영역) -->
       <CCol :xs="6">
         <div class="file-upload-area" @click="triggerFileUpload">
@@ -88,7 +87,7 @@
                   <CTableHeaderCell>업로드 일시</CTableHeaderCell>
                   <CTableHeaderCell>크기</CTableHeaderCell>
                   <CTableHeaderCell>파일 종류</CTableHeaderCell>
-                  <CTableHeaderCell>버전 관리</CTableHeaderCell>
+
                 </CTableRow>
               </CTableHead>
               <CTableBody>
@@ -99,9 +98,9 @@
                   <CTableDataCell>{{ file.uploadedAt }}</CTableDataCell>
                   <CTableDataCell>{{ file.size }} KB</CTableDataCell>
                   <CTableDataCell>{{ file.extension }}</CTableDataCell>
-                  <CTableDataCell>
-                    <CButton @click="uploadFile" class="blue-button1 long-button1">V_1</CButton>
-                  </CTableDataCell>
+<!--                  <CTableDataCell>-->
+<!--                    <CButton @click="uploadFile" class="blue-button1 long-button1">V_1</CButton>-->
+<!--                  </CTableDataCell>-->
                 </CTableRow>
               </CTableBody>
             </CTable>
@@ -133,18 +132,53 @@ export default {
       selectedFileType: '', // 파일 종류 선택
       selectedCategory: '', // 문서 카테고리 선택
       dropdownOpen: false, // 드롭다운 상태
-      categoryOptions: [
-        { value: '정보보호 및 개인정보보호 정책', label: '정보보호 및 개인정보보호 정책' },
-        { value: '개인정보 내부관리 계획', label: '개인정보 내부관리 계획' },
-        { value: '정보보호 관리체계', label: '정보보호 관리체계' },
-        { value: '물리적 보안 지침', label: '물리적 보안 지침' },
-        { value: '정보시스템 운영 보안 지침', label: '정보시스템 운영 보안 지침' },
-        { value: '정보자산관리 지침', label: '정보자산관리 지침' },
+      categoryOptions1: [
+        { value: '정보보호정책', label: '정보보호정책' },
+        { value: '개인정보보호정책', label: '개인정보보호정책' },
+        { value: '개인정보 내부관리계획', label: '개인정보 내부관리계획' },
+        { value: '정보보호조직 지침', label: '정보보호조직 지침' },
+        { value: '자산관리지침', label: '자산관리지침' },
+        { value: '서버보안 지침', label: '서버보안 지침' },
+        { value: '네트워크보안 지침', label: '네트워크보안 지침' },
+        { value: '데이터베이스보안 지침', label: '데이터베이스보안 지침' },
+        { value: '애플리케이션보안 지침', label: '애플리케이션보안 지침' },
+        { value: '웹서비스 보안 지침', label: '웹서비스 보안 지침' },
+        { value: '클라우드 보안 지침', label: '클라우드 보안 지침' },
+        { value: '임직원보안 지침', label: '임직원보안 지침' },
+        { value: '개발자보안 지침', label: '개발자보안 지침' },
+        { value: '운영자보안 지침', label: '운영자보안 지침' },
+        { value: '정보보호 관리체계 운영지침', label: '정보보호 관리체계 운영지침' },
+        { value: '정보시스템운영관리지침', label: '정보시스템운영관리지침' },
+        { value: '내부관리계획', label: '내부관리계획' },
+        { value: '조직관리지침', label: '조직관리지침' },
+        { value: '내부감사지침', label: '내부감사지침' },
         { value: '기타', label: '기타' },
       ],
+      categoryOptions2: [
+        { value: '정보보호정책(지침, 절차, 가이드, 메뉴얼 등)', label: '정보보호정책(지침, 절차, 가이드, 메뉴얼 등)' },
+        { value: '개인정보보호정책(지침, 절차, 가이드, 메뉴얼 등)', label: '개인정보보호정책(지침, 절차, 가이드, 메뉴얼 등)' },
+        { value: '인적보안 지침', label: '인적보안 지침' },
+        { value: '외부자 보안 지침', label: '외부자 보안 지침' },
+        { value: '물리적 보안 지침', label: '물리적 보안 지침' },
+        { value: '기타', label: '기타' },
+
+
+      ],
+
       file: null, // 업로드할 파일
       uploadedFiles: [], // 업로드된 파일 목록
     };
+  },
+  computed: {
+    filteredCategoryOptions() {
+      if (this.selectedFileType === '1. 관리체계 수립 및 운영') {
+        return this.categoryOptions1;
+      } else if (this.selectedFileType === '2. 보호대책 요구사항') {
+        return this.categoryOptions2;
+      } else {
+        return [];
+      }
+    },
   },
   created() {
     this.fetchDocumentList();
@@ -160,8 +194,7 @@ export default {
             category: file.Category2,
             uploadedAt: new Date(file.UploadDate).toLocaleString(),
             size: (file.Size / 1024).toFixed(1), // KB 단위로 파일 크기
-            extension: file.FileType,
-            version: file.VersionId,
+            extension: file.FileType
           }));
         } else {
           console.error('Unexpected response format:', response.data);
@@ -217,7 +250,7 @@ export default {
       formData.append('file', this.file);
       formData.append('file_name', this.file.name); // Add the file name to the form data
       formData.append('type', 'policy');
-      formData.append('category1', this.selectedCategory);
+      formData.append('category1', this.selectedFileType);
       formData.append('category2', this.selectedCategory);
 
       try {
