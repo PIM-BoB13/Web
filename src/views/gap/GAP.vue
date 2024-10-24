@@ -166,7 +166,7 @@ export default {
         console.error('Error fetching data:', error);
         this.sourceDocuments = []; // 에러일 때는 빈배열로
       }
-
+      
       try {
         const response = await axios.post('http://43.202.210.72:3001/evidence_recommend', {
           id: control.id
@@ -177,10 +177,11 @@ export default {
         this.recommendations = null; // Set to null on error
       }
 
+
     },
     closePopup() {
       this.isPopupVisible = false; // Close the popup
-      // this.$router.push({ path: this.$route.path }); // Restore original URL
+      this.$router.push({ path: this.$route.path }); // Restore original URL
     },
     getReadinessClass(readiness) {
       return readiness === 0 ? 'evidence-readiness incomplete' : 'evidence-readiness complete';

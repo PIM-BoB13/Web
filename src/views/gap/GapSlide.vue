@@ -1,10 +1,11 @@
 <template>
-  <div v-if="isOpen" class="popup-overlay" @click="closePopup">
+  <div v-if="isOpen" class="popup-overlay">
     <div class="sidebar-popup open" @click.stop>
       <div class="popup-content">
         <div class="popup-header">
-          <h2>{{ item.id }}</h2>
+          <button class="close-button" @click="closePopup">X</button>
         </div>
+        <h2>{{ item.id }}</h2>
         <p>{{ item.question }}</p>
         <table class="compact-table mb-4">
           <tbody>
@@ -280,6 +281,7 @@ export default {
     }
   },
   methods: {
+
     getPopupTitle() {
       if (this.showAddPopup) return '정책/지침 추가';
       if (this.showRemovePopup) return '정책/지침 삭제';
@@ -495,7 +497,9 @@ export default {
 
 
 <style scoped>
-
+h2 {
+  margin-bottom: 20px; /* Adjust the value as needed */
+}
 .tab-navigation {
   display: flex;
   position: relative;
@@ -603,7 +607,9 @@ export default {
   display: flex;
   justify-content: center; /* Center-aligns the header content horizontally */
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+  margin-top: 20px;
+  position: relative;
 }
 
 .header-title {
@@ -723,6 +729,22 @@ export default {
   align-items: center;
   margin-bottom: 20px;
 }
+
+.close-button {
+  position: absolute;
+  right: 0; /* Position the button to the right */
+  background: none;
+  border: none;
+  font-size: 1.5em;
+  cursor: pointer;
+  color: #999;
+  transition: color 0.3s;
+}
+
+.close-button:hover {
+  color: #333;
+}
+
 
 .confirmation-popup h3 {
   font-size: 1.4em;
