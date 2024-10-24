@@ -32,7 +32,7 @@
             </div>
             <div class="step-info">
               <span class="step-text">STEP 2</span>
-              <span class="step-desc">분석 결과</span>
+              <span class="step-desc">AI 분석 결과</span>
             </div>
           </div>
           <div class="step-arrow">
@@ -69,7 +69,7 @@
             <!-- 왼쪽: 확인사항 리스트 -->
             <div class="checklist-container">
               <h3 class="checklist-title">
-                '{{ evidenceName }}' 업로드 전 <span class="highlight">필수 점검 리스트</span></h3>
+                '{{ evidenceName }}' 업로드 시 <span class="highlight">AI의 점검 리스트</span></h3>
               <div class="checklist">
                 <div v-for="(item, index) in analysis"
                      :key="index"
@@ -131,7 +131,7 @@
 
       <!-- Step 2: Analysis Result -->
       <div v-else-if="currentStep === 2" class="step-content">
-        <h2 class="step-title1">분석 결과</h2>
+        <h2 class="step-title1">AI 분석 결과</h2>
         <div class="analysis-container">
           <div class="analysis-header">
             <div class="file-info">
@@ -157,10 +157,6 @@
                     <h3 class="defect-title">{{ defect.title }}</h3>
                     <p class="defect-description">{{ defect.description }}</p>
                     <div class="defect-footer">
-                <span class="defect-date">
-                  <i class="far fa-calendar-alt"></i>
-                  {{ defect.date }}
-                </span>
                       <span class="defect-status" :class="defect.status">
                   {{ defect.status }}
                 </span>
@@ -174,7 +170,7 @@
         <div class="action-buttons">
           <div class="button-container">
             <button class="button back" @click="currentStep = 1">이전</button>
-            <button class="button confirm" @click="moveToStep3">3단계로 이동</button>
+            <button class="button confirm" @click="moveToStep3">결함사례 확인</button>
           </div>
         </div>
       </div>
@@ -191,8 +187,8 @@
               </svg>
             </div>
               <span class="guidance-highlight">주의!</span>
-            <span class="guidance-emphasis">이전에 이 증적에 대해서 아래와 같은 결함사례들이 있었습니다.</span>
-            <span class="guidance-emphasis1">반드시 참고하여 최종 확인해주세요.</span>
+            <span class="guidance-emphasis">해당 증적에 대해서 아래와 같은 결함 사례들이 있었습니다.</span>
+            <span class="guidance-emphasis1">반드시 참고하여 현황에 최종 추가해주세요.</span>
           </div>
 
           <div class="case-list">
@@ -219,7 +215,7 @@
         <div class="action-buttons">
           <div class="button-container">
             <button class="button back" @click="currentStep = 2">이전</button>
-            <button class="button confirm" @click="$emit('confirm')">완료</button>
+            <button class="button confirm" @click="$emit('confirm')">현황 추가</button>
           </div>
         </div>
       </div>
@@ -228,6 +224,7 @@
 </template>
 <script>
 import axios from "axios";
+import { evidenceData } from "../../data/evidenceData"; // 데이터 파일 불러오기
 
 export default {
   name: 'AddEvidencePopup',
@@ -249,83 +246,14 @@ export default {
       analysisResult: '',
       analyzing: false,
       searchQuery: '',
-      analysis: [
-        {
-          title: "자격 요건 충족",
-          description: "직무기술서를 통해 정보보호 최고 책임자가 법령에 따른 자격요건(정보통신망법 제45조의3, 일반자격 요건/특별자격 요건)을 충족하고 있는가?"
-        },
-        {
-          title: "일반 자격 요건(중기업 기업 신고 의무대상자)",
-          description: "정보보호 또는 정보기술분야 석사이상, 정보보호 또는 정보기술분야 학사 3년 이상 경력, 정보보호 또는 정보기술분야 전문학사 5년 이상 경력"
-        },
-        {
-          title: "특별자격 요건(대규모 기업 겸직제한 의무대상자)",
-          description: "정보보호 업무 경력 4년 이상 또는 정보보호 또는 정보기술분야 5년 이상 경력 중 2년은 정보보호 분야 업무경력."
-        },
-        {
-          title: "임원급 지정 확인 여부",
-          description: "정보보호 최고책임자 신고 내역을 통해 임원급으로 지정되었는지 확인할 수 있는가?"
-        },
-        {
-          title: "내용 정확성",
-          description: "문서의 모든 정보가 정확하고 최신 상태인지 검토해주세요."
-        }
-      ],
-      defectCases: [
-        {
-          id: '001',
-          title: '자격 요건 충족',
-          description: '자격이 없네요오오오. 결함입니다아아',
-          date: '2024-03-15',
-          status: '조치필요'
-        },
-        {
-          id: '002',
-          title: '일반 자격 요건(중기업 기업 신고 의무대상자)',
-          description: '잘 신고 했네요. 고생하셧서요',
-          date: '2024-03-14',
-          status: '완료'
-        },
-        {
-          id: '003',
-          title: '특별자격 요건(대규모 기업 겸직제한 의무대상자)',
-          description: '특별자격에 해당하네요. 멋집니다',
-          date: '2024-03-13',
-          status: '완료'
-        },
-        {
-          id: '004',
-          title: '임원급 지정 확인 여부',
-          description: '임원이 바쁘네요오. 수고가 많으십니다',
-          date: '2024-03-12',
-          status: '완료'
-        },
-        {
-          id: '005',
-          title: '내용 정확성',
-          description: '내용이 없써요. 결함인듯 합니다',
-          date: '2024-03-11',
-          status: '조치필요'
-        }
-      ],
-      cases: [
-        {
-          description: "정보보호 최고책임자의 자격요건이 정보통신망법 제45조의3에 따른 자격요건을 충족하지 못했습니다. 정보보호 또는 정보기술 분야 경력이 부족합니다."
-        },
-        {
-          description: "임원급 지정 여부를 확인할 수 있는 증빙자료가 부재합니다. 조직도 또는 인사발령 내역 등의 추가 자료가 필요합니다."
-        },
-        {
-          description: "제출된 이력서 상의 경력사항이 불명확합니다. 구체적인 업무 내용과 기간을 명시한 경력증명서가 필요합니다."
-        },
-        {
-          description: "정보보호 최고책임자의 겸직 제한 요건을 확인할 수 있는 자료가 미흡합니다. 타 직무 수행 여부에 대한 확인이 필요합니다."
-        }
-      ]
-
+      analysis: [],
+      defectCases: [],
+      cases: []
     };
   },
-
+  created() {
+    this.loadEvidenceData();
+  },
   computed: {
     filteredDefects() {
       return this.defectCases.filter(defect => {
@@ -337,7 +265,16 @@ export default {
   },
 
   methods: {
-
+    loadEvidenceData() {
+      const data = evidenceData[this.evidenceName]?.[this.itemId];
+      if (data) {
+        this.analysis = data.analysis;
+        this.defectCases = data.defectCases;
+        this.cases = data.cases;
+      } else {
+        console.error(`No data found for evidenceName:  ${this.evidenceName} and itemId: ${this.itemId}`);
+      }
+    },
     moveToStep3() {
       this.currentStep = 3;
     },
@@ -368,7 +305,7 @@ export default {
         this.analyzing = true;
         const formData = new FormData();
       formData.append('file', this.selectedFile);
-        formData.append('file_name', this.evidenceName);
+      formData.append('file_name', this.evidenceName);
       // formData.append('file_name', this.selectedFile.name); 변환되어 저장되도록 막아놓음
       formData.append('type', 'evidence');
       formData.append('id', this.itemId);
@@ -390,17 +327,6 @@ export default {
       }
     }
   },
-    formatFileSize(bytes) {
-      if (!bytes) return '0 Bytes';
-      const k = 1024;
-      const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-      const i = Math.floor(Math.log(bytes) / Math.log(k));
-      return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-    },
-    getFileExtension(filename) {
-      if (!filename) return '';
-      return filename.split('.').pop().toUpperCase();
-    }
   }
 };
 </script>
@@ -414,34 +340,6 @@ export default {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-}
-
-.defect-filter {
-  padding: 16px;
-  background-color: white;
-  border-bottom: 1px solid #e2e8f0;
-}
-
-.search-box {
-  position: relative;
-  max-width: 400px;
-  margin: 0 auto;
-}
-
-.search-icon {
-  position: absolute;
-  left: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #64748b;
-}
-
-.search-input {
-  width: 100%;
-  padding: 8px 12px 8px 36px;
-  border: 1px solid #e2e8f0;
-  border-radius: 6px;
-  font-size: 14px;
 }
 
 .defect-cases {
@@ -476,8 +374,6 @@ export default {
   font-size: 14px;
 }
 
-
-
 .defect-title {
   font-size: 16px;
   font-weight: 600;
@@ -497,14 +393,6 @@ export default {
   justify-content: space-between;
   align-items: center;
   font-size: 13px;
-}
-
-.defect-date {
-  color: #64748b;
-}
-
-.defect-date i {
-  margin-right: 4px;
 }
 
 .defect-status {
@@ -776,7 +664,7 @@ export default {
 .content-wrapper {
   flex: 1;
   overflow-y: auto;
-  margin-bottom: 20px;
+  height: 100%;
 }
 
 .step-title {
@@ -793,6 +681,7 @@ export default {
   margin: 0 0 -2px 0;
   font-weight: 600;
   text-align: center;
+  margin-bottom: 10px;
 }
 .upload-zone {
   border: 2px dashed #e2e8f0;
@@ -803,7 +692,7 @@ export default {
   transition: all 0.3s;
   margin-bottom: 16px;
   flex-grow: 1; /* If inside a flex container */
-  height: 84%;
+  height: 81.5%; /* 84%*/
   width: 400px;
   display: flex;
   flex-direction: column;
@@ -874,8 +763,6 @@ export default {
   margin-top: auto; /* 이것이 버튼을 항상 아래에 위치시킵니다 */
 }
 
-
-
 .button {
   padding: 12px 24px;
   border-radius: 6px;
@@ -921,12 +808,9 @@ export default {
   background-color: #f8fafc;
   border-radius: 8px;
   overflow: hidden;
-  margin-bottom: 24px;
   height: 100%; /* 상단 여백과 버튼 영역을 고려한 높이 */
   display: flex;
   flex-direction: column;
-
-  margin-bottom: 0; /* Remove bottom margin */
 }
 
 /* 헤더 부분 조정 */
@@ -965,7 +849,7 @@ export default {
 }
 
 .analysis-section {
-  margin-bottom: 0px;
+  margin-bottom: 0;
 }
 
 .analysis-section h3 {
@@ -1038,7 +922,7 @@ export default {
 .upload-section {
   display: flex;
   gap: 24px;
-  margin-bottom: 24px;
+  height: 88%;
 }
 
 .checklist-container {
@@ -1046,7 +930,9 @@ export default {
   background-color: #f3f9ff;
   border-radius: 8px;
   padding: 20px;
-  max-width: 100%; /* Allow it to take up the full width */
+  overflow-y: auto;
+  margin-bottom: 0; /* Remove any bottom margin */
+  max-height: 100%;
 }
 
 .checklist-title {
@@ -1293,10 +1179,12 @@ export default {
 }
 
 .action-buttons {
-  padding: 10px 0;
-  background-color: white;
-  border-top: 1px solid #e2e8f0;
-  margin-top: auto;
+  display: flex;
+  justify-content: center;
+  gap: 20px; /* Adjust the gap between buttons */
+  max-width: 400px;
+  margin: 0 auto; /* Center align the buttons */
+  margin-top: 20px;
 }
 
 .button-container {
