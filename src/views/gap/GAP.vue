@@ -41,7 +41,6 @@
 
     <!-- Search Bar -->
     <div class="search-bar">
-
       <i class="fas fa-search search-icon"></i>
       <input type="text" v-model="searchQuery" placeholder="검색할 항목 번호를 입력하세요 (예: 1.1.1.1)" />
     </div>
@@ -54,8 +53,8 @@
             <thead>
             <tr>
               <th>세부항목</th>
-              <th>정책/지침</th>
-              <th>증적자료</th>
+              <th>정책/지침 현황</th>
+              <th>증적자료 현황</th>
               <th>담당자</th>
               <th></th>
             </tr>
@@ -72,12 +71,12 @@
               </td>
               <td class="center-align">
                 <div :class="getReadinessClass(control.policyReadiness)">
-                  {{ control.policyReadiness.completed }}/{{ control.policyReadiness.total }}
+                  {{ control.policyReadiness }}개
                 </div>
               </td>
               <td class="center-align">
                 <div :class="getReadinessClass(control.evidenceReadiness)">
-                  {{ control.evidenceReadiness.completed }}/{{ control.evidenceReadiness.total }}
+                  {{ control.evidenceReadiness }}개
                 </div>
               </td>
               <td>{{ control.owner }}</td>
@@ -151,6 +150,7 @@ export default {
     hoverControl(controlId) {
       this.hoveredControl = controlId; // Highlight the hovered row
     },
+
     async openPopup(control) {
       this.isPopupVisible = true; // Show popup
       this.selectedItem = control; // Pass the selected control to GapSlide
@@ -168,14 +168,15 @@ export default {
       }
 
 
+
       try {
         const response = await axios.post('http://43.202.210.72:3001/evidence_recommend', {
           id: control.id
         });
-        this.recommendations = response.data.recommendations;
+        this.recommendations = response.data.recommendations.length ? response.data.recommendations : null;
       } catch (error) {
         console.error('Error fetching data:', error);
-        this.recommendations = []; // 에러일 때는 빈배열로
+        this.recommendations = null; // Set to null on error
       }
 
 
@@ -185,10 +186,7 @@ export default {
       this.$router.push({ path: this.$route.path }); // Restore original URL
     },
     getReadinessClass(readiness) {
-      if (readiness.total === 0) {
-        return 'evidence-readiness incomplete';
-      }
-      return readiness.completed === readiness.total ? 'evidence-readiness complete' : 'evidence-readiness incomplete';
+      return readiness === 0 ? 'evidence-readiness incomplete' : 'evidence-readiness complete';
     }
   },
 };
@@ -206,9 +204,9 @@ export default {
 }
 
 .completion-section {
-  background-color: white;
-  border: 1px solid #e0e0e0;
-  border-radius: 4px;
+  background-color: #f3f9ff;
+  border: 3px solid #e0e0e0;
+  border-radius: 12px;
   padding: 16px;
   margin-bottom: 20px;
 }
@@ -293,6 +291,9 @@ th, td {
   font-size: 0.9em;
   color: #666;
   margin-top: 4px;
+  max-width: 850px; /* Set the maximum width */
+
+
 }
 
 .evidence-readiness {
@@ -347,3 +348,4 @@ th, td {
   text-align: left; /* Align text to the right */
 }
 </style>
+

@@ -15,13 +15,13 @@
             <td><span>{{ item.owner }}</span></td>
           </tr>
           <tr>
-            <td><span class="label">정책/지침:</span></td>
+            <td><span class="label">정책/지침 현황:</span></td>
             <td class="spaced-td"><span :class="getReadinessClass(item.policyReadiness)">
-                {{ item.policyReadiness.completed }}/{{ item.policyReadiness.total }}
+                {{ item.policyReadiness }}개
               </span></td>
-            <td><span class="label">증적 자료:</span></td>
+            <td><span class="label">증적 자료 현황:</span></td>
             <td class="spaced-td"><span :class="getReadinessClass(item.evidenceReadiness)">
-                {{ item.evidenceReadiness.completed }}/{{ item.evidenceReadiness.total }}
+                {{ item.evidenceReadiness }}개
               </span></td>
           </tr>
           </tbody>
@@ -67,7 +67,7 @@
                       </div>
                     </li>
                   </ul>
-                  <button class="show-more">How To Use</button>
+                  <button class="show-more" @click="openHowToUse">How To Use</button>
                 </CCardBody>
               </CCard>
 
@@ -82,7 +82,14 @@
                 <CCardBody class="CCardBody">
                   <div class="ai-suggestion">
                     <CIcon class="icon-blue" icon="cil-Braille" size="xl" />
-                    <span class="suggestion-text">PIM은 {{ item.id }} 항목에 해당하는 {{ recommendations.length }}개의 증적 자료를 추천드립니다.</span>
+                    <span class="suggestion-text">
+                      <template v-if="recommendations">
+                        PIM은 {{ item.id }} 항목에 해당하는 {{ recommendations.length }}개의 증적 자료를 추천드립니다.
+                      </template>
+                      <template v-else>
+                        {{ item.id }} 항목에 추천할 증적자료가 없습니다.
+                      </template>
+                    </span>
                   </div>
                   <ul class="recommendation-list">
                     <li v-for="(recommendation, index) in recommendations" :key="index">
@@ -99,7 +106,7 @@
                       </div>
                     </li>
                   </ul>
-                  <button class="show-more">How To Use</button>
+                  <button class="show-more" @click="openHowToUse">How To Use</button>
                 </CCardBody>
               </CCard>
             </div>
@@ -200,6 +207,10 @@
           @confirm="confirmAddEvidence"
           @cancel="cancelAddEvidence"
         />
+        <HowToUse
+          :isVisible="showHowToUse"
+          @close="closeHowToUse"
+        />
       </div>
     </div>
   </div>
@@ -207,6 +218,7 @@
 
 <script>
 import AddEvidencePopup from './AddEvidencePopup.vue';
+import HowToUse from './HowToUse.vue';
 import { CCard, CCardBody} from '@coreui/vue-pro';
 import axios from 'axios';
 
@@ -216,6 +228,7 @@ export default {
     CCard, // CCBody 컴포넌트를 등록
     CCardBody,
     AddEvidencePopup,
+    HowToUse,
   },
   props: {
     item: {
@@ -244,6 +257,7 @@ export default {
       showRemovePopup: false,
       showAddEvidencePopup: false,
       showRemoveEvidencePopup: false,
+      showHowToUse: false,
       currentIndex: null,
       suggestPolicyVisible: [],
       realpolicy: [],
@@ -321,10 +335,7 @@ export default {
       this.$emit('close')
     },
     getReadinessClass(readiness) {
-      if (readiness.total === 0) {
-        return 'evidence-readiness incomplete';
-      }
-      return readiness.completed === readiness.total ? 'evidence-readiness complete' : 'evidence-readiness incomplete';
+      return readiness === 0 ? 'evidence-readiness incomplete' : 'evidence-readiness complete';
     },
     showAddConfirmation(index) {
       this.currentIndex = index;
@@ -467,6 +478,12 @@ export default {
     isSuggestEvidenceVisible(index) {
       return this.suggestEvidenceVisible.includes(index);
     },
+    openHowToUse() {
+      this.showHowToUse = true;
+    },
+    closeHowToUse() {
+      this.showHowToUse = false;
+    }
   },
   mounted() {
     this.$nextTick(() => {
@@ -557,13 +574,14 @@ export default {
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 998;
+  backdrop-filter: blur(3px);
 }
 
 .sidebar-popup {
   position: fixed;
   top: 80px;
   right: -50%;
-  width: 40%;
+  width: 55%;
   height: calc(100% - 73px);
   background-color: white;
   border-radius: 10px 0 0 10px;
@@ -669,9 +687,9 @@ export default {
 .show-more {
   background: none;
   border: none;
-  color: #1c25a9;
+  color: #7377ad;
   cursor: pointer;
-  margin-top: 10px;
+  margin-top: 17px;
   text-align: right; /* Ensure text inside the button is right-aligned */
   display: block; /* Make the button a block element */
   margin-left: auto; /* Push the button to the right */

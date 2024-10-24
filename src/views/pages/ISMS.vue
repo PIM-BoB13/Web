@@ -31,7 +31,7 @@
                             <td colspan="3" class="subtitle-cell">{{ item.title }}</td>
                           </tr>
                           <tr v-for="(subItem, subItemIndex) in item.subItems" :key="subItemIndex">
-                            <td>{{ subItem.id }}</td>
+                            <td class="id-padding">{{ subItem.id }}</td>
                             <td class="center-align3">
                               <span :class="getStatusClass(subItem.status)">{{ subItem.status }}</span>
                             </td>
@@ -159,39 +159,15 @@
 import { ref, computed, reactive } from 'vue';
 import { CCardBody } from "@coreui/vue-pro/dist/esm/components/card";
 import axios from 'axios';
+import { sectionsData } from '../../data/ISMSsections'; // 데이터 파일 가져오기
 
 export default {
   name: 'IsmsManagement',
   components: { CCardBody },
 
   setup() {
-    const sections = ref([
-      {
-        title: "1. 관리체계 수립 및 운영",
-        subSections: [
-          {
-            title: "1.1 관리체계 기반 마련",
-            items: [
-              {
-                title: "1.1.1 경영진의 참여",
-                subItems: [
-                  { id: "1.1.1.1", title: "정보보호 및 개인정보보호 관리체계의 수립 및 운영활동 전반에 경영진의 참여가 이루어질 수 있도록 보고 및 의사결정 등의 책임과 역할을 문서화하고 있는가?", status: "판단 전" },
-                  { id: "1.1.1.2", title: "경영진이 정보보호 및 개인정보보호 활동에 관한 의사결정에 적극적으로 참여할 수 있는 보고, 검토 및 승인 절차를 수립·이행하고 있는가?", status: "판단 전" },
-                ]
-              },
-              {
-                title: "1.1.2 최고책임자의 지정",
-                subItems: [
-                  { id: "1.1.2.1", title: "최고책임자가 지정되어 있는가?", status: "판단 전" },
-                  { id: "1.1.2.2", title: "최고책임자가 정보보호 및 개인정보보호 활동을 총괄하고 있는가?", status: "판단 전" },
-                ]
-              },
-            ]
-          },
-        ]
-      },
-    ]);
 
+    const sections = ref(sectionsData); // 가져온 데이터를 ref로 설정
     const searchQuery = ref("");
     const selectedOperationalDetails = ref(null);
     const isEditMode = ref(false);
@@ -530,5 +506,9 @@ table tr:hover td {
 .small-table th:nth-child(3),
 .small-table td:nth-child(3) {
   width: 60px;
+}
+
+.id-padding {
+  padding-left: 12px; /* Add padding to the left side */
 }
 </style>

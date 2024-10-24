@@ -545,11 +545,12 @@ export default {
   left: 0;
   width: 110%;
   height: 108%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.45);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  backdrop-filter: blur(8px);
 }
 
 .popup-container {
