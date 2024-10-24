@@ -103,7 +103,7 @@
 import axios from 'axios';
 import { CCard, CCardBody } from '@coreui/vue-pro';
 import GapSlide from './GapSlide.vue'; // Import GapSlide component
-import { sections} from '../../../src/data/ISMS.js'; // Import data.js
+import { sections} from '../../data/ISMS'; // Import data.js
 export default {
   name: 'ISMSGapAnalysis',
   components: { CCard, CCardBody, GapSlide },
@@ -167,8 +167,6 @@ export default {
         this.sourceDocuments = []; // 에러일 때는 빈배열로
       }
 
-
-
       try {
         const response = await axios.post('http://43.202.210.72:3001/evidence_recommend', {
           id: control.id
@@ -179,11 +177,10 @@ export default {
         this.recommendations = null; // Set to null on error
       }
 
-
     },
     closePopup() {
       this.isPopupVisible = false; // Close the popup
-      this.$router.push({ path: this.$route.path }); // Restore original URL
+      // this.$router.push({ path: this.$route.path }); // Restore original URL
     },
     getReadinessClass(readiness) {
       return readiness === 0 ? 'evidence-readiness incomplete' : 'evidence-readiness complete';
