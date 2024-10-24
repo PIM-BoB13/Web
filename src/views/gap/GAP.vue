@@ -102,8 +102,9 @@
 <script>
 import axios from 'axios';
 import { CCard, CCardBody } from '@coreui/vue-pro';
-import GapSlide from './GapSlide.vue'; // Import GapSlide component
-import { sections} from '../../data/ISMS'; // Import data.js
+import GapSlide from './GapSlide.vue';
+import { sections } from '../../data/ISMS';
+
 export default {
   name: 'ISMSGapAnalysis',
   components: { CCard, CCardBody, GapSlide },
@@ -114,6 +115,7 @@ export default {
         name: `이행 현황 (${currentDate} 기준)`,
         sections: sections
       },
+      scrollPosition: 0,
       completion: 1,
       completedControls: 0,
       totalControls: 262,
@@ -121,12 +123,12 @@ export default {
       testTotal: 262,
       documentCompleted: 0,
       documentTotal: 262,
-      isPopupVisible: false, // Track popup visibility
-      hoveredControl: null, // Track which control is being hovered
-      selectedItem: null, // Track the selected item for the popup
-      searchQuery: '', // Track the search query
-      sourceDocuments: [], // Store the retrieved documents
-      recommendations: [] // Store the retrieved recommendations
+      isPopupVisible: false,
+      hoveredControl: null,
+      selectedItem: null,
+      searchQuery: '',
+      sourceDocuments: [],
+      recommendations: []
     };
   },
   computed: {
@@ -148,15 +150,24 @@ export default {
   },
   methods: {
     hoverControl(controlId) {
-      this.hoveredControl = controlId; // Highlight the hovered row
+      this.hoveredControl = controlId;
     },
 
     async openPopup(control) {
-      this.isPopupVisible = true; // Show popup
-      this.selectedItem = control; // Pass the selected control to GapSlide
-      this.$router.push({ path: this.$route.path, query: { id: control.id } }); // Update URL
+      // 현재 스크롤 위치 저장
+      this.scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
 
-      // Make an API call to retrieve data
+      this.isPopupVisible = true;
+      this.selectedItem = control;
+
+      // replaceState를 사용하여 URL 변경
+      window.history.replaceState(
+        { scrollPosition: this.scrollPosition },
+        '',
+        `${this.$route.path}?id=${control.id}`
+      );
+
+      // 소스 문서 가져오기
       try {
         const response = await axios.post('http://43.202.210.72:5000/retrieval', {
           question: control.question
@@ -164,9 +175,10 @@ export default {
         this.sourceDocuments = response.data.source_documents;
       } catch (error) {
         console.error('Error fetching data:', error);
-        this.sourceDocuments = []; // 에러일 때는 빈배열로
+        this.sourceDocuments = [];
       }
-      
+
+      // 추천 증적 가져오기
       try {
         const response = await axios.post('http://43.202.210.72:3001/evidence_recommend', {
           id: control.id
@@ -174,19 +186,63 @@ export default {
         this.recommendations = response.data.recommendations.length ? response.data.recommendations : null;
       } catch (error) {
         console.error('Error fetching data:', error);
-        this.recommendations = null; // Set to null on error
+        this.recommendations = null;
       }
-
-
     },
+
     closePopup() {
-      this.isPopupVisible = false; // Close the popup
-      this.$router.push({ path: this.$route.path }); // Restore original URL
+      this.isPopupVisible = false;
+
+      // 원래 URL로 복원
+      window.history.replaceState(
+        { scrollPosition: this.scrollPosition },
+        '',
+        this.$route.path
+      );
+
+      // 스크롤 위치 복원
+      this.$nextTick(() => {
+        window.scrollTo({
+          top: this.scrollPosition,
+          behavior: 'instant'
+        });
+      });
     },
+
     getReadinessClass(readiness) {
       return readiness === 0 ? 'evidence-readiness incomplete' : 'evidence-readiness complete';
     }
   },
+
+  mounted() {
+    // 브라우저 뒤로가기/앞으로가기 처리
+    window.addEventListener('popstate', (event) => {
+      if (event.state && event.state.scrollPosition) {
+        this.$nextTick(() => {
+          window.scrollTo({
+            top: event.state.scrollPosition,
+            behavior: 'instant'
+          });
+        });
+      }
+    });
+
+    // URL에 id 파라미터가 있는 경우 팝업 열기
+    const urlParams = new URLSearchParams(window.location.search);
+    const controlId = urlParams.get('id');
+    if (controlId) {
+      const control = this.framework.sections
+        .flatMap(section => section.controls)
+        .find(control => control.id === controlId);
+      if (control) {
+        this.openPopup(control);
+      }
+    }
+  },
+  beforeUnmount() {
+    // 이벤트 리스너 정리
+    window.removeEventListener('popstate', this.handlePopState);
+  }
 };
 </script>
 
