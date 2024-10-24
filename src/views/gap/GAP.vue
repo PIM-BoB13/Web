@@ -152,6 +152,23 @@ export default {
     hoverControl(controlId) {
       this.hoveredControl = controlId;
     },
+    // 배경 스크롤 막기
+    disableBackgroundScroll() {
+      document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+      document.body.style.top = `-${this.scrollPosition}px`;
+    },
+    // 배경 스크롤 다시 활성화
+    enableBackgroundScroll() {
+      const scrollY = document.body.style.top;
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+      document.body.style.top = '';
+      window.scrollTo(0, parseInt(scrollY || '0') * -1);
+    },
+
 
     async openPopup(control) {
       // 현재 스크롤 위치 저장
@@ -159,6 +176,8 @@ export default {
 
       this.isPopupVisible = true;
       this.selectedItem = control;
+      // 배경 스크롤 막기
+      this.disableBackgroundScroll();
 
       // replaceState를 사용하여 URL 변경
       window.history.replaceState(
@@ -192,6 +211,8 @@ export default {
 
     closePopup() {
       this.isPopupVisible = false;
+      // 배경 스크롤 다시 활성화
+      this.enableBackgroundScroll();
 
       // 원래 URL로 복원
       window.history.replaceState(
@@ -240,8 +261,11 @@ export default {
     }
   },
   beforeUnmount() {
-    // 이벤트 리스너 정리
     window.removeEventListener('popstate', this.handlePopState);
+    // 컴포넌트가 제거될 때 스크롤 상태 복원
+    if (this.isPopupVisible) {
+      this.enableBackgroundScroll();
+    }
   }
 };
 </script>
@@ -400,6 +424,16 @@ th, td {
   margin-right: 0px;
   width: 400px; /* Increase the width */
   text-align: left; /* Align text to the right */
+}
+/* 팝업이 열려있을 때 메인 컨테이너 스타일 */
+.isms-gap-analysis.popup-active {
+  overflow: hidden;
+  pointer-events: none; /* 팝업 외 영역 클릭 방지 */
+}
+
+/* 팝업이 열려있을 때도 팝업 자체는 클릭 가능하도록 */
+.isms-gap-analysis.popup-active .gap-slide {
+  pointer-events: auto;
 }
 </style>
 
